@@ -152,7 +152,7 @@
       $.ajax({
 
 	      type: "POST",
-	      url: "sendmail.php",
+	      url: "Formactions/sendmail.php",
 	      data: data,
 	      success: function(msg) {
 
