@@ -1,5 +1,7 @@
 <?php
+ob_start();
 session_start();
+ob_flush();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -132,7 +134,7 @@ session_start();
 		
 			<div class="content">
 						
-					<?php include($page_content);?>	
+					<?php include($page_content);?>
 								
 						
 					</div>

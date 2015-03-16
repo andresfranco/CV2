@@ -17,7 +17,7 @@ if (!empty($_POST))
     $count =$languagedb->findlanguage($code);
     if($count==0)
     {
-    $languagedb->insertlanguage($username,$code,$language,'../Views/Language/languagecontent.php');
+    $languagedb->insertlanguage($username,$code,$language,'languagecontent.php');
     }
     else
     {
@@ -41,11 +41,13 @@ if (!empty($_POST))
             <td><input name="language" type="text" id="language" class="span6 typeahead" value="<?php echo $language;?>"></td>
         </tr>
 
-            <td>
-                <input class="btn btn-info" name="add" type="submit" id="add" value="Guardar">
-            </td>
-        </tr>
+
     </table>
+    <br>
+    <div class="options btn-group">
+        <input  id ="deletebutton" class="btn btn-primary" type="submit" value="Save" />
+        <input onClick="window.location.href='languagecontent.php'"id ="cancelbutton" class=" btn input-small"  value="Cancel" />
+    </div>
 </form>
 
 

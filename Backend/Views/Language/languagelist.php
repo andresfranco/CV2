@@ -1,3 +1,5 @@
+<script src="../../js/jquery-1.9.1.min.js"></script>
+<script src="deletelanguage.js"></script>
 <?php
 require_once '../../Controller/LanguageController.php';
 require_once '../../libraries/medoo.php';
@@ -34,11 +36,11 @@ $result =$language->getall();
                 echo '<td>'. $row['code'] . '</td>';
                 echo '<td>'. $row['language'] . '</td>';
                 echo '<td class="center">
-		      
+
 		     <a class="btn btn-info" href="languageeditcontent.php?id='.$row['code'].'">
 		     <i class="halflings-icon white edit"></i>  
 		     </a>
-		     <a class="btn btn-danger" href="#">
+		     <a href ="deletelanguagecontent.php?code='.$row['code'].'" class="btn btn-danger" ">
 		     <i class="halflings-icon white trash"></i> 
 		     </a>
 		    </td>';
@@ -57,3 +59,6 @@ $result =$language->getall();
 
 			
 			</div><!--/row-->
+
+
+

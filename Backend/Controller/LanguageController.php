@@ -52,7 +52,7 @@ function getall()
 
     }
 
-function deletelanguage($code)
+function deletelanguage($code,$redirecturl)
 {
 
     $this->database->delete("language", [
@@ -60,8 +60,10 @@ function deletelanguage($code)
             "code" => $code
 
 	]
-]);
 
+]);
+    //var_dump($database->error());
+   header('Location: '.$redirecturl);
 }
 
 function findlanguage($code)
