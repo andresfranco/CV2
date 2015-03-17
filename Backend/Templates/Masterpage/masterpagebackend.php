@@ -93,15 +93,15 @@ ob_flush();
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-                                            <li><a href="../../Views/Language/languagecontent.php"><i class="icon-bar-chart"></i><span class="hidden-tablet"> Languages</span></a></li>	
-						<li><a href="../../Views/Curricullum/curricullumcontent.php"><i class="icon-envelope"></i><span class="hidden-tablet"> Curricullum</span></a></li>
-						<li><a href="tasks.html"><i class="icon-tasks"></i><span class="hidden-tablet"> Skills</span></a></li>
-						<li><a href="ui.html"><i class="icon-eye-open"></i><span class="hidden-tablet"> Education</span></a></li>
+                                            <li><a href="../../Views/Language/languagecontent.php"><i class="icon-flag"></i><span class="hidden-tablet"> Languages</span></a></li>	
+						<li><a href="../../Views/Curricullum/curricullumcontent.php"><i class="icon-file"></i><span class="hidden-tablet"> Curricullum</span></a></li>
+                                                <li><a href="../../Views/Translation/translationcontent.php"><i class="icon-repeat"></i><span class="hidden-tablet"> Translation</span></a></li>
+						<li><a href="ui.html"><i class="icon-book"></i><span class="hidden-tablet"> Education</span></a></li>
 						<li><a href="widgets.html"><i class="icon-dashboard"></i><span class="hidden-tablet"> Work</span></a></li>
 						<li><a href="form.html"><i class="icon-edit"></i><span class="hidden-tablet"> Projects</span></a></li>
 						<li><a href="chart.html"><i class="icon-list-alt"></i><span class="hidden-tablet"> Contact Detail</span></a></li>
 						<li>
-							<a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet"> System Admin</span><span class="label label-important"> 3 </span></a>
+							<a class="dropmenu" href="#"><i class="icon-cogs"></i><span class="hidden-tablet"> System Admin</span></a>
 							<ul>
 								<li><a class="submenu" href="submenu.html"><i class="icon-file-alt"></i><span class="hidden-tablet"> Manage users</span></a></li>
 								<li><a class="submenu" href="submenu2.html"><i class="icon-file-alt"></i><span class="hidden-tablet"> Manage Roles</span></a></li>

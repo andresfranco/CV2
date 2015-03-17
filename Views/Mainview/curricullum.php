@@ -1,17 +1,37 @@
 <?php
-require_once '../../Backend/Controller/CurricullumController.php';
+//require_once '../../Backend/Controller/CurricullumController.php';
+require_once '../../Backend/Controller/TranslationController.php';
 require_once '../../Backend/libraries/medoo.php';
-$db=new CurricullumController();
+//$db=new CurricullumController();
+$db= new TranslationController();
+$datas =$db->getcurricullumtranslate('CV',1,'en');
 
-$datas=$db->getcurricullumbyid(3);
+//$db->gettranslatecontent($objectcode, $objectid, $languagecode, $field)
+$name="";
+$maintext="";
+$aboutme ="";
+        
 foreach($datas as $data)
 {
-    $languagecode=$data["languagecode"];
-    $name = $data["name"];
-    $maintext =$data["maintext"];
-    $aboutme =$data["aboutme"];
-    $contactdetails =$data["contactdetails"];
-    $mainskills =$data["mainskills"];
+   switch ($data["field"]) {
+    case "name":
+        $name=html_entity_decode($data["content"]);
+        break;
+    case "maintext":
+        $maintext=html_entity_decode($data["content"]);
+        break;
+    case "aboutme":
+       $aboutme =html_entity_decode($data["content"]);
+        break;
+      case "contactdetails":
+       $contactdetails=html_entity_decode($data["content"]);
+        break;
+  case "mainskills":
+       $mainskills =html_entity_decode($data["content"]);
+       
+        break;
+   
+}
 }
 ?>
 <!DOCTYPE html>

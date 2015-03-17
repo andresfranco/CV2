@@ -10,11 +10,12 @@ Class CurricullumController {
 
 
 
-    function insertcurricullum($username,$languagecode,$name ,$maintext,$aboutme,$contactdetails,$mainskills,$redirecturl)
+    function insertcurricullum($username,$name ,$maintext,$aboutme,$contactdetails,$mainskills,$redirecturl)
     {
 
         $dt = date('Y-m-d H:i:s');
-        $this->database->insert("curricullum", ["languagecode" => $languagecode,
+        $this->database->insert("curricullum", 
+        [
             "name" => $name,
             "maintext" => $maintext,
             "aboutme" => $aboutme,
@@ -23,7 +24,8 @@ Class CurricullumController {
             "createuser" => $username,
             "createdate" => $dt ,
             "modifyuser" => $username,
-            "modifydate" => $dt ]);
+            "modifydate" => $dt 
+         ]);
 
         header('Location: '.$redirecturl);
 
@@ -33,18 +35,18 @@ Class CurricullumController {
     {
 
 
-        $sth = $this->database->pdo->prepare('SELECT c.id ,l.code as languagecode,l.language,c.name FROM curricullum c inner join language l on l.code=c.languagecode');
+        $sth = $this->database->pdo->prepare('SELECT * FROM curricullum');
         $sth->execute();
         return $sth;
 
 
     }
-    function updatecurricullum($id,$username,$languagecode,$name,$maintext,$aboutme,$contactdetails,$mainskills,$redirecturl)
+    function updatecurricullum($id,$username,$name,$maintext,$aboutme,$contactdetails,$mainskills,$redirecturl)
     {
 
         $dt = date('Y-m-d H:i:s');
         $this->database->update("curricullum",
-            ["languagecode" => $languagecode,
+            [
              "name" => $name,
              "maintext" => $maintext,
              "aboutme" => $aboutme,
@@ -77,11 +79,11 @@ Class CurricullumController {
         header('Location: '.$redirecturl);
     }
 
-    function findcurricullum($languagecode,$name)
+    function findcurricullum($name)
     {
         $count =  $this->database->count("curricullum", [
-            "name" => $name,
-            "languagecode"=>$languagecode
+            "name" => $name
+            
         ]);
         return $count;
 
@@ -92,7 +94,6 @@ Class CurricullumController {
 
         $data = $this->database->select("curricullum", [
             "id",
-            "languagecode",
             "name",
             "maintext",
             "aboutme",
@@ -103,26 +104,6 @@ Class CurricullumController {
         ]);
 
         return $data;
-    }
-
-    function getlanguageselect($readonly,$languagecode)
-    {
-        $sth = $this->database->pdo->prepare('SELECT code ,language FROM language');
-        $sth->execute();
-         echo '<select name="languagecode"'.$readonly.'>';
-
-        $selected="";
-        foreach ($sth as $row) {
-            if ($languagecode == $row['code']) {
-                $selected = 'selected';
-            }
-            else
-            {$selected="";
-            }
-            echo '<option value ="'.$row['code'].'" '.$selected.' >'.$row['language'].'</option>';
-
-        }
-         echo '</select>';
     }
 
 }

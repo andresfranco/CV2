@@ -9,7 +9,6 @@ $id=$_GET['id'];
 $datas=$db->getcurricullumbyid($id);
 foreach($datas as $data)
 {
-$languagecode=$data["languagecode"];
 $name = $data["name"];
 $maintext =$data["maintext"];
 $aboutme =$data["aboutme"];
@@ -24,7 +23,6 @@ if (!empty($_POST))
 
 {
     $id =$_SESSION["idold"];
-    $languagecode= htmlEntities($_POST['languagecode']);
     $name = htmlEntities($_POST['name']);
 
     $maintext=htmlEntities($_POST['maintext']);
@@ -35,7 +33,7 @@ if (!empty($_POST))
 
     $username ="admin";
     
-    $db->updatecurricullum($id,$username,$languagecode,$name,$maintext,$aboutme,$contactdetails,$mainskills,'curricullumcontent.php');
+    $db->updatecurricullum($id,$username,$name,$maintext,$aboutme,$contactdetails,$mainskills,'curricullumcontent.php');
        
 }
 ?>
@@ -43,11 +41,7 @@ if (!empty($_POST))
 <script src="validatecurricullum.js"></script>
 <label class="error"><?php echo $errormessage;?></label><br>
 <form id="appform" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <table width="400" border="0" cellspacing="1" cellpadding="2">
-        <tr>
-            <td width="100"><label class="control-label">Language</label></td>
-            <td><?php $db->getlanguageselect('',$languagecode);?></td>
-        </tr>
+    <table width="400" border="0" cellspacing="1" cellpadding="2">  
         <tr>
             <td width="100"><label class="control-label">Name</label></td>
             <td><input id ="name" name="name" type="text" id="language" class="span6 typeahead" value="<?php echo $name;?>"></td>

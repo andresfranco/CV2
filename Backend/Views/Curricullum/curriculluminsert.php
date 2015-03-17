@@ -12,8 +12,6 @@ if (!empty($_POST))
 
 {
     
-
-    $languagecode= htmlEntities($_POST['languagecode']);
     $name = htmlEntities($_POST['name']);
 
     $maintext=htmlEntities($_POST['maintext']);
@@ -28,7 +26,7 @@ if (!empty($_POST))
 
     if($count==0)
     {
-    $db->insertcurricullum($username,$languagecode,$name,$maintext,$aboutme,$contactdetails,$mainskills,'curricullumcontent.php');
+    $db->insertcurricullum($username,$name,$maintext,$aboutme,$contactdetails,$mainskills,'curricullumcontent.php');
     }
     else
     {
@@ -42,10 +40,6 @@ if (!empty($_POST))
 <label class="error"><?php echo $errormessage;?></label><br>
 <form id="appform" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
     <table width="400" border="0" cellspacing="1" cellpadding="2">
-        <tr>
-            <td width="100"><label class="control-label">Language</label></td>
-            <td><?php $db->getlanguageselect('','');?></td>
-        </tr>
         <tr>
             <td width="100"><label class="control-label">Name</label></td>
             <td><input id ="name" name="name" type="text" id="language" class="span6 typeahead" value="<?php echo $name;?>"></td>
