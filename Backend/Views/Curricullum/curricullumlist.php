@@ -1,13 +1,13 @@
 <?php
-require_once '../../Controller/LanguageController.php';
+require_once '../../Controller/CurricullumController.php';
 require_once '../../libraries/medoo.php';
 
-$language =new LanguageController();
+$db=new CurricullumController();
 
-$result =$language->getall();
+$result =$db->getall();
 
 ?>
-<div><a href="languageinsertcontent.php"><img src="../../img/addrow.png"></a></div><br>
+<div><a href="curriculluminsertcontent.php"><img src="../../img/addrow.png"></a></div><br>
 <div class="row-fluid sortable">		
 				<div class="box span12">
 					<div class="box-header" data-original-title>
@@ -18,27 +18,25 @@ $result =$language->getall();
 							
 						</div>
 					</div>
-			<div class="box-content">
+					<div class="box-content">
 						<table class="table table-striped table-bordered bootstrap-datatable datatable">
 						  <thead>
-							  <tr>
-								  <th>Code</th>
-                                  <th>Language</th>
-                                  <th>Actions</th>
+							  <tr><th>Language</th>
+								  <th>Name</th>
 							  </tr>
 						  </thead>   
 						  <tbody>
-			<?php
+            <?php
             foreach ($result as $row) {
                 echo '<tr>';
-                echo '<td>'. $row['code'] . '</td>';
                 echo '<td>'. $row['language'] . '</td>';
+                echo '<td>'. $row['name'] . '</td>';
                 echo '<td class="center">
 
-		     <a class="btn btn-info" href="languageeditcontent.php?id='.$row['code'].'">
+		     <a class="btn btn-info" href="curricullumeditcontent.php?id='.$row['id'].'">
 		     <i class="halflings-icon white edit"></i>  
 		     </a>
-		     <a href ="deletelanguagecontent.php?code='.$row['code'].'" class="btn btn-danger">
+		     <a href ="deletecurricullumcontent.php?id='.$row['id'].'" class="btn btn-danger">
 		     <i class="halflings-icon white trash"></i> 
 		     </a>
 		    </td>';
@@ -56,7 +54,7 @@ $result =$language->getall();
 			</div><!--/row-->
 
 			
-
+			</div><!--/row-->
 
 
 

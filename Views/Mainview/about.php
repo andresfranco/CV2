@@ -13,9 +13,7 @@
             <h2>About Me</h2>
 
             <p>
-                Andres Franco is a System Consultant with five years of experence in CRM implementation and Web development
-                ,usig technologies like Genexus and Open source languages based in PHP and My SQL.
-                Recently he has been working  in his personal projects using the PHP framework symfony2.
+                <?php echo $aboutme;?>
             </p>
 
             <div class="row">
@@ -24,9 +22,8 @@
 
                     <h2>Contact Details</h2>
                     <p class="address">
-                        <span>Andrés Franco</span><br>
-                        <span>(507)6981-0649</span><br>
-                        <span>andres@andresmfranco.info</span>
+                        <?php echo $contactdetails;?>
+
                     </p>
 
                 </div>

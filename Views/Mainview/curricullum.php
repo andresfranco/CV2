@@ -1,3 +1,19 @@
+<?php
+require_once '../../Backend/Controller/CurricullumController.php';
+require_once '../../Backend/libraries/medoo.php';
+$db=new CurricullumController();
+
+$datas=$db->getcurricullumbyid(3);
+foreach($datas as $data)
+{
+    $languagecode=$data["languagecode"];
+    $name = $data["name"];
+    $maintext =$data["maintext"];
+    $aboutme =$data["aboutme"];
+    $contactdetails =$data["contactdetails"];
+    $mainskills =$data["mainskills"];
+}
+?>
 <!DOCTYPE html>
 <!--[if lt IE 8 ]><html class="no-js ie ie7" lang="en"> <![endif]-->
 <!--[if IE 8 ]><html class="no-js ie ie8" lang="en"> <![endif]-->

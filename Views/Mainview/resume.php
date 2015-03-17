@@ -116,11 +116,8 @@
 
         <div class="nine columns main-col">
 
+            <?php echo $mainskills;?>
 
-            <p>Implementation and development of CRM Saleslogix</p>
-            <p>Full Stack Development in PHP and MySQL</p>
-            <p>Responsive Web Design</p>
-            <p>Customer care</p>
 
             <div class="bars">
 

@@ -23,11 +23,8 @@
 
     <div class="row banner">
         <div class="banner-text">
-            <h1 class="responsive-headline">Andrés Franco</h1>
-            <p>
-            <h3>I am <span>information systems engineer</span> and live in Panama, I have experience as a systems consultant and have participated in the development and implementation of web systems for companies in the banking, telecommunications and services sectors.</h3></p>
-            <h3><a class="smoothscroll" href="#about">start scrolling</a>
-                and learn more <a class="smoothscroll" href="#about">about me</a>.</h3>
+            <h1 class="responsive-headline"><?php echo $name;?></h1>
+            <p><h3><?php echo $maintext;?></h3></p>
             <hr />
 
         </div>

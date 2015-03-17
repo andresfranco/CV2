@@ -94,7 +94,7 @@ ob_flush();
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
                                             <li><a href="../../Views/Language/languagecontent.php"><i class="icon-bar-chart"></i><span class="hidden-tablet"> Languages</span></a></li>	
-						<li><a href="messages.html"><i class="icon-envelope"></i><span class="hidden-tablet"> Curricullum</span></a></li>
+						<li><a href="../../Views/Curricullum/curricullumcontent.php"><i class="icon-envelope"></i><span class="hidden-tablet"> Curricullum</span></a></li>
 						<li><a href="tasks.html"><i class="icon-tasks"></i><span class="hidden-tablet"> Skills</span></a></li>
 						<li><a href="ui.html"><i class="icon-eye-open"></i><span class="hidden-tablet"> Education</span></a></li>
 						<li><a href="widgets.html"><i class="icon-dashboard"></i><span class="hidden-tablet"> Work</span></a></li>
