@@ -1,7 +1,6 @@
 <?php
 ob_start();
 session_start();
-ob_flush();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +19,7 @@ ob_flush();
 	<!-- end: Mobile Specific -->
 	
 	<?php include ('css.php');?>
-	
+	<?php include('javascriptshead.php')?>
 
 	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
@@ -175,3 +174,6 @@ ob_flush();
 	
 </body>
 </html>
+
+
+<?php ob_flush(); ?>

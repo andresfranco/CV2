@@ -37,7 +37,6 @@ if (!empty($_POST))
        
 }
 ?>
-<script src="../../js/jquery-1.9.1.min.js"></script>
 <script src="validatecurricullum.js"></script>
 <label class="error"><?php echo $errormessage;?></label><br>
 <form id="appform" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">

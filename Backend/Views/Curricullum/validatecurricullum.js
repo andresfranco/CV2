@@ -1,8 +1,24 @@
 $(function() {
 
-    // Setup form validation on the #register-form element
+   
     $("#appform").validate({
-       	
+       	 errorPlacement: function(error, element) {
+             
+        switch(element.attr("name"))
+          {
+                       case "maintext": $("#maintexterror").html( error );break;
+                       case "aboutme": $("#aboutmeerror").html( error );break;
+                       case "contactdetails": $("#contactdetailserror").html( error );break;
+                       case "mainskills":$("#mainskillserror").html( error );break;
+                       default:error.insertAfter(element);
+          }     
+     
+         
+         
+
+     
+   },
+       	ignore: [],
         // Specify the validation rules
         rules: {
             name:{
@@ -14,6 +30,14 @@ $(function() {
                
             },
             aboutme:{
+                required:true
+
+            },
+            contactdetails:{
+                required:true
+
+            },
+            mainskills:{
                 required:true
 
             }
@@ -34,6 +58,14 @@ $(function() {
             aboutme:{
                 required:"You must enter about me information"
 
+            },
+            contactdetails:{
+                required:"You must enter contact details information"
+
+            },
+            mainskills:{
+                required:"You must enter main skills information"
+
             }
            
            
@@ -47,4 +79,5 @@ $(function() {
     });
 
   });
+
 

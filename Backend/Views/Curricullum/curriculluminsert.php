@@ -35,7 +35,6 @@ if (!empty($_POST))
 }
 
 ?>
-<script src="../../js/jquery-1.9.1.min.js"></script>
 <script src="validatecurricullum.js"></script>
 <label class="error"><?php echo $errormessage;?></label><br>
 <form id="appform" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
@@ -46,23 +45,23 @@ if (!empty($_POST))
         </tr>
         <tr>
             <td width="100"><label class="control-label">Main Text</label></td>
-            <td width="100"><textarea class="cleditor" id="maintext" name="maintext" rows="3" required><?php echo $maintext?></textarea></td>
-
+            <td width="100"><textarea class="cleditor" name="maintext" rows="3"><?php echo $maintext?></textarea></td>
+            <td><label id ="maintexterror" name="maintexterror"></label></td>
         </tr>
         <tr>
             <td width="100"><label class="control-label">About Me</label></td>
-            <td width="100"><textarea class="cleditor" name="aboutme" id="aboutme" rows="3" required><?php echo $aboutme?></textarea></td>
-
+            <td width="100"><textarea class="cleditor" name="aboutme"  rows="3"><?php echo $aboutme?></textarea></td>
+            <td><label id ="aboutmeerror" name="aboutmeerror"></label></td>
         </tr>
         <tr>
             <td width="100"><label class="control-label">Contact Details</label></td>
-            <td width="100"><textarea class="cleditor" name="contactdetails" id="contactdetails" rows="3" required><?php echo $contactdetails?></textarea></td>
-
+            <td width="100"><textarea class="cleditor" name="contactdetails"  rows="3"><?php echo $contactdetails?></textarea></td>
+            <td><label id ="contactdetailserror" name="contactdetailserror"></label></td>
         </tr>
         <tr>
             <td width="100"><label class="control-label">Main Skills</label></td>
-            <td width="100"><textarea class="cleditor" name="mainskills" id="mainskills" rows="3" required><?php echo $mainskills?></textarea></td>
-
+            <td width="100"><textarea class="cleditor" name="mainskills" rows="3"><?php echo $mainskills?></textarea></td>
+            <td><label id ="mainskillserror" name="mainskillserror"></label></td> 
         </tr>
 
     </table>
@@ -72,5 +71,4 @@ if (!empty($_POST))
         <input onClick="window.location.href='curricullumcontent.php'"id ="cancelbutton" class=" btn input-small"  value="Cancel" />
     </div>
 </form>
-
 
