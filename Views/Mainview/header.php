@@ -1,5 +1,6 @@
 <?php
-
+$language =new LanguageController();
+$result =$language->getall();
 ?>
 <!-- Header
    ================================================== -->
@@ -16,7 +17,17 @@
             <li><a class="smoothscroll" href="#resume">Resume</a></li>
             <li><a class="smoothscroll" href="#portfolio">My Proyects</a></li>
             <li><a class="smoothscroll" href="#contact">Contact</a></li>
-            <li><a href="">Spanish</a>|<a href="">English</a></li>
+
+            <li>
+                <?php
+                foreach ($result as $row)
+                {
+                    echo '<a href="?lang='.$row['code'].'">'.$row['language'].'</a>|';
+                }
+                ?>
+
+
+            </li>
         </ul> <!-- end #nav -->
 
     </nav> <!-- end #nav-wrap -->

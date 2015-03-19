@@ -87,7 +87,83 @@ Class GlobalController
       $username ="admin";  
       return $username ; 
     }
-    
+
+    function setlanguage()
+    {
+        $defaultlang =$this->getsysparam('lang');
+        if (!empty($_GET)) {
+            $_SESSION['lang'] = $_GET['lang'];
+        }
+        else
+        {
+            $_SESSION['lang'] =$defaultlang;
+        }
+        return $_SESSION['lang'];
+    }
+
+    function getsysparam($code)
+    {
+        $value="";
+        $datas = $this->database->select("sysparam", [
+            "value",
+        ], [
+            "code" => $code
+        ]);
+        foreach($datas as $data)
+        {
+            $value= $data["value"];
+        }
+        return $value;
+
+    }
+
+    function getcurricullumidbyparam()
+    {
+        $cvid="";
+        $cvname=$this->getsysparam('cvname');
+        $datas = $this->database->select("curricullum", [
+            "id",
+        ], [
+            "name" => htmlentities($cvname)
+        ]);
+
+        foreach($datas as $data)
+        {
+            $cvid= $data["id"];
+        }
+        return $cvid;
+    }
+
+    function getmultiparambycode($code,$setvalue,$attribute)
+    {
+        $sth = $this
+            ->database
+            ->pdo
+            ->prepare("select mp.value,mp.valuedesc
+                       from sysparam sp inner join multiparam mp
+                       on (sp.id =mp.sysparamid)
+                       where sp.code ='".$code."'");
+        $sth->execute();
+        echo '<select id ="objectcode" name="objectcode"' .$attribute.'>';
+        echo '<option value="0">Please Select a object code</option>';
+        foreach ($sth as $row) {
+            if ($setvalue == $row['value']) {
+                $attribute = 'selected';
+            }
+            else
+            {
+                $attribute="";
+            }
+            echo '<option value ="'.$row['value'].'" '.$attribute.' >'.$row['valuedesc'].'</option>';
+
+        }
+        echo '</select>';
+
+
+
+    }
+
+
     
     
 }

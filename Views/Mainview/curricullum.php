@@ -1,15 +1,22 @@
 <?php
-//require_once '../../Backend/Controller/CurricullumController.php';
 require_once '../../Backend/Controller/TranslationController.php';
+require_once '../../Backend/Controller/LanguageController.php';
+require_once '../../Backend/Controller/GlobalController.php';
 require_once '../../Backend/libraries/medoo.php';
-//$db=new CurricullumController();
-$db= new TranslationController();
-$datas =$db->getcurricullumtranslate('CV',1,'en');
 
-//$db->gettranslatecontent($objectcode, $objectid, $languagecode, $field)
+$globalobj= new GlobalController();
+$db= new TranslationController();
+
+//Set language
+$lang=$globalobj->setlanguage('en');
+
+//Get Curricullum data
+$cvid=$globalobj->getcurricullumidbyparam();
+$datas =$db->getcurricullumtranslate('CV',$cvid,$lang);
 $name="";
 $maintext="";
 $aboutme ="";
+$contactdetails="";
         
 foreach($datas as $data)
 {

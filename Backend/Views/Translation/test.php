@@ -4,13 +4,20 @@ require_once '../../Controller/TranslationController.php';
 require_once '../../libraries/medoo.php';
 //$db=new CurricullumController();
 $db= new TranslationController();
-$datas =$db->getcurricullumtranslate('cv',1,'en');
 
-foreach($datas as $data)
-{
-   echo html_entity_decode($data["content"]).'<br>';
-   
-}
+
+
+//foreach($userFlags['name'] as $item) {
+   //echo
+//}
+//$last = count($arr_nav) - 1;
+//foreach ($datas as $i => $row)
+//{
+   //$isFirst = ($i == 0);
+   //$isLast = ($i == $last);
+
+   //echo $row['name'];
+//}
 
 
 ?>

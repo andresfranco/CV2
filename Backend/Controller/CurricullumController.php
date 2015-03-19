@@ -104,6 +104,25 @@ Class CurricullumController {
         ]);
 
         return $data;
+
+    }
+
+    function getcurricullumidbyname($name)
+    {
+        $id="";
+        $datas = $this->database->select("curricullum", [
+            "id",
+        ], [
+            "name" => htmlEntities($name)
+        ]);
+        foreach($datas as $data)
+        {
+            $id= $data["id"];
+        }
+        return $id;
+
+
+
     }
 
 }

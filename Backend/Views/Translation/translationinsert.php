@@ -41,7 +41,7 @@ if (!empty($_POST))
     <table width="400" border="0" cellspacing="1" cellpadding="2">
         <tr>
             <td width="100"><label class="control-label">Object Code</label></td>
-            <td><?php $globalobj->getobjectcodes('',$objectcode)?></td>
+            <td><?php $globalobj->getmultiparambycode('objcode',$objectcode,'');?></td>
         </tr>
         <tr>
             <td width="100"><label class="control-label">Object ID</label></td>
