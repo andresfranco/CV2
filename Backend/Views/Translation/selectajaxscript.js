@@ -1,30 +1,21 @@
 $(document).ready(function(){
 $('#objectcode').change(function()
 {
- objectcodechange();
- objectidchange();
+ getfields();
+ getparent();
+ getobjectid();
+   
+
+
+});
+$('#parentid').change(function()
+{
+getobjectid();
 });
 
 
- function objectcodechange()
- {
-  var objectcode = $('#objectcode').val();
-  //if(objectcode != 0)
-  //{
-   $.ajax({
-    type:'post',
-    url:'getobjectidlist.php',
-    data:{id:objectcode},
-    cache:false,
-    success: function(returndata){
-     $('#objectid').html(returndata);
-    }
-
-   });
-  //}
- }
- function objectidchange()
- {
+function getfields()
+{
   var objectcode = $('#objectcode').val();
   var objectid =$('#objectid').val();
   //if(objectcode != 0)
@@ -38,9 +29,67 @@ $('#objectcode').change(function()
      $('#field').html(returndata);
     }
 
-   });
-  }
- //}
+   });   
+    
+}
+function getparent()
+{
+    var objectcode = $('#objectcode').val(); 
+   $.ajax({
+    type:'post',
+    url:'getparent.php',
+    data:{objectcode:objectcode},
+    cache:false,
+    success: function(returndata){
+     $('#parentid').html(returndata);
+    }
 
+   });   
+}
+
+function getobjectid()
+{
+  var objectcode = $('#objectcode').val();
+  var parentid =$('#parentid').val();
+  if (objectcode =="cv")
+  {
+   $.ajax({
+    type:'post',
+    url:'getobjectidlist.php',
+    data:{id:objectcode},
+    cache:false,
+    success: function(returndata){
+     $('#objectid').html(returndata);
+    }
+
+   });     
+  }
+  else
+  {
+      
+    $.ajax({
+    type:'post',
+    url:'getobjects.php',
+    data:{objectcode:objectcode,parentid:parentid},
+    cache:false,
+    success: function(returndata){
+     $('#objectid').html(returndata);
+    }
+
+   });  
+  }    
+  //if(objectcode != 0)
+  //{
+    
+    
+}
+
+
+ function objectcodechange()
+ {
+ 
+  //}
+ }
+ 
 })
 

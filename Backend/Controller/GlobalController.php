@@ -163,8 +163,80 @@ Class GlobalController
 
     }
 
-
+  function getparentselect($attribute,$id,$objectcode,$table)
+    {
     
+       $query ='SELECT id ,name FROM '.$table; 
+         
+      $sth = $this->database->pdo->prepare($query);
+        
+        
+        $sth->execute();
+         echo '<select id ="parentid" name="parentid"'.$attribute.'>';
+         echo'<option value="0">Please select a parent</option>';
+        $selected="";
+        foreach ($sth as $row) {
+            if ($id == $row['id']) {
+                $selected = 'selected';
+            }
+            else
+            {$selected="";
+            }
+            echo '<option value ="'.$row['id'].'" '.$selected.' >'.$row['name'].'</option>';
+
+        }
+         echo '</select>';
+    }
+    
+    
+    function getselectoptionsbytable($cvid,$tablename,$fielddesc,$filterfield)
+    {
+        
+        $field =  htmlentities($fielddesc);
+        $datas = $this->database->select($tablename, [
+            "id",
+            $field
+        ], [
+            $filterfield => $cvid
+        ]);
+        
+         echo '<select id ="objectid" name="objectid">';
+         echo'<option value="0">Please select an option</option>';
+      
+         foreach($datas as $data)
+        {
+         if ($cvid == $data['id']) {
+                $selected = 'selected';
+            }
+            else
+            {
+                $selected="";
+            }    
+            echo '<option value ="'.$data['id'].'" '.$selected.'>'.$data[$field].'</option>';
+        }
+         echo '</select>';
+    }
+    
+   
+     function geteducationselect($attribute,$cvid)
+    {
+        $sth = $this->database->pdo->prepare("SELECT id ,institution FROM education where curricullumid ='".$cvid."'");
+        $sth->execute();
+         echo '<select id ="objectid" name="objectid"'.$attribute.'>';
+         echo'<option value="0">Please select an option</option>';
+        $selected="";
+        foreach ($sth as $row) {
+            if ($id == $row['id']) {
+                $selected = 'selected';
+            }
+            else
+            {$selected="";
+            }
+            echo '<option value ="'.$row['id'].'" '.$selected.' >'.$row['institution'].'</option>';
+
+        }
+         echo '</select>';
+    } 
     
 }
 

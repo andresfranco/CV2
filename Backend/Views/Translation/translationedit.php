@@ -1,41 +1,43 @@
 <?php
-require_once '../../Controller/TranslationController.php';
 require_once '../../Controller/GlobalController.php';
+require_once '../../Controller/TranslationController.php';
 require_once '../../libraries/medoo.php';
-$db=new TranslationController();
 $globalobj=new GlobalController();
-$objectcode="";
-$parentid="";
-$objectid="";
-$languagecode="";
-$field="";
-$content="";
+$db=new TranslationController();
 $errormessage="";
-if (!empty($_POST))
+$username =$globalobj->getcurrentuser();
+$parentid ="";
+$objectcode="";
+if (!empty($_GET))
+{    
+$id=$_GET['id'];
+$datas=$db->gettranslationbyid($id);
+foreach($datas as $data)
 {
-    
-    $objectcode=htmlEntities($_POST['objectcode']);
-    if ($objectcode =="cv")
-    {
-     $parentid="";   
-    }
-    $objectid=htmlEntities($_POST['objectid']);
-    $languagecode=htmlEntities($_POST['languagecode']);
-    $field=htmlEntities($_POST['field']);
-    $content=htmlEntities($_POST['content']);
-    $username =$globalobj->getcurrentuser();
-    $count =$db->findtranslation($objectcode, $objectid, $languagecode, $field);
-
-    if($count==0)
-    {
-    $db->inserttranslation($username, $objectcode,$parentid, $objectid, $languagecode, $field, $content, 'translationcontent.php');
-    }
-    else
-    {
-        $errormessage= '<div class="alert alert-error">The translation already exist</div>';
-    }    
+$objectcode =$data['objectcode'];
+$parentid =$data['parentid'];  
+$objectid=$data['objectid']; 
+$languagecode=$data['languagecode']; 
+$field=$data['field']; 
+$content=$data['content']; 
+$_SESSION["idold"] = $id;
+}       
 }
 
+if (!empty($_POST))
+
+{
+    $id=$_SESSION["idold"];
+    $objectcode =$_POST['objectcoe'];
+    $parentid =$_POST['parentid'];  
+    $objectid=$_POST['objectid']; 
+    $languagecode=$_POST['languagecode']; 
+    $field=$_POST['field']; 
+    $content=$_POST['content']; 
+    
+    $db->updatetranslation($id, $username, $objectcode,$parentid,$objectid, $languagecode, $field, $content, $redirecturl);
+       
+}
 ?>
 <script src="../../js/jquery-1.9.1.min.js"></script>
 <script src="selectajaxscript.js"></script>
@@ -52,20 +54,14 @@ if (!empty($_POST))
         <tr>
             <td width="100"><label class="control-label">Parent</label></td>
            
-           <td width="100"><select id="parentid" name="parentid">
-                          <option value="0">Please Select a Parent</option>
-                          <option></option>
-                          </select>
+            <td width="100"><?php $db->getparent($globalobj,$objectcode,$parentid);?>
            </td>
 
         </tr>
         <tr>
             <td width="100"><label class="control-label">Object ID</label></td>
            
-           <td width="100"><select id="objectid" name="objectid">
-                          <option value="0">Please select an Object</option>
-                          <option></option>
-                          </select>
+           <td width="100"><?php $db->getparent($globalobj,$objectcode,$parentid);?>
            </td>
 
         </tr>
@@ -96,5 +92,3 @@ if (!empty($_POST))
         <input onClick="window.location.href='translationcontent.php'"id ="cancelbutton" class=" btn input-small"  value="Cancel" />
     </div>
 </form>
-
-

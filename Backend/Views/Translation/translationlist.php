@@ -19,6 +19,7 @@ $result =$db->getall();
 <table class="table table-striped table-bordered bootstrap-datatable datatable">
 <thead>
 <th>Object Code</th>
+<th>Parent ID</th>
 <th>Object ID</th>
 <th>Language</th>
 <th>Field</th>
@@ -31,15 +32,16 @@ $result =$db->getall();
   {
    echo '<tr>';
    echo '<td>'. $row['objectcode'] . '</td>';
+   echo '<td>'. $row['parentid'] . '</td>';
    echo '<td>'. $row['objectid'] . '</td>';
    echo '<td>'. $row['languagecode'] . '</td>';
    echo '<td>'. $row['field'] . '</td>';
    echo '<td>'. $row['content'] . '</td>';
    echo '<td class="center">
-         <a class="btn btn-info" href="curricullumeditcontent.php?id='.$row['id'].'">
+         <a class="btn btn-info" href="translationeditcontent.php?id='.$row['id'].'">
 	 <i class="halflings-icon white edit"></i>  
 	 </a>
-	 <a href ="deletecurricullumcontent.php?id='.$row['id'].'" class="btn btn-danger">
+	 <a href ="deletetranslationcontent.php?id='.$row['id'].'" class="btn btn-danger">
 	 <i class="halflings-icon white trash"></i> 
 	 </a>
 	</td>';

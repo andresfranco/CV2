@@ -1,15 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.11
+-- version 3.5.2.2
 -- http://www.phpmyadmin.net
 --
--- Servidor: localhost
--- Tiempo de generación: 19-03-2015 a las 04:03:05
--- Versión del servidor: 5.6.21
--- Versión de PHP: 5.6.3
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 19-03-2015 a las 23:03:27
+-- Versión del servidor: 5.5.27
+-- Versión de PHP: 5.4.7
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -27,14 +26,15 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `action` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `action` varchar(45) DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
   `createuser` varchar(45) NOT NULL,
   `cratedate` datetime NOT NULL,
   `modifyuser` varchar(45) NOT NULL,
-  `modifydate` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `modifydate` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `action` (
 --
 
 CREATE TABLE IF NOT EXISTS `curricullum` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(60) DEFAULT NULL,
   `maintext` tinytext,
   `aboutme` text,
@@ -53,15 +53,16 @@ CREATE TABLE IF NOT EXISTS `curricullum` (
   `createdate` datetime NOT NULL,
   `modifyuser` varchar(45) NOT NULL,
   `modifydate` datetime NOT NULL,
-  `filename` varchar(80) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `filename` varchar(80) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `curricullum`
 --
 
 INSERT INTO `curricullum` (`id`, `name`, `maintext`, `aboutme`, `contactdetails`, `mainskills`, `createuser`, `createdate`, `modifyuser`, `modifydate`, `filename`) VALUES
-(3, 'Andr&eacute;s Franco', 'I am a information systems engineer and live in Panama, I\r\n have experience as a systems consultant and have participated in the \r\ndevelopment and implementation of web systems for companies in the \r\nbanking, telecommunication, and services.', 'Andres Franco is a System Consultant with five years of experence in CRM implementation and Web development\r\n                ,usig technologies like Genexus and Open source languages based in PHP and My SQL.\r\n                Recently he has been working  in his personal projects using the PHP framework symfony2.\r\n            ', 'Andr&eacute;s Franco\r\n\r\n(507)6981-0649\r\n\r\nandres@andresmfranco.info', 'Implementation and development of CRM Saleslogix\r\n\r\nFull Stack Development in PHP and MySQL\r\n\r\nResponsive Web Design\r\n\r\nCustomer care', 'admin', '2015-03-17 03:06:38', 'admin', '2015-03-17 05:42:41', NULL);
+(1, 'Andr&eacute;s Franco', 'Maintext&lt;br&gt;', 'Aboutme text&lt;br&gt;', 'Contact Details Text&lt;br&gt;', 'Main Skills Text&lt;br&gt;', 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:13:56', NULL);
 
 -- --------------------------------------------------------
 
@@ -70,7 +71,7 @@ INSERT INTO `curricullum` (`id`, `name`, `maintext`, `aboutme`, `contactdetails`
 --
 
 CREATE TABLE IF NOT EXISTS `education` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `curricullumid` int(11) NOT NULL,
   `institution` varchar(60) DEFAULT NULL,
   `degree` varchar(60) DEFAULT NULL,
@@ -78,8 +79,17 @@ CREATE TABLE IF NOT EXISTS `education` (
   `createuser` varchar(45) NOT NULL,
   `cratedate` datetime NOT NULL,
   `modifyuser` varchar(45) NOT NULL,
-  `modifydate` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `modifydate` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_education_curricullum1_idx` (`curricullumid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Volcado de datos para la tabla `education`
+--
+
+INSERT INTO `education` (`id`, `curricullumid`, `institution`, `degree`, `datechar`, `createuser`, `cratedate`, `modifyuser`, `modifydate`) VALUES
+(1, 1, 'Universidad Tecnologica de Panamá', 'System Information engeeniering', '2009', 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07');
 
 -- --------------------------------------------------------
 
@@ -93,7 +103,8 @@ CREATE TABLE IF NOT EXISTS `language` (
   `createuser` varchar(45) NOT NULL,
   `createdate` datetime NOT NULL,
   `modifyuser` varchar(45) NOT NULL,
-  `modifydate` datetime NOT NULL
+  `modifydate` datetime NOT NULL,
+  PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -101,8 +112,8 @@ CREATE TABLE IF NOT EXISTS `language` (
 --
 
 INSERT INTO `language` (`code`, `language`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
-('en', 'English', 'admin', '0000-00-00 00:00:00', 'admin', '2015-03-16 23:12:10'),
-('es', 'Spanish', 'admin', '0000-00-00 00:00:00', 'admin', '2015-03-16 05:56:02');
+('en', 'English', 'admin', '2015-03-04 11:25:23', 'admin', '2015-03-04 11:25:23'),
+('es', 'Spanish', 'admin', '2015-03-04 11:25:37', 'admin', '2015-03-04 11:25:37');
 
 -- --------------------------------------------------------
 
@@ -111,11 +122,13 @@ INSERT INTO `language` (`code`, `language`, `createuser`, `createdate`, `modifyu
 --
 
 CREATE TABLE IF NOT EXISTS `multiparam` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `sysparamid` int(11) NOT NULL,
   `value` varchar(900) DEFAULT NULL,
-  `valuedesc` varchar(900) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  `valuedesc` varchar(900) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_multiparam_sysparam1_idx` (`sysparamid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Volcado de datos para la tabla `multiparam`
@@ -136,7 +149,7 @@ INSERT INTO `multiparam` (`id`, `sysparamid`, `value`, `valuedesc`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `project` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `curricullumid` int(11) NOT NULL,
   `name` varchar(80) DEFAULT NULL,
   `description` tinytext,
@@ -144,8 +157,18 @@ CREATE TABLE IF NOT EXISTS `project` (
   `createuser` varchar(45) NOT NULL,
   `createdate` datetime NOT NULL,
   `modifyuser` varchar(45) NOT NULL,
-  `modifydate` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `modifydate` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_project_curricullum1_idx` (`curricullumid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `project`
+--
+
+INSERT INTO `project` (`id`, `curricullumid`, `name`, `description`, `link`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
+(1, 1, 'CV Maker', 'Multi language Responsive PHP Web app for make your own curricullum', '', 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07'),
+(2, 1, 'Condo Handler', 'Multilanguage Symfony2 Responsive Web app for manage condominiums', '', 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07');
 
 -- --------------------------------------------------------
 
@@ -154,14 +177,28 @@ CREATE TABLE IF NOT EXISTS `project` (
 --
 
 CREATE TABLE IF NOT EXISTS `project_tag` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `projectid` int(11) NOT NULL,
   `tagname` varchar(60) DEFAULT NULL,
   `createuser` varchar(45) NOT NULL,
   `createdate` datetime NOT NULL,
   `modifyuser` varchar(45) NOT NULL,
-  `modifydate` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `modifydate` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_project_tag_project1_idx` (`projectid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- Volcado de datos para la tabla `project_tag`
+--
+
+INSERT INTO `project_tag` (`id`, `projectid`, `tagname`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
+(1, 1, 'Symfony', 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07'),
+(2, 1, 'PHP', 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07'),
+(3, 1, 'My Sql', 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07'),
+(4, 2, 'Symfony', 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07'),
+(5, 2, 'PHP', 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07'),
+(6, 2, 'My Sql', 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07');
 
 -- --------------------------------------------------------
 
@@ -170,14 +207,15 @@ CREATE TABLE IF NOT EXISTS `project_tag` (
 --
 
 CREATE TABLE IF NOT EXISTS `role` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `role` varchar(45) DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
   `createuser` varchar(45) NOT NULL,
   `cratedate` datetime NOT NULL,
   `modifyuser` varchar(45) NOT NULL,
-  `modifydate` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `modifydate` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -191,7 +229,10 @@ CREATE TABLE IF NOT EXISTS `roleaction` (
   `createuser` varchar(45) NOT NULL,
   `createdate` datetime NOT NULL,
   `modifyuser` varchar(45) NOT NULL,
-  `modifydate` datetime NOT NULL
+  `modifydate` datetime NOT NULL,
+  PRIMARY KEY (`roleid`,`actionid`),
+  KEY `fk_roleaction_action1_idx` (`actionid`),
+  KEY `fk_roleaction_role1_idx` (`roleid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -201,7 +242,7 @@ CREATE TABLE IF NOT EXISTS `roleaction` (
 --
 
 CREATE TABLE IF NOT EXISTS `skill` (
-  `idskill` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `curricullumid` int(11) NOT NULL,
   `type` varchar(20) DEFAULT NULL,
   `skill` varchar(60) DEFAULT NULL,
@@ -209,8 +250,18 @@ CREATE TABLE IF NOT EXISTS `skill` (
   `createuser` varchar(45) NOT NULL,
   `createdate` datetime NOT NULL,
   `modifyuser` varchar(45) NOT NULL,
-  `modifydate` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `modifydate` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_skill_curricullum1_idx` (`curricullumid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Volcado de datos para la tabla `skill`
+--
+
+INSERT INTO `skill` (`id`, `curricullumid`, `type`, `skill`, `percentage`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
+(1, 1, 'programming', 'PHP', 50, 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07'),
+(3, 1, 'programming', 'JQUERY', 50, 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07');
 
 -- --------------------------------------------------------
 
@@ -219,11 +270,12 @@ CREATE TABLE IF NOT EXISTS `skill` (
 --
 
 CREATE TABLE IF NOT EXISTS `sysparam` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(45) DEFAULT NULL,
   `value` varchar(900) DEFAULT NULL,
-  `description` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `description` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Volcado de datos para la tabla `sysparam`
@@ -241,7 +293,7 @@ INSERT INTO `sysparam` (`id`, `code`, `value`, `description`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `systemuser` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(45) DEFAULT NULL,
   `salt` varchar(100) DEFAULT NULL,
   `password` varchar(900) DEFAULT NULL,
@@ -249,8 +301,9 @@ CREATE TABLE IF NOT EXISTS `systemuser` (
   `crerateuser` varchar(45) NOT NULL,
   `createdate` datetime NOT NULL,
   `modifyuser` varchar(45) NOT NULL,
-  `modifydate` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `modifydate` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -259,8 +312,9 @@ CREATE TABLE IF NOT EXISTS `systemuser` (
 --
 
 CREATE TABLE IF NOT EXISTS `translation` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `objectcode` varchar(8) DEFAULT NULL,
+  `parentid` int(11) DEFAULT NULL,
   `objectid` int(11) DEFAULT NULL,
   `languagecode` varchar(10) NOT NULL,
   `field` varchar(45) DEFAULT NULL,
@@ -268,18 +322,21 @@ CREATE TABLE IF NOT EXISTS `translation` (
   `createuser` varchar(45) NOT NULL,
   `createdate` datetime NOT NULL,
   `modifyuser` varchar(45) NOT NULL,
-  `modifydate` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  `modifydate` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_translation_language1_idx` (`languagecode`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Volcado de datos para la tabla `translation`
 --
 
-INSERT INTO `translation` (`id`, `objectcode`, `objectid`, `languagecode`, `field`, `content`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
-(1, 'cv', 3, 'en', 'name', 'Andr&eacute;s Franco&lt;br&gt;', 'admin', '2015-03-19 02:37:48', 'admin', '2015-03-19 02:37:48'),
-(2, 'cv', 3, 'es', 'name', 'Andr&eacute;s Franco&lt;br&gt;', 'admin', '2015-03-19 02:39:04', 'admin', '2015-03-19 02:39:04'),
-(3, 'cv', 3, 'es', 'maintext', 'Soy Ingeniero en sistemas de informaci&oacute;n he trabajado en desarrollo de software y en consultor&iacute;a para empresas del sector bancario y servicios.&lt;br&gt;', 'admin', '2015-03-19 02:41:48', 'admin', '2015-03-19 02:41:48'),
-(4, 'cv', 3, 'en', 'maintext', '&lt;span id=&quot;result_box&quot; class=&quot;&quot; lang=&quot;en&quot;&gt;&lt;span class=&quot;hps&quot;&gt;I&lt;/span&gt; &lt;span class=&quot;hps&quot;&gt;am engineer&lt;/span&gt; &lt;span class=&quot;hps&quot;&gt;in information systems&lt;/span&gt; &lt;span class=&quot;hps&quot;&gt;have worked in&lt;/span&gt; &lt;span class=&quot;hps&quot;&gt;software development and&lt;/span&gt; &lt;span class=&quot;hps&quot;&gt;consulting&lt;/span&gt; &lt;span class=&quot;hps&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;hps&quot;&gt;companies in banking&lt;/span&gt; &lt;span class=&quot;hps&quot;&gt;and services.&lt;/span&gt;&lt;/span&gt;', 'admin', '2015-03-19 02:44:27', 'admin', '2015-03-19 02:44:27');
+INSERT INTO `translation` (`id`, `objectcode`, `parentid`, `objectid`, `languagecode`, `field`, `content`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
+(4, 'cv', 0, 1, 'en', 'name', 'Andr&eacute;s Franco&lt;br&gt;', 'admin', '2015-03-17 20:07:46', 'admin', '2015-03-17 20:07:46'),
+(5, 'cv', 0, 1, 'en', 'aboutme', 'About me text', 'admin', '2015-03-17 21:32:46', 'admin', '2015-03-17 21:32:46'),
+(6, 'cv', 0, 1, 'en', 'maintext', '&lt;b&gt;Main Text&lt;/b&gt;&lt;br&gt;', 'admin', '2015-03-17 21:48:36', 'admin', '2015-03-17 21:48:36'),
+(7, 'cv', 0, 1, 'en', 'contactdetails', '&lt;span&gt;Phone:(507) 6981-0649&lt;/span&gt;\r\n&lt;span&gt;Email:andresfranco@cableonda.net&lt;/span&gt;', 'admin', '2015-03-17 21:51:51', 'admin', '2015-03-17 21:51:51'),
+(8, 'cv', 0, 1, 'en', 'mainskills', 'Main Skills Text&lt;br&gt;', 'admin', '2015-03-17 22:03:42', 'admin', '2015-03-17 22:03:42');
 
 -- --------------------------------------------------------
 
@@ -293,7 +350,10 @@ CREATE TABLE IF NOT EXISTS `userrole` (
   `createuser` varchar(45) NOT NULL,
   `createdate` datetime NOT NULL,
   `modifyuser` varchar(45) NOT NULL,
-  `modifydate` datetime NOT NULL
+  `modifydate` datetime NOT NULL,
+  PRIMARY KEY (`systemuserid`,`roleid`),
+  KEY `fk_userrole_systemuser1_idx` (`systemuserid`),
+  KEY `fk_userrole_role1_idx` (`roleid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -303,7 +363,7 @@ CREATE TABLE IF NOT EXISTS `userrole` (
 --
 
 CREATE TABLE IF NOT EXISTS `work` (
-  `idwork` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `curricullumid` int(11) NOT NULL,
   `company` varchar(60) DEFAULT NULL,
   `position` varchar(60) DEFAULT NULL,
@@ -312,152 +372,19 @@ CREATE TABLE IF NOT EXISTS `work` (
   `createuser` varchar(45) NOT NULL,
   `creratedate` datetime NOT NULL,
   `modifyuser` varchar(45) NOT NULL,
-  `modifydate` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `modifydate` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_work_curricullum1_idx` (`curricullumid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Índices para tablas volcadas
+-- Volcado de datos para la tabla `work`
 --
 
---
--- Indices de la tabla `action`
---
-ALTER TABLE `action`
- ADD PRIMARY KEY (`id`);
+INSERT INTO `work` (`id`, `curricullumid`, `company`, `position`, `from`, `to`, `createuser`, `creratedate`, `modifyuser`, `modifydate`) VALUES
+(1, 1, 'Arango Software International', 'Genexus Developer', '2008', '2009', 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07'),
+(2, 1, 'ADR Technologies', 'System Consultant', '2010', 'Present', 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07');
 
---
--- Indices de la tabla `curricullum`
---
-ALTER TABLE `curricullum`
- ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `education`
---
-ALTER TABLE `education`
- ADD PRIMARY KEY (`id`), ADD KEY `fk_education_curricullum1_idx` (`curricullumid`);
-
---
--- Indices de la tabla `language`
---
-ALTER TABLE `language`
- ADD PRIMARY KEY (`code`);
-
---
--- Indices de la tabla `multiparam`
---
-ALTER TABLE `multiparam`
- ADD PRIMARY KEY (`id`), ADD KEY `fk_multiparam_sysparam1_idx` (`sysparamid`);
-
---
--- Indices de la tabla `project`
---
-ALTER TABLE `project`
- ADD PRIMARY KEY (`id`), ADD KEY `fk_project_curricullum1_idx` (`curricullumid`);
-
---
--- Indices de la tabla `project_tag`
---
-ALTER TABLE `project_tag`
- ADD PRIMARY KEY (`id`), ADD KEY `fk_project_tag_project1_idx` (`projectid`);
-
---
--- Indices de la tabla `role`
---
-ALTER TABLE `role`
- ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `roleaction`
---
-ALTER TABLE `roleaction`
- ADD PRIMARY KEY (`roleid`,`actionid`), ADD KEY `fk_roleaction_role1_idx` (`roleid`), ADD KEY `fk_roleaction_action1_idx` (`actionid`);
-
---
--- Indices de la tabla `skill`
---
-ALTER TABLE `skill`
- ADD PRIMARY KEY (`idskill`), ADD KEY `fk_skill_curricullum1_idx` (`curricullumid`);
-
---
--- Indices de la tabla `sysparam`
---
-ALTER TABLE `sysparam`
- ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `systemuser`
---
-ALTER TABLE `systemuser`
- ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `translation`
---
-ALTER TABLE `translation`
- ADD PRIMARY KEY (`id`), ADD KEY `fk_translation_language1_idx` (`languagecode`);
-
---
--- Indices de la tabla `userrole`
---
-ALTER TABLE `userrole`
- ADD PRIMARY KEY (`systemuserid`,`roleid`), ADD KEY `fk_userrole_systemuser1_idx` (`systemuserid`), ADD KEY `fk_userrole_role1_idx` (`roleid`);
-
---
--- Indices de la tabla `work`
---
-ALTER TABLE `work`
- ADD PRIMARY KEY (`idwork`), ADD KEY `fk_work_curricullum1_idx` (`curricullumid`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `action`
---
-ALTER TABLE `action`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `curricullum`
---
-ALTER TABLE `curricullum`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT de la tabla `education`
---
-ALTER TABLE `education`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `multiparam`
---
-ALTER TABLE `multiparam`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
---
--- AUTO_INCREMENT de la tabla `project_tag`
---
-ALTER TABLE `project_tag`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `role`
---
-ALTER TABLE `role`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `sysparam`
---
-ALTER TABLE `sysparam`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT de la tabla `systemuser`
---
-ALTER TABLE `systemuser`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `translation`
---
-ALTER TABLE `translation`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- Restricciones para tablas volcadas
 --
@@ -466,57 +393,57 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 -- Filtros para la tabla `education`
 --
 ALTER TABLE `education`
-ADD CONSTRAINT `fk_education_curricullum1` FOREIGN KEY (`curricullumid`) REFERENCES `curricullum` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_education_curricullum1` FOREIGN KEY (`curricullumid`) REFERENCES `curricullum` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `multiparam`
 --
 ALTER TABLE `multiparam`
-ADD CONSTRAINT `fk_multiparam_sysparam1` FOREIGN KEY (`sysparamid`) REFERENCES `sysparam` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_multiparam_sysparam1` FOREIGN KEY (`sysparamid`) REFERENCES `sysparam` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `project`
 --
 ALTER TABLE `project`
-ADD CONSTRAINT `fk_project_curricullum1` FOREIGN KEY (`curricullumid`) REFERENCES `curricullum` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_project_curricullum1` FOREIGN KEY (`curricullumid`) REFERENCES `curricullum` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `project_tag`
 --
 ALTER TABLE `project_tag`
-ADD CONSTRAINT `fk_project_tag_project1` FOREIGN KEY (`projectid`) REFERENCES `project` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_project_tag_project1` FOREIGN KEY (`projectid`) REFERENCES `project` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `roleaction`
 --
 ALTER TABLE `roleaction`
-ADD CONSTRAINT `fk_roleaction_action1` FOREIGN KEY (`actionid`) REFERENCES `action` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `fk_roleaction_role1` FOREIGN KEY (`roleid`) REFERENCES `role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_roleaction_action1` FOREIGN KEY (`actionid`) REFERENCES `action` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_roleaction_role1` FOREIGN KEY (`roleid`) REFERENCES `role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `skill`
 --
 ALTER TABLE `skill`
-ADD CONSTRAINT `fk_skill_curricullum1` FOREIGN KEY (`curricullumid`) REFERENCES `curricullum` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_skill_curricullum1` FOREIGN KEY (`curricullumid`) REFERENCES `curricullum` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `translation`
 --
 ALTER TABLE `translation`
-ADD CONSTRAINT `fk_translation_language1` FOREIGN KEY (`languagecode`) REFERENCES `language` (`code`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_translation_language1` FOREIGN KEY (`languagecode`) REFERENCES `language` (`code`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `userrole`
 --
 ALTER TABLE `userrole`
-ADD CONSTRAINT `fk_userrole_role1` FOREIGN KEY (`roleid`) REFERENCES `role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `fk_userrole_systemuser1` FOREIGN KEY (`systemuserid`) REFERENCES `systemuser` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_userrole_role1` FOREIGN KEY (`roleid`) REFERENCES `role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_userrole_systemuser1` FOREIGN KEY (`systemuserid`) REFERENCES `systemuser` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `work`
 --
 ALTER TABLE `work`
-ADD CONSTRAINT `fk_work_curricullum1` FOREIGN KEY (`curricullumid`) REFERENCES `curricullum` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_work_curricullum1` FOREIGN KEY (`curricullumid`) REFERENCES `curricullum` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

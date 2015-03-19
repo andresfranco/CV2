@@ -6,28 +6,31 @@ require_once '../../libraries/medoo.php';
 $db=new TranslationController();
 $globalobj=new GlobalController();
 $objectcode =$_POST['objectcode'];
-$objectid=$_POST['objectid'];
-$databasename="curricullum";
+$parentid =$_POST['parentid'];
+$filterffield="curricullumid";
 switch ($objectcode) {
-    case "cv":
-        $tablename='curricullum';
-        break;
+     
     case "ed":
         $tablename='education';
+        $fielddesc ="institution";
         break;
     case "sk":
         $tablename='skill';
+        $fielddesc ="skill";
         break;
     case "wo":
        $tablename='work';
+       $fielddesc ="company";
         break;
       case "pr":
        $tablename='project';
+       $fielddesc ="name";   
         break;
   case "pt":
        $tablename='project_tag';
-       
+       $fielddesc ="tagname";
+       $filterffield="projectid";
         break;
 }
-    $globalobj->gettablefields($databasename, $tablename);
+    $globalobj->getselectoptionsbytable($parentid,$tablename,$fielddesc,$filterffield);
 ?>

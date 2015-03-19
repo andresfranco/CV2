@@ -1,11 +1,12 @@
+<meta charset="UTF-8">
 <?php
 require_once '../../Controller/CurricullumController.php';
 require_once '../../Controller/GlobalController.php';
 require_once '../../libraries/medoo.php';
 
-$db =new GlobalController();
+$globalobj =new GlobalController();
 
-$db->getmultiparambycode('objcode','','');
+$globalobj->getselectoptionsbytable(1,'work','company');
 
 
 
