@@ -1,6 +1,9 @@
 <?php
 ob_start();
 session_start();
+require_once '../../Controller/GlobalController.php';
+require_once '../../libraries/medoo.php';
+$globalobj=new GlobalController();
 ?>
 <!DOCTYPE html>
 <meta charset="UTF-8">
@@ -65,7 +68,11 @@ session_start();
 						<!-- start: User Dropdown -->
 						<li class="dropdown">
 							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-								<i class="halflings-icon white user"></i> Dennis Ji
+								<i class="halflings-icon white user"></i>
+								<?php
+
+								echo $globalobj->getcurrentuser();
+								?>
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">

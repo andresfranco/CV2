@@ -7,6 +7,7 @@ $db=new TranslationController();
 $globalobj=new GlobalController();
 $objectcode =$_POST['objectcode'];
 $objectid=$_POST['objectid'];
+$field=$_POST['field'];
 $databasename="curricullum";
 switch ($objectcode) {
     case "cv":
@@ -29,5 +30,5 @@ switch ($objectcode) {
        
         break;
 }
-    $globalobj->gettablefields($databasename, $tablename);
+    $globalobj->gettablefields($databasename, $tablename,$field);
 ?>

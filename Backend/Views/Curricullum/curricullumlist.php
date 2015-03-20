@@ -1,6 +1,5 @@
 <?php
 require_once '../../Controller/CurricullumController.php';
-require_once '../../libraries/medoo.php';
 $db=new CurricullumController();
 $result =$db->getall();
 ?>

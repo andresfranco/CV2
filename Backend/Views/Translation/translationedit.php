@@ -1,7 +1,5 @@
 <?php
-require_once '../../Controller/GlobalController.php';
 require_once '../../Controller/TranslationController.php';
-require_once '../../libraries/medoo.php';
 $globalobj=new GlobalController();
 $db=new TranslationController();
 $errormessage="";
@@ -15,27 +13,27 @@ $datas=$db->gettranslationbyid($id);
 foreach($datas as $data)
 {
 $objectcode =$data['objectcode'];
-$parentid =$data['parentid'];  
+$parentid =$data['parentid'];
 $objectid=$data['objectid']; 
 $languagecode=$data['languagecode']; 
 $field=$data['field']; 
 $content=$data['content']; 
 $_SESSION["idold"] = $id;
-}       
+}
 }
 
 if (!empty($_POST))
 
 {
     $id=$_SESSION["idold"];
-    $objectcode =$_POST['objectcoe'];
+    $objectcode =$_POST['objectcode'];
     $parentid =$_POST['parentid'];  
     $objectid=$_POST['objectid']; 
     $languagecode=$_POST['languagecode']; 
     $field=$_POST['field']; 
     $content=$_POST['content']; 
     
-    $db->updatetranslation($id, $username, $objectcode,$parentid,$objectid, $languagecode, $field, $content, $redirecturl);
+    $db->updatetranslation($id, $username, $objectcode,$parentid,$objectid, $languagecode, $field, $content, 'translationcontent.php');
        
 }
 ?>
@@ -61,21 +59,18 @@ if (!empty($_POST))
         <tr>
             <td width="100"><label class="control-label">Object ID</label></td>
            
-           <td width="100"><?php $db->getparent($globalobj,$objectcode,$parentid);?>
+           <td width="100"><?php $db->getobject($globalobj,$objectcode,$objectid);?>
            </td>
 
         </tr>
         <tr>
             <td width="100"><label class="control-label">Language</label></td>
-            <td width="100"><?php $globalobj->getlanguageselect('',$languagecode)?></td>
+            <td width="100"><?php $globalobj->getlanguageselect('',$languagecode);?></td>
 
         </tr>
         <tr>
            <td width="100"><label class="control-label">Field</label></td> 
-           <td width="100"><select id="field" name="field">
-                          <option value="0">Please select a field</option>
-                          <option></option>
-                          </select>
+           <td width="100"><?php $db->getfields($globalobj,$objectcode,$field);?>
            </td>
 
         </tr>

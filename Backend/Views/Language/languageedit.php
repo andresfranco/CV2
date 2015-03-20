@@ -1,6 +1,5 @@
 <?php
 require_once '../../Controller/LanguageController.php';
-require_once '../../libraries/medoo.php';
 $errormessage="";
 $languagedb=new LanguageController();
 $codeold="";

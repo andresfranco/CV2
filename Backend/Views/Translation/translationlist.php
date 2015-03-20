@@ -1,7 +1,5 @@
 <?php
 require_once '../../Controller/TranslationController.php';
-require_once '../../Controller/GlobalController.php';
-require_once '../../libraries/medoo.php';
 $db=new TranslationController();
 $globalobj=new GlobalController();
 $result =$db->getall();

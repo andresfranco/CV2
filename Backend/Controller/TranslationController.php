@@ -102,13 +102,9 @@ function inserttranslation($username,$objectcode,$parentid,$objectid,$languageco
             "objectcode",
             "parentid",
             "objectid" ,
-            "languagecode" ,
+            "languagecode",
             "field",
-            "content",
-            "createuser" ,
-            "createdate" ,
-            "modifyuser",
-            "modifydate" 
+            "content"
         ], [
             "id" => $id
         ]);
@@ -194,23 +190,53 @@ echo '<select id="parentid" name="parentid">
        $tablename='project';
        $fielddesc ="name";   
         break;
-  case "pt":
+    case "pt":
        $tablename='project_tag';
        $fielddesc ="tagname";
        $filterffield="projectid";
         break;
-  }
+    }
     
     if ($objectcode=="cv")
     { 
-      $globalobj->getcurricullumselect('', '');  
+      $globalobj->getcurricullumselect('', $parentid);
     }
     else
     {    
     $globalobj->getselectoptionsbytable($parentid,$tablename,$fielddesc,$filterffield);  
     }    
     }
+
+    function getfields($globalobj,$objectcode,$field)
+    {
+
+        $databasename="curricullum";
+        $tablename="";
+        switch ($objectcode) {
+            case "cv":
+                $tablename='curricullum';
+                break;
+            case "ed":
+                $tablename='education';
+                break;
+            case "sk":
+                $tablename='skill';
+                break;
+            case "wo":
+                $tablename='work';
+                break;
+            case "pr":
+                $tablename='project';
+                break;
+            case "pt":
+                $tablename='project_tag';
+
+                break;
+        }
+        $globalobj->gettablefields($databasename, $tablename,$field);
+    }
     
             
 }
+
 ?>

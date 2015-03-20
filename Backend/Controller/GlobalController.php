@@ -28,13 +28,14 @@ Class GlobalController
     } 
       function getcurricullumselect($attribute,$id)
     {
+
         $sth = $this->database->pdo->prepare('SELECT id ,name FROM curricullum');
         $sth->execute();
          echo '<select id ="objectid" name="objectid"'.$attribute.'>';
          echo'<option value="0">Please select an option</option>';
         $selected="";
         foreach ($sth as $row) {
-            if ($id == $row['id']) {
+            if ($row['id'] == $id) {
                 $selected = 'selected';
             }
             else
@@ -66,15 +67,20 @@ Class GlobalController
          echo '</select>';
         
     }
-    function gettablefields($databasename,$tablename)
+    function gettablefields($databasename,$tablename,$field)
     {
         $sth = $this->database->pdo->prepare("SELECT COLUMN_NAME as field FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '".$databasename."' AND TABLE_NAME ='".$tablename."'");
         $sth->execute();
          echo '<select id="field" name="field">';
          
-        $selected="";
+
         foreach ($sth as $row) {
-            
+            if ($field == $row['field']) {
+                $selected = 'selected';
+            }
+            else
+            {$selected="";
+            }
             echo '<option value ="'.$row['field'].'" '.$selected.' >'.$row['field'].'</option>';
 
         }
