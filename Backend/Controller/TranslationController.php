@@ -80,16 +80,17 @@ function inserttranslation($username,$objectcode,$parentid,$objectid,$languageco
         header('Location: '.$redirecturl);
     }
 
-    function findtranslation($objectcode,$parentid,$objectid,$languagecode,$field)
+    function findtranslation($objectcode,$parentid,$objectid,$languagecode, $field)
     {
         $count =  $this->database->count("translation", [
-            "objectcode" => $objectcode,
+           "id"
+            
+        ],["AND" => [ "objectcode" => $objectcode,
             "parentid"=>$parentid,
             "objectid" => $objectid,
             "languagecode" => $languagecode,
-            "field"=>$field
-            
-        ]);
+            "field"=>$field]]);
+        
         return $count;
 
     }

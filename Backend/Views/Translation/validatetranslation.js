@@ -1,15 +1,49 @@
 $(function() {
-
-    // Setup form validation on the #register-form element
+    $.validator.addMethod("valueNotEquals", function(value, element, arg){
+     
+     
+         return arg != value;
+     
+   }, "");
+    
     $("#appform").validate({
-
-        // Specify the validation rules
+           errorPlacement: function(error, element) {
+             
+        switch(element.attr("name"))
+          {
+          case "content": $("#contenterror").html( error );break;
+          
+          default:error.insertAfter(element);       
+          }   
+      },  
+        
         rules: {
-            code:{
-                required:true
+            objectcode:{
+                required:true,
+                valueNotEquals: "0"
+                 
+            },
+            parentid:{
+                required:true,
+                valueNotEquals: "0"
+                
+            },
+            objectid:{
+                required:true,
+                valueNotEquals: "0"
 
             },
-            language:{
+            languagecode:{
+                required:true,
+               valueNotEquals: "0"
+
+            },
+             field:{
+                required:true,
+                valueNotEquals: "0"
+
+            },
+            content:{
                 required:true
 
             }
@@ -17,18 +51,38 @@ $(function() {
 
 
         },
+        ignore: [],
         // Specify the validation error messages
         messages: {
-            code:{
-                required:"You must enter a code"
+            objectcode:{
+                required:"You must select a object code",
+                
+            },
+            parentid:{
+                required:"You must select a parent",
+                
 
             },
-            language:{
-                required:"You must enter a language"
+            objectid:{
+                required:"You must select a objectid",
+                
+
+            },
+            languagecode:{
+                required:"You must select a language",
+                
+
+            },
+             field:{
+                required:"You must select a field",
+                
+
+            },
+            content:{
+                required:"You must enter a content",
+                
 
             }
-
-
 
 
         },

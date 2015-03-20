@@ -37,7 +37,7 @@ if (!empty($_POST))
        
 }
 ?>
-<script src="../../js/jquery-1.9.1.min.js"></script>
+<script src="validatetranslation.js"></script>
 <script src="selectajaxscript.js"></script>
 
 </script>

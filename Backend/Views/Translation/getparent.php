@@ -22,7 +22,7 @@ if ($objectcode !="cv")
 }else
 {
 echo '<select id="parentid" name="parentid" disabled>
-                          <option value="0">No parent needed</option>
+                          <option value="-1">No parent needed</option>
                           </select>
           '  ;  
     

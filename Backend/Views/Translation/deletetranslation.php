@@ -29,7 +29,7 @@ if (!empty($_GET))
 ?>
 <script src="../../js/jquery-1.9.1.min.js"></script>
 <script src="disabletranslationfields.js"></script>
-<div><h3>Are you sure you want to delete this Curricullum?</h3></div>
+<div><h3>Are you sure you want to delete this Translation?</h3></div>
 <br>
 <form id="appform" method="post" action="translationdelete.php?param=<?php echo $_SESSION["idold"];?>">
 <table width="400" border="0" cellspacing="1" cellpadding="2">
