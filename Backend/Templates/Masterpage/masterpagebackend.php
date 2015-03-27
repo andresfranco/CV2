@@ -1,8 +1,7 @@
 <?php
 ob_start();
-session_start();
-require_once '../../Controller/GlobalController.php';
-require_once '../../libraries/medoo.php';
+require_once 'Backend/libraries/medoo.php';
+require_once 'Backend/Controller/GlobalController.php';
 $globalobj=new GlobalController();
 ?>
 <!DOCTYPE html>
@@ -39,9 +38,6 @@ $globalobj=new GlobalController();
 	<link rel="shortcut icon" href="img/favicon.ico">
 	<!-- end: Favicon -->
 	
-		
-		
-		
 </head>
 
 <body>
@@ -100,7 +96,7 @@ $globalobj=new GlobalController();
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-                                            <li><a href="../../Views/Language/languagecontent.php"><i class="icon-flag"></i><span class="hidden-tablet"> Languages</span></a></li>	
+                                            <li><a href="/CV2/languages"><i class="icon-flag"></i><span class="hidden-tablet"> Languages</span></a></li>
 						<li><a href="../../Views/Curricullum/curricullumcontent.php"><i class="icon-file"></i><span class="hidden-tablet"> Curricullum</span></a></li>
                                                 <li><a href="../../Views/Translation/translationcontent.php"><i class="icon-repeat"></i><span class="hidden-tablet"> Translation</span></a></li>
 						<li><a href="ui.html"><i class="icon-book"></i><span class="hidden-tablet"> Education</span></a></li>

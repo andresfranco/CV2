@@ -2,6 +2,7 @@
 $link='languagecontent.php';
 $option ='Languages/';
 $route ='New Language';
-$page_content = 'languageinsert.php';
-include('../../Templates/Masterpage/masterpagebackend.php');
+$page_content = 'Backend/Views/Language/languageinsert.php';
+$mode ='insert';
+include('Backend/Templates/Masterpage/masterpagebackend.php');
 ?>

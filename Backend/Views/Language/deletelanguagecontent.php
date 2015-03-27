@@ -2,6 +2,7 @@
 $link='languagecontent.php';
 $option ='Languages/';
 $route ='Delete Language';
-$page_content = 'deletelanguage.php';
-include('../../Templates/Masterpage/masterpagebackend.php');
+$mode ='delete';
+$page_content = 'Backend/Views/Language/deletelanguage.php';
+include('Backend/Templates/Masterpage/masterpagebackend.php');
 ?>

@@ -2,6 +2,7 @@
 $link='Languagecontent.php';
 $option ='Languages/';
 $route ='Edit Language';
-$page_content = 'languageedit.php';
-include('../../Templates/Masterpage/masterpagebackend.php');
+$mode ='edit';
+$page_content = 'Backend/Views/Language/languageedit.php';
+include('Backend/Templates/Masterpage/masterpagebackend.php');
 ?>

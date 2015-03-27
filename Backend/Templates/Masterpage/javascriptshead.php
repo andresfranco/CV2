@@ -1,2 +1,11 @@
- <script src="../../js/jquery-1.11.2.js"></script>
-<script src="../../js/jquery.validate.js"></script>
+ 
+<?php if ($mode=='edit')
+{ $basepath='../Backend';
+}
+else
+{
+$basepath='Backend';	
+}
+?>
+<script src="<?php echo $basepath.'/js/jquery-1.11.2.js'?>"></script>
+<script src="<?php echo $basepath.'/js/jquery.validate.js'?>"></script>

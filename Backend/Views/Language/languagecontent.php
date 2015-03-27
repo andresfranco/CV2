@@ -2,7 +2,8 @@
 $route ='Languages';
 $option='';
 $link ='';
-$page_content = 'languagelist.php';
-include('../../Templates/Masterpage/masterpagebackend.php');
+$mode ='list';
+$page_content = 'Backend/Views/Language/languagelist.php';
+include('Backend/Templates/Masterpage/masterpagebackend.php');
 ?>
 

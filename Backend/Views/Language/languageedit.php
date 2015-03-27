@@ -1,37 +1,5 @@
-<?php
-require_once '../../Controller/LanguageController.php';
-$errormessage="";
-$languagedb=new LanguageController();
-$codeold="";
-if (!empty($_GET))
-{    
-$code=$_GET['id'];
-$datas=$languagedb->getlanguagebyid($code);
-foreach($datas as $data)
-{
-$language = $data["language"];
-$codeold =$data["code"];
-$_SESSION["codeold"] = $codeold;
-}       
-}
-
-if (!empty($_POST))
-
-{
-    
-    $code = htmlEntities($_POST['code']);
-    $language = htmlEntities($_POST['language']);
-    $codeold=$_SESSION["codeold"];
-     
-    $username ="admin";
-    
-    $languagedb->updatelanguage($username,$code,$codeold, $language, 'languagecontent.php');
-       
-}
-?>
-<script src="validatelanguage.js"></script>
-<label class="error"><?php echo $errormessage;?></label><br>
-<form id="appform" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+<script src="<?echo '../Backend/Views/Language/validatelanguage.js'?>"></script>
+<form id="appform" method="post" action="<?php echo $updateurl;?>">
     <table width="400" border="0" cellspacing="1" cellpadding="2">
         <tr>
             <td width="100"><label class="control-label">Code</label></td>
@@ -47,6 +15,7 @@ if (!empty($_POST))
     <br>
     <div class="options btn-group">
         <input  id ="deletebutton" class="btn btn-primary" type="submit" value="Save" />
-        <input onClick="window.location.href='languagecontent.php'"id ="cancelbutton" class=" btn input-small"  value="Cancel" />
+        <input onClick="window.location.href='<?php echo $listurl;?>'"id ="cancelbutton" class=" btn input-small"  value="Cancel" />
     </div>
+    <input type="hidden" id="codeold" name="codeold"  value="<?php echo $codeold;?>">
 </form>

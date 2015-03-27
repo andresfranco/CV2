@@ -1,33 +1,6 @@
-<?php
-require_once '../../Controller/LanguageController.php';
-$errormessage="";
-$code="";
-$language="";
-if (!empty($_POST))
-
-{
-    
-    $code = htmlEntities($_POST['code']);
-    $language = htmlEntities($_POST['language']);
-
-    
-    $languagedb=new LanguageController();
-    $username ="admin";
-    $count =$languagedb->findlanguage($code);
-    if($count==0)
-    {
-    $languagedb->insertlanguage($username,$code,$language,'languagecontent.php');
-    }
-    else
-    {
-        $errormessage= '<div class="alert alert-error">The language of code : "'.$code. '" already exist</div>';
-    }    
-}
-
-?>
-<script src="validatelanguage.js"></script>
+<script src="Backend/Views/Language/validatelanguage.js"></script>
 <label class="error"><?php echo $errormessage;?></label><br>
-<form id="appform" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+<form id="appform" method="post" action="<?php echo $selfurl;?>">
     <table width="400" border="0" cellspacing="1" cellpadding="2">
         <tr>
             <td width="100"><label class="control-label">Code</label></td>
@@ -44,7 +17,7 @@ if (!empty($_POST))
     <br>
     <div class="options btn-group">
         <input  id ="deletebutton" class="btn btn-primary" type="submit" value="Save" />
-        <input onClick="window.location.href='languagecontent.php'"id ="cancelbutton" class=" btn input-small"  value="Cancel" />
+        <input onClick="window.location.href='<?php echo $listurl;?>'"id ="cancelbutton" class=" btn input-small"  value="Cancel" />
     </div>
 </form>
 
