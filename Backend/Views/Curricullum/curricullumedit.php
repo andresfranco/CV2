@@ -1,44 +1,5 @@
-<?php
-require_once '../../Controller/CurricullumController.php';
-$errormessage="";
-$db=new CurricullumController();
-if (!empty($_GET))
-{    
-$id=$_GET['id'];
-$datas=$db->getcurricullumbyid($id);
-foreach($datas as $data)
-{
-$name = $data["name"];
-$maintext =$data["maintext"];
-$aboutme =$data["aboutme"];
-$contactdetails=$data["contactdetails"];
-$mainskills=$data["mainskills"];
-
-$_SESSION["idold"] = $id;
-}       
-}
-
-if (!empty($_POST))
-
-{
-    $id =$_SESSION["idold"];
-    $name = htmlEntities($_POST['name']);
-
-    $maintext=htmlEntities($_POST['maintext']);
-
-    $aboutme=htmlEntities($_POST['aboutme']);
-    $contactdetails=htmlEntities($_POST['contactdetails']);
-    $mainskills=htmlEntities($_POST['mainskills']);
-
-    $username ="admin";
-    
-    $db->updatecurricullum($id,$username,$name,$maintext,$aboutme,$contactdetails,$mainskills,'curricullumcontent.php');
-       
-}
-?>
-<script src="validatecurricullum.js"></script>
-<label class="error"><?php echo $errormessage;?></label><br>
-<form id="appform" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+<script src="<?php echo $templatepath.'/Views/Curricullum/validatecurricullum.js';?>"></script>
+<form id="appform" method="post" action="<?php echo $updateurl;?>">
     <table width="400" border="0" cellspacing="1" cellpadding="2">  
         <tr>
             <td width="100"><label class="control-label">Name</label></td>
@@ -70,6 +31,6 @@ if (!empty($_POST))
     <br>
     <div class="options btn-group">
         <input  id ="deletebutton" class="btn btn-primary" type="submit" value="Save" />
-        <input onClick="window.location.href='curricullumcontent.php'"id ="cancelbutton" class=" btn input-small"  value="Cancel" />
+        <input onClick="window.location.href='<?php echo $listurl;?>'"id ="cancelbutton" class=" btn input-small"  value="Cancel" />
     </div>
 </form>

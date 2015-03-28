@@ -1,4 +1,4 @@
-<script src="<?echo '../Backend/Views/Language/validatelanguage.js'?>"></script>
+<script src="<?php echo $templatepath.'/Views/Language/validatelanguage.js';?>"></script>
 <form id="appform" method="post" action="<?php echo $updateurl;?>">
     <table width="400" border="0" cellspacing="1" cellpadding="2">
         <tr>

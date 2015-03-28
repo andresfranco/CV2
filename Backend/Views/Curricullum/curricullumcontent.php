@@ -2,7 +2,7 @@
 $route ='Curricullum';
 $option='';
 $link ='';
-$page_content = 'curricullumlist.php';
-include('../../Templates/Masterpage/masterpagebackend.php');
+$page_content = 'Backend/Views/Curricullum/curricullumlist.php';
+include('Backend/Templates/Masterpage/masterpagebackend.php');
 ?>
 

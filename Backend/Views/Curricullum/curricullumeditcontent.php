@@ -2,6 +2,6 @@
 $link='curricullumcontent.php';
 $option ='Curricullum/';
 $route ='Edit Curricullum';
-$page_content = 'curricullumedit.php';
-include('../../Templates/Masterpage/masterpagebackend.php');
+$page_content = 'Backend/Views/Curricullum/curricullumedit.php';
+include('Backend/Templates/Masterpage/masterpagebackend.php');
 ?>

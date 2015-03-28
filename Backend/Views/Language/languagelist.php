@@ -1,4 +1,4 @@
-<div><a href="<?php echo $newurl; ?>"><img src="Backend/img/addrow.png"></a></div><br>
+<div><a href="<?php echo $newurl; ?>"><img src="<?php echo $templatepath.'/img/addrow.png';?>"></a></div><br>
 <div class="row-fluid sortable">		
 <div class="box span12">
 <div class="box-header" data-original-title>

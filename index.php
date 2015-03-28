@@ -2,8 +2,10 @@
 //---------------Require Classes----------------------------
 require 'Slim/Slim.php';
 require_once 'Backend/libraries/medoo.php';
-require_once 'Backend/Controller/LanguageController.php';
 require_once 'Backend/Controller/GlobalController.php';
+require_once 'Backend/Controller/LanguageController.php';
+require_once 'Backend/Controller/CurricullumController.php';
+
 
 \Slim\Slim::registerAutoloader();
 //------------------------------------------------------------
@@ -16,12 +18,16 @@ $app = new \Slim\Slim(array(
 
 //-------Set objects from classes-----------------------------
 $medoo =new medoo();
-$languagedb = new LanguageController($app,$medoo);
 $globalobj =new GlobalController();
+$languagedb = new LanguageController($app,$medoo);
+$curricullumdb = new CurricullumController($app,$medoo);
+
 //----Define enviroment variables-----------------------------
 $env = $app->environment();
-$env['languagedb'] = $languagedb;
 $env['globalobj'] = $globalobj;
+$env['languagedb'] = $languagedb;
+$env['curricullumdb'] = $curricullumdb;
+
 
 //------------------------------------------------------------
 //-----------------Homepage-----------------------------------
@@ -130,7 +136,7 @@ EOT;
 
 //---------Set Base Url for css and scripts----------
 $app->hook('slim.before', function () use ($app) {
-    $app->view()->appendData(array('basepath' => '/CV2','templatepath'=>'/CV2/Backend'      ));
+    $app->view()->appendData(array('basepath' => '/CV2','templatepath'=>'/CV2/Backend','backendtitle'=>'CV Maker'));
 });
 //---------------------------------------------------
 
@@ -185,5 +191,68 @@ $app->post(
     })->name('deletelanguage');
 
 //-----------------End Language CRUD----------------------
+    
+//-----------------Curricullum CRUD---------------------
+$app->get(
+    '/curricullumlist',
+    function () use($app,$env) {
+
+        $env['curricullumdb']->rendergridview('Views/Curricullum/curricullumcontent.php');
+
+    })->name('curricullumlist');
+
+$app->get(
+    '/newcurricullum',
+    function () use($app,$env) {
+        $env['curricullumdb']->rendernewview('','','','','','','Views/Curricullum/curriculluminsertcontent.php');
+        
+    })->name('newcurricullum');
+
+$app->post(
+    '/newcurricullum',
+    function () use($app,$env) {
+
+        $env['curricullumdb']->addnewitem($env['globalobj']->getcurrentuser()
+                ,htmlEntities($app->request()->post('name'))
+                ,htmlEntities($app->request()->post('maintext'))
+                ,htmlEntities($app->request()->post('aboutme'))
+                ,htmlEntities($app->request()->post('contactdetails'))
+                ,htmlEntities($app->request()->post('mainskills'))
+                ,'Views/Language/languageinsertcontent.php') ;
+        
+    })->name('insertcurricullum');
+
+$app->get(
+    '/editcurricullum/:id',
+    function ($id) use($app,$env) {
+        $env['curricullumdb']->rendereditview($id,'Views/Curricullum/Curricullumeditcontent.php');
+
+    })->name('editcurricullum');
+
+$app->post(
+    '/updatecurricullum',
+    function () use($app,$env) {
+    $env['curricullumdb']->updateitem($env['globalobj']->getcurrentuser()
+                ,htmlEntities($app->request()->post('name'))
+                ,htmlEntities($app->request()->post('maintext'))
+                ,htmlEntities($app->request()->post('aboutme'))
+                ,htmlEntities($app->request()->post('contactdetails'))
+                ,htmlEntities($app->request()->post('mainskills')));
+    })->name('updatecurricullum');  
+
+$app->get(
+    '/viewcurricullum/:id',
+    function ($id) use($app,$env) {
+        $env['curricullumdb']->renderdeleteview($id,'Views/Curricullum/deletecurricullumcontent.php');
+
+    })->name('viewcurricullum');
+
+$app->post(
+    '/deletecurricullum',
+    function () use($app,$env) {
+        $env['curricullumdb']->deleteitem(htmlEntities($app->request()->post('id')));
+    })->name('deletecurricullum');
+
+//-----------------End Curricullum CRUD----------------------
 
 $app->run();

@@ -1,4 +1,4 @@
-<script src="Backend/Views/Language/validatelanguage.js"></script>
+<script src="<?php echo $templatepath.'/Views/Language/validatelanguage.js';?>"></script>
 <label class="error"><?php echo $errormessage;?></label><br>
 <form id="appform" method="post" action="<?php echo $selfurl;?>">
     <table width="400" border="0" cellspacing="1" cellpadding="2">

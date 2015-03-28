@@ -1,40 +1,6 @@
-<?php
-require_once '../../Controller/CurricullumController.php';
-$db=new CurricullumController();
-if (!empty($_GET))
-{
-    $id=$_GET['id'];
-    $datas=$db->getcurricullumbyid($id);
-    foreach($datas as $data)
-    {
-        
-        $name = $data["name"];
-        $maintext =$data["maintext"];
-        $aboutme =$data["aboutme"];
-        $contactdetails=$data["contactdetails"];
-        $mainskills=$data["mainskills"];
-
-        $_SESSION["idold"] = $id;
-    }
-}
-
-if (!empty($_POST))
-
-{
-
-    $id=$_SESSION["idold"];
-
-    $username ="admin";
-
-    $db->deletecurricullum($id,'curricullumcontent.php');
-
-}
-?>
-
-
 <div><h3>Are you sure you want to delete this Curricullum?</h3></div>
 <br>
-<form id="appform" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+<form id="appform" method="post" action="<?php echo $deleteurl;?>">
     <table width="400" border="0" cellspacing="1" cellpadding="2">
        
         <tr>
@@ -67,6 +33,6 @@ if (!empty($_POST))
     <br>
     <div class="options btn-group">
         <input  id ="deletebutton" class="btn btn-primary" type="submit" value="Delete" />
-        <input onClick="window.location.href='curricullumcontent.php'"id ="cancelbutton" class=" btn input-small"  value="Cancel" />
+        <input onClick="window.location.href='<?php echo $listurl;?>'"id ="cancelbutton" class=" btn input-small"  value="Cancel" />
     </div>
 </form>

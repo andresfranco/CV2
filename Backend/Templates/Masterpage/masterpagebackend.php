@@ -11,9 +11,8 @@ $globalobj=new GlobalController();
 	
 	<!-- start: Meta -->
 	<meta charset="utf-8">
-	<title>CV Maker</title>
-	<meta name="description" content="CV Maker">
-	<meta name="author" content="Dennis Ji">
+	<title><?php echo $backendtitle; ?></title>
+	<meta name="description" content="<?php echo $backendtitle; ?>">
 	<meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 	<!-- end: Meta -->
 	
@@ -96,8 +95,8 @@ $globalobj=new GlobalController();
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-                                            <li><a href="/CV2/languages"><i class="icon-flag"></i><span class="hidden-tablet"> Languages</span></a></li>
-						<li><a href="../../Views/Curricullum/curricullumcontent.php"><i class="icon-file"></i><span class="hidden-tablet"> Curricullum</span></a></li>
+                                            <li><a href="<?php echo $basepath.'/languages';?>"><i class="icon-flag"></i><span class="hidden-tablet"> Languages</span></a></li>
+						<li><a href="<?php echo $basepath.'/curricullumlist';?>"><i class="icon-file"></i><span class="hidden-tablet"> Curricullum</span></a></li>
                                                 <li><a href="../../Views/Translation/translationcontent.php"><i class="icon-repeat"></i><span class="hidden-tablet"> Translation</span></a></li>
 						<li><a href="ui.html"><i class="icon-book"></i><span class="hidden-tablet"> Education</span></a></li>
 						<li><a href="widgets.html"><i class="icon-dashboard"></i><span class="hidden-tablet"> Work</span></a></li>
@@ -168,7 +167,7 @@ $globalobj=new GlobalController();
 	<footer>
 
 		<p>
-			<span style="text-align:left;float:left">&copy; 2013 <a href="http://jiji262.github.io/Bootstrap_Metro_Dashboard/" alt="Bootstrap_Metro_Dashboard">Bootstrap Metro Dashboard</a></span>
+			<span>&copy; 2013 <a href="http://jiji262.github.io/Bootstrap_Metro_Dashboard/" alt="Bootstrap_Metro_Dashboard">Bootstrap Metro Dashboard</a></span>
 			
 		</p>
 
