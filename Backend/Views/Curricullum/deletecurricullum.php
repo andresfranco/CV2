@@ -35,4 +35,5 @@
         <input  id ="deletebutton" class="btn btn-primary" type="submit" value="Delete" />
         <input onClick="window.location.href='<?php echo $listurl;?>'"id ="cancelbutton" class=" btn input-small"  value="Cancel" />
     </div>
+    <input type="hidden" id="id" name="id"  value="<?php echo $id;?>">
 </form>

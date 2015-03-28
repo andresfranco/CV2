@@ -218,14 +218,14 @@ $app->post(
                 ,htmlEntities($app->request()->post('aboutme'))
                 ,htmlEntities($app->request()->post('contactdetails'))
                 ,htmlEntities($app->request()->post('mainskills'))
-                ,'Views/Language/languageinsertcontent.php') ;
+                ,'Views/Curricullum/curriculluminsertcontent.php') ;
         
     })->name('insertcurricullum');
 
 $app->get(
     '/editcurricullum/:id',
     function ($id) use($app,$env) {
-        $env['curricullumdb']->rendereditview($id,'Views/Curricullum/Curricullumeditcontent.php');
+        $env['curricullumdb']->rendereditview($id,'Views/Curricullum/curricullumeditcontent.php');
 
     })->name('editcurricullum');
 
@@ -233,6 +233,7 @@ $app->post(
     '/updatecurricullum',
     function () use($app,$env) {
     $env['curricullumdb']->updateitem($env['globalobj']->getcurrentuser()
+                ,htmlEntities($app->request()->post('id'))
                 ,htmlEntities($app->request()->post('name'))
                 ,htmlEntities($app->request()->post('maintext'))
                 ,htmlEntities($app->request()->post('aboutme'))

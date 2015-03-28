@@ -74,7 +74,7 @@ function rendereditview($id,$renderpath)
         $contactdetails =$data["contactdetails"];
         $mainskills =$data["mainskills"];
     }
-    $this->app->render($renderpath,array('name'=>$name 
+    $this->app->render($renderpath,array('id'=>$id,'name'=>$name
             ,'maintext'=>$maintext
             ,'aboutme'=>$aboutme
             ,'contactdetails'=>$contactdetails
@@ -95,7 +95,7 @@ function renderdeleteview($id,$renderpath)
         $contactdetails =$data["contactdetails"];
         $mainskills =$data["mainskills"];
     }
-    $this->app->render($renderpath,array('name'=>$name 
+    $this->app->render($renderpath,array('id'=>$id,'name'=>$name
             ,'maintext'=>$maintext
             ,'aboutme'=>$aboutme
             ,'contactdetails'=>$contactdetails
@@ -103,9 +103,75 @@ function renderdeleteview($id,$renderpath)
             ,'deleteurl'=>$this->app->urlFor('deletecurricullum')
             ,'listurl'=>$this->app->urlFor('curricullumlist')));
 }
-   
 
-    function insertcurricullum($username,$name ,$maintext,$aboutme,$contactdetails,$mainskills,$redirecturl)
+    function validateinsert($name)
+    {
+        //Validate if exist
+        $count =$this->findcurricullum($name);
+        $errormessage="";
+        if($count>0)
+        {
+            $errormessage= '<div class="alert alert-error">The curricullum with name : "'.$name. '" already exist</div>';
+
+        }
+        return $errormessage;
+    }
+
+
+    function addnewitem($username,$name,$maintext,$aboutme,$contactdetails,$mainskills,$renderpath)
+    {
+        $errormessage = $this->validateinsert($name);
+
+        if($errormessage=="")
+        {
+            $this->insertcurricullum($username,$name,$maintext,$aboutme,$contactdetails,$mainskills);
+
+            $this->app->response->redirect($this->app->urlFor('curricullumlist'), array('newurl'=>$this->app->urlFor('newcurricullum') ,'editurl'=>$this->editurl,'deleteurl'=>$this->deleteurl));
+
+        }
+        else
+        {
+            $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('curricullumlist')
+            ,'selfurl'=>$this->app->urlFor('newcurricullum')
+            ,'name'=>$name
+            ,'maintext'=>$maintext
+            ,'aboutme'=>$aboutme
+            ,'contactdetails'=>$contactdetails
+            ,'mainskills'=>$mainskills
+            ,'errormessage'=>$errormessage));
+        }
+
+
+    }
+
+    function updateitem($username,$id,$name,$maintext,$aboutme,$contactdetails,$mainskills)
+    {
+        $this->updatecurricullum($id, $username, $name, $maintext, $aboutme, $contactdetails, $mainskills);
+        $this->app->response->redirect(
+            $this->app->urlFor('curricullumlist'),
+            array(
+                'newurl' => $this->app->urlFor('newcurricullum'),
+                'editurl' => $this->editurl,
+                'deleteurl' => $this->deleteurl
+            )
+        );
+
+    }
+
+        function deleteitem($id)
+        {
+            $this->deletecurricullum($id);
+            $this->app->response->redirect(
+                $this->app->urlFor('curricullumlist'),
+                array(
+                    'newurl' => $this->app->urlFor('newcurricullum'),
+                    'editurl' => $this->editurl,
+                    'deleteurl' => $this->deleteurl
+                )
+            );
+        }
+
+        function insertcurricullum($username,$name ,$maintext,$aboutme,$contactdetails,$mainskills)
     {
 
         $dt = date('Y-m-d H:i:s');
@@ -122,7 +188,7 @@ function renderdeleteview($id,$renderpath)
             "modifydate" => $dt 
          ]);
 
-        header('Location: '.$redirecturl);
+
 
     }
 
@@ -135,7 +201,7 @@ function renderdeleteview($id,$renderpath)
         return $sth;
 
     }
-    function updatecurricullum($id,$username,$name,$maintext,$aboutme,$contactdetails,$mainskills,$redirecturl)
+    function updatecurricullum($id,$username,$name,$maintext,$aboutme,$contactdetails,$mainskills)
     {
 
         $dt = date('Y-m-d H:i:s');
@@ -155,11 +221,9 @@ function renderdeleteview($id,$renderpath)
 
 
 
-        header('Location: '.$redirecturl);
-
     }
 
-    function deletecurricullum($id,$redirecturl)
+    function deletecurricullum($id)
     {
 
         $this->database->delete("curricullum", [
@@ -170,7 +234,7 @@ function renderdeleteview($id,$renderpath)
 
         ]);
 
-        header('Location: '.$redirecturl);
+
     }
 
     function findcurricullum($name)
