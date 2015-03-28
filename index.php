@@ -5,7 +5,7 @@ require_once 'Backend/libraries/medoo.php';
 require_once 'Backend/Controller/GlobalController.php';
 require_once 'Backend/Controller/LanguageController.php';
 require_once 'Backend/Controller/CurricullumController.php';
-
+require_once 'Backend/Controller/TranslationController.php';
 
 \Slim\Slim::registerAutoloader();
 //------------------------------------------------------------
@@ -21,12 +21,14 @@ $medoo =new medoo();
 $globalobj =new GlobalController();
 $languagedb = new LanguageController($app,$medoo);
 $curricullumdb = new CurricullumController($app,$medoo);
+$translationdb = new TranslationController($app,$medoo);
 
 //----Define enviroment variables-----------------------------
 $env = $app->environment();
 $env['globalobj'] = $globalobj;
 $env['languagedb'] = $languagedb;
 $env['curricullumdb'] = $curricullumdb;
+$env['translationdb'] = $translationdb;
 
 
 //------------------------------------------------------------
@@ -255,5 +257,74 @@ $app->post(
     })->name('deletecurricullum');
 
 //-----------------End Curricullum CRUD----------------------
+
+//-----------------Translation CRUD----------------------
+$app->get(
+    '/translations',
+    function () use($app,$env) {
+
+        $env['translationdb']->rendergridview('Views/Translation/translationcontent.php');
+
+    })->name('translations');
+
+$app->get(
+    '/newtranslation',
+    function () use($app,$env) {
+        $env['translationdb']->rendernewview('','','','','','Views/Translation/translationinsertcontent.php');
+
+    })->name('newtranslation');
+
+$app->post(
+    '/newtranslation',
+    function () use($app,$env) {
+
+        $env['translationdb']->addnewitem($env['globalobj']->getcurrentuser()
+            ,htmlEntities($app->request()->post('id'))
+            ,htmlEntities($app->request()->post('translations'))
+            ,'Views/Translation/translationinsertcontent.php') ;
+
+    })->name('inserttranslation');
+
+$app->get(
+    '/edittranslation/:id',
+    function ($id) use($app,$env) {
+        $env['translationdb']->rendereditview($id,'Views/Translation/translationeditcontent.php');
+
+    })->name('edittranslation');
+
+$app->post(
+    '/updatetranslation',
+    function () use($app,$env) {
+        $env['translationdb']->updateitem($env['globalobj']->getcurrentuser()
+            ,htmlEntities($app->request()->post('id'))
+            ,htmlEntities($app->request()->post('objectcode'))
+            ,htmlEntities($app->request()->post('parentid'))
+            ,htmlEntities($app->request()->post('objectid'))
+            ,htmlEntities($app->request()->post('languagecode'))
+            ,htmlEntities($app->request()->post('field'))
+        )
+
+           ;
+    })->name('updatetranslation');
+
+$app->get(
+    '/viewtranslation/:id',
+    function ($id) use($app,$env) {
+        $env['translationdb']->renderdeleteview($id,'Views/Translation/deletetranslationcontent.php');
+
+    })->name('viewtranslation');
+
+$app->post(
+    '/deletetranslation',
+    function () use($app,$env) {
+        $env['translationdb']->deleteitem(htmlEntities($app->request()->post('id')));
+    })->name('deletetranslation');
+
+
+
+
+//-----------------End TranslationCRUD----------------------
+
+
 
 $app->run();

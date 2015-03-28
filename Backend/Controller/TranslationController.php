@@ -2,11 +2,24 @@
 Class TranslationController
 {
     private $database;
-    public function __construct() {
+    private $editurl;
+    private $deleteurl;
+    public function __construct($app,$medoo) {
 
-        $this->database =new medoo();
+        $this->database =$medoo;
+        $this->app=$app;
+        $this->editurl ='edittranslation';
+        $this->deleteurl='viewtranslation';
 
     }
+    function rendergridview($renderpath)
+    {
+
+        $this->app->render($renderpath,
+            array('newurl'=>$this->app->urlFor('newtranslation'),'editurl'=>$this->editurl,'deleteurl'=>$this->deleteurl,'translationobj'=>$this));
+
+    }
+
 function inserttranslation($username,$objectcode,$parentid,$objectid,$languagecode,$field,$content,$redirecturl)
     {
 
