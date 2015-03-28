@@ -39,7 +39,6 @@ Class CurricullumController {
         $sth->execute();
         return $sth;
 
-
     }
     function updatecurricullum($id,$username,$name,$maintext,$aboutme,$contactdetails,$mainskills,$redirecturl)
     {
