@@ -19,8 +19,178 @@ Class TranslationController
             array('newurl'=>$this->app->urlFor('newtranslation'),'editurl'=>$this->editurl,'deleteurl'=>$this->deleteurl,'translationobj'=>$this));
 
     }
+    
+     function buildgrid($editurl,$deleteurl)
+  {
+   $result =$this->getall(); 
+   echo'<table class="table table-striped table-bordered bootstrap-datatable datatable">
+        <thead>
+        <th>Object Code</th>
+        <th>Parent ID</th>
+        <th>Object ID</th>
+        <th>Language</th>
+        <th>Field</th>
+        <th>Content</th>
+        <th>Actions</th>
+        </thead>   
+        <tbody>';
+        foreach ($result as $row) 
+        {
+         echo '<tr>';
+         echo '<td>'. $row['objectcode'] . '</td>';
+         echo '<td>'. $row['parentid'] . '</td>';
+         echo '<td>'. $row['objectid'] . '</td>';
+         echo '<td>'. $row['languagecode'] . '</td>';
+         echo '<td>'. $row['field'] . '</td>';
+         echo '<td>'. $row['content'] . '</td>';
+         echo '<td class="center">
+         <a class="btn btn-info" href="'.$editurl.'/'.$row['id'].'">
+	 <i class="halflings-icon white edit"></i>  
+	 </a>
+	 <a href ="'.$deleteurl.'/'.$row['id'].'" class="btn btn-danger">
+	 <i class="halflings-icon white trash"></i> 
+	 </a>
+	 </td>';
+         echo '</tr>';
+        }
+       echo'</tbody></table>';
+   }
+   
+   function rendernewview($objectcode,$parentid,$objectid,$languagecode,$field,$content,$errormessage,$renderpath)
+{
+    $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('translations')
+            ,'selfurl'=>$this->app->urlFor('newtranslation')
+            ,'objectcode'=>$objectcode
+            ,'parentid'=>$parentid
+            ,'objectid'=>$objectid
+            ,'languagecode'=>$languagecode
+            ,'field'=>$field
+            ,'content'=>$content
+            ,'errormessage'=>$errormessage));
 
-function inserttranslation($username,$objectcode,$parentid,$objectid,$languagecode,$field,$content,$redirecturl)
+}
+
+function rendereditview($id,$globalobj,$renderpath)
+{
+
+    $datas=$this->gettranslationbyid($id);
+    foreach($datas as $data)
+    {
+        $objectcode = $data["objectcode"];
+        $parentid =$data["parentid"];
+        $objectid =$data["objectid"];
+        $languagecode =$data["languagecode"];
+        $field =$data["field"];
+        $content=$data["content"];
+    }
+    $this->app->render($renderpath,array('id'=>$id
+            ,'objectcode'=>$objectcode
+            ,'parentid'=>$parentid
+            ,'objectid'=>$objectid
+            ,'languagecode'=>$languagecode
+            ,'field'=>$field
+            ,'content'=>$content
+            ,'updateurl'=>$this->app->urlFor('updatetranslation')
+            ,'listurl'=>$this->app->urlFor('translations')
+            ,'db'=>$this
+            ,'globalobj'=>$globalobj));
+
+}
+
+function renderdeleteview($id,$globalobj,$renderpath)
+{
+   $datas=$this->gettranslationbyid($id);
+    foreach($datas as $data)
+    {
+        $objectcode = $data["objectcode"];
+        $parentid =$data["parentid"];
+        $objectid =$data["objectid"];
+        $languagecode =$data["languagecode"];
+        $field =$data["field"];
+        $content=$data["content"];
+    }
+    $this->app->render($renderpath,array('id'=>$id
+             ,'objectcode'=>$objectcode
+            ,'parentid'=>$parentid
+            ,'objectid'=>$objectid
+            ,'languagecode'=>$languagecode
+            ,'field'=>$field
+            ,'content'=>$content
+            ,'deleteurl'=>$this->app->urlFor('deletetranslation')
+            ,'listurl'=>$this->app->urlFor('translations'),'globalobj'=>$globalobj,'db'=>$this));
+}
+
+
+
+function validateinsert($objectcode, $parentid, $objectid, $languagecode, $field)
+    {
+        //Validate if exist
+        $count =$this->findtranslation($objectcode, $parentid, $objectid, $languagecode, $field);
+        $errormessage="";
+        if($count>0)
+        {
+            $errormessage= '<div class="alert alert-error">The translation already exist</div>';
+
+        }
+        return $errormessage;
+    }
+
+
+    function addnewitem($username,$objectcode, $parentid, $objectid, $languagecode,$field,$content,$renderpath)
+    {
+        $errormessage = $this->validateinsert($objectcode, $parentid, $objectid, $languagecode, $field);
+
+        if($errormessage=="")
+        {
+            $this->inserttranslation($username, $objectcode, $parentid, $objectid, $languagecode, $field, $content);
+
+            $this->app->response->redirect($this->app->urlFor('translations'), array('newurl'=>$this->app->urlFor('newtranslation') ,'editurl'=>$this->editurl,'deleteurl'=>$this->deleteurl));
+
+        }
+        else
+        {
+            $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('translations')
+            ,'selfurl'=>$this->app->urlFor('newtranslation')
+            ,'objectcode'=>$objectcode
+            ,'parentid'=>$parentid
+            ,'objectid'=>$objectid
+            ,'languagecode'=>$languagecode
+            ,'field'=>$field
+            ,'content'=>$content
+            ,'errormessage'=>$errormessage));
+        }
+
+
+    }
+  
+   function updateitem($username,$id,$objectcode, $parentid, $objectid, $languagecode,$field,$content)
+    {
+        $this->updatetranslation($id, $username, $objectcode, $parentid, $objectid, $languagecode, $field, $content);
+        $this->app->response->redirect(
+            $this->app->urlFor('translations'),
+            array(
+                'newurl' => $this->app->urlFor('newtranslation'),
+                'editurl' => $this->editurl,
+                'deleteurl' => $this->deleteurl
+            )
+        );
+
+    }
+
+        function deleteitem($id)
+        {
+            $this->deletetranslation($id);
+            $this->app->response->redirect(
+                $this->app->urlFor('translations'),
+                array(
+                    'newurl' => $this->app->urlFor('newtranslation'),
+                    'editurl' => $this->editurl,
+                    'deleteurl' => $this->deleteurl
+                )
+            );
+        }   
+
+function inserttranslation($username,$objectcode,$parentid,$objectid,$languagecode,$field,$content)
     {
 
         $dt = date('Y-m-d H:i:s');
@@ -38,8 +208,6 @@ function inserttranslation($username,$objectcode,$parentid,$objectid,$languageco
             "modifydate" => $dt 
          ]);
 
-        header('Location: '.$redirecturl);
-
     }
 
     function getall()
@@ -52,7 +220,7 @@ function inserttranslation($username,$objectcode,$parentid,$objectid,$languageco
 
 
     }
-    function updatetranslation($id,$username,$objectcode,$parentid,$objectid,$languagecode,$field,$content,$redirecturl)
+    function updatetranslation($id,$username,$objectcode,$parentid,$objectid,$languagecode,$field,$content)
     {
 
         $dt = date('Y-m-d H:i:s');
@@ -73,13 +241,9 @@ function inserttranslation($username,$objectcode,$parentid,$objectid,$languageco
             "id[=]" => $id
         ]);
 
-
-
-        header('Location: '.$redirecturl);
-
     }
 
-    function deletetranslation($id,$redirecturl)
+    function deletetranslation($id)
     {
 
         $this->database->delete("translation", [
@@ -90,7 +254,6 @@ function inserttranslation($username,$objectcode,$parentid,$objectid,$languageco
 
         ]);
 
-        header('Location: '.$redirecturl);
     }
 
     function findtranslation($objectcode,$parentid,$objectid,$languagecode, $field)
@@ -175,7 +338,7 @@ if ($objectcode !="cv")
 }else
 {
 echo '<select id="parentid" name="parentid">
-                          <option value="0">No parent needed</option>
+                          <option value="-1">No parent needed</option>
                           </select>
           '  ;  
     
@@ -249,6 +412,93 @@ echo '<select id="parentid" name="parentid">
         }
         $globalobj->gettablefields($databasename, $tablename,$field);
     }
+    
+    function getfieldsajax($objectcode,$field,$globalobj,$databasename)
+    {
+       switch ($objectcode) {
+    case "cv":
+        $tablename='curricullum';
+        break;
+    case "ed":
+        $tablename='education';
+        break;
+    case "sk":
+        $tablename='skill';
+        break;
+    case "wo":
+       $tablename='work';
+        break;
+      case "pr":
+       $tablename='project';
+        break;
+  case "pt":
+       $tablename='project_tag';
+       
+        break;
+   }
+    return $globalobj->gettablefields($databasename,$tablename,$field);   
+        
+    }
+    
+    
+   function getparentajax($objectcode,$globalobj)
+   {
+   
+    if ($objectcode=="pt")
+    { 
+     $tablename ="project";  
+    }
+    else
+   {
+    $tablename ="curricullum";  
+    }    
+    if ($objectcode !="cv")
+   {
+   $globalobj->getparentselect('','',$objectcode,$tablename);   
+    
+   }else
+   {
+    echo '<select id="parentid" name="parentid" disabled>
+                          <option value="-1">No parent needed</option>
+                          </select>
+          '  ;  
+   }   
+       
+   } 
+   
+   function getobjectidlistajax($globalobj)
+   {
+     $globalobj->getcurricullumselect('','');   
+   }
+   
+   function getobjects($objectcode,$parentid,$globalobj)
+   {
+   $filterffield="curricullumid";
+    switch ($objectcode) {
+     case "ed":
+        $tablename='education';
+        $fielddesc ="institution";
+        break;
+    case "sk":
+        $tablename='skill';
+        $fielddesc ="skill";
+        break;
+    case "wo":
+       $tablename='work';
+       $fielddesc ="company";
+        break;
+      case "pr":
+       $tablename='project';
+       $fielddesc ="name";   
+        break;
+  case "pt":
+       $tablename='project_tag';
+       $fielddesc ="tagname";
+       $filterffield="projectid";
+        break;
+   }
+    $globalobj->getselectoptionsbytable($parentid,$tablename,$fielddesc,$filterffield); 
+   }
     
             
 }

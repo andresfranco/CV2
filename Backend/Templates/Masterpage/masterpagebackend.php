@@ -97,7 +97,7 @@ $globalobj=new GlobalController();
 					<ul class="nav nav-tabs nav-stacked main-menu">
                                             <li><a href="<?php echo $basepath.'/languages';?>"><i class="icon-flag"></i><span class="hidden-tablet"> Languages</span></a></li>
 						<li><a href="<?php echo $basepath.'/curricullumlist';?>"><i class="icon-file"></i><span class="hidden-tablet"> Curricullum</span></a></li>
-                                                <li><a href="../../Views/Translation/translationcontent.php"><i class="icon-repeat"></i><span class="hidden-tablet"> Translation</span></a></li>
+                                                <li><a href="<?php echo $basepath.'/translations';?>"><i class="icon-repeat"></i><span class="hidden-tablet"> Translation</span></a></li>
 						<li><a href="ui.html"><i class="icon-book"></i><span class="hidden-tablet"> Education</span></a></li>
 						<li><a href="widgets.html"><i class="icon-dashboard"></i><span class="hidden-tablet"> Work</span></a></li>
 						<li><a href="form.html"><i class="icon-edit"></i><span class="hidden-tablet"> Projects</span></a></li>

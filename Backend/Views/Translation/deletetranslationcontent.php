@@ -2,6 +2,6 @@
 $link='translationcontent.php';
 $option ='Translation/';
 $route ='Delete Translation';
-$page_content = 'deletetranslation.php';
-include('../../Templates/Masterpage/masterpagebackend.php');
+$page_content = 'Backend/Views/Translation/deletetranslation.php';
+include('Backend/Templates/Masterpage/masterpagebackend.php');
 ?>

@@ -1,8 +1,8 @@
 $(function() {
     $.validator.addMethod("valueNotEquals", function(value, element, arg){
-     
-     
-         return arg != value;
+          
+        return arg != value;
+         
      
    }, "");
     

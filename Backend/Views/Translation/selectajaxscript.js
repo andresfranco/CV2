@@ -22,10 +22,10 @@ function getfields()
   //{
    $.ajax({
     type:'post',
-    url:'getfileds.php',
+    url:'getfieldsajax',
     data:{objectcode:objectcode,objectid:objectid},
     cache:false,
-    success: function(returndata){
+    success: function(returndata){ 
      $('#field').html(returndata);
     }
 
@@ -37,7 +37,7 @@ function getparent()
     var objectcode = $('#objectcode').val(); 
    $.ajax({
     type:'post',
-    url:'getparent.php',
+    url:'getparentajax',
     data:{objectcode:objectcode},
     cache:false,
     success: function(returndata){
@@ -55,7 +55,7 @@ function getobjectid()
   {
    $.ajax({
     type:'post',
-    url:'getobjectidlist.php',
+    url:'getobjectidlistajax',
     data:{id:objectcode},
     cache:false,
     success: function(returndata){
@@ -69,7 +69,7 @@ function getobjectid()
       
     $.ajax({
     type:'post',
-    url:'getobjects.php',
+    url:'getobjectsajax',
     data:{objectcode:objectcode,parentid:parentid},
     cache:false,
     success: function(returndata){
@@ -78,18 +78,10 @@ function getobjectid()
 
    });  
   }    
-  //if(objectcode != 0)
-  //{
-    
-    
+  
 }
 
 
- function objectcodechange()
- {
- 
-  //}
- }
  
 })
 

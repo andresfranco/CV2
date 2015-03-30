@@ -2,6 +2,6 @@
 $link='translationcontent.php';
 $option ='Translation/';
 $route ='Edit Translation';
-$page_content = 'translationedit.php';
-include('../../Templates/Masterpage/masterpagebackend.php');
+$page_content = 'Backend/Views/Translation/translationedit.php';
+include('Backend/Templates/Masterpage/masterpagebackend.php');
 ?>

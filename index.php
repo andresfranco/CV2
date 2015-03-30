@@ -1,13 +1,14 @@
 <?php
 //---------------Require Classes----------------------------
 require 'Slim/Slim.php';
+
 require_once 'Backend/libraries/medoo.php';
 require_once 'Backend/Controller/GlobalController.php';
 require_once 'Backend/Controller/LanguageController.php';
 require_once 'Backend/Controller/CurricullumController.php';
 require_once 'Backend/Controller/TranslationController.php';
 
-\Slim\Slim::registerAutoloader();
+\Slim\Slim::registerAutoloader();	
 //------------------------------------------------------------
 
 // Configure Slim --------------------------------------------
@@ -270,25 +271,56 @@ $app->get(
 $app->get(
     '/newtranslation',
     function () use($app,$env) {
-        $env['translationdb']->rendernewview('','','','','','Views/Translation/translationinsertcontent.php');
+        $env['translationdb']->rendernewview('','','','','','','','Views/Translation/translationinsertcontent.php');
 
     })->name('newtranslation');
 
 $app->post(
     '/newtranslation',
     function () use($app,$env) {
-
         $env['translationdb']->addnewitem($env['globalobj']->getcurrentuser()
-            ,htmlEntities($app->request()->post('id'))
-            ,htmlEntities($app->request()->post('translations'))
+            ,htmlEntities($app->request()->post('objectcode'))
+            ,htmlEntities($app->request()->post('parentid'))    
+            ,htmlEntities($app->request()->post('objectid'))
+            ,htmlEntities($app->request()->post('languagecode'))
+            ,htmlEntities($app->request()->post('field'))
+            ,htmlEntities($app->request()->post('content'))    
             ,'Views/Translation/translationinsertcontent.php') ;
 
     })->name('inserttranslation');
+    
+  $app->post(
+    '/getfieldsajax',
+    function () use($app,$env) {
+     $env['translationdb']->getfieldsajax($app->request->post('objectcode'),$app->request->post('field'),$env['globalobj'],'curricullum');    
+    
+    })->name('getfields');  
+    
+   $app->post(
+    '/getparentajax',
+    function () use($app,$env) {
+     $env['translationdb']->getparentajax($app->request->post('objectcode'),$env['globalobj']);  
+       
+    })->name('getparent');  
+    
+    $app->post(
+    '/getobjectidlistajax',
+    function () use($app,$env) {
+     $env['translationdb']->getobjectidlistajax($env['globalobj']);  
+       
+    })->name('getobjectidlist');
+    
+     $app->post(
+    '/getobjectsajax',
+    function () use($app,$env) {
+     $env['translationdb']->getobjects($app->request->post('objectcode'),$app->request->post('parentid'),$env['globalobj']);  
+       
+    })->name('getobjects');
 
 $app->get(
     '/edittranslation/:id',
     function ($id) use($app,$env) {
-        $env['translationdb']->rendereditview($id,'Views/Translation/translationeditcontent.php');
+        $env['translationdb']->rendereditview($id,$env['globalobj'],'Views/Translation/translationeditcontent.php');
 
     })->name('edittranslation');
 
@@ -302,6 +334,7 @@ $app->post(
             ,htmlEntities($app->request()->post('objectid'))
             ,htmlEntities($app->request()->post('languagecode'))
             ,htmlEntities($app->request()->post('field'))
+            ,htmlEntities($app->request()->post('content'))
         )
 
            ;
@@ -310,7 +343,7 @@ $app->post(
 $app->get(
     '/viewtranslation/:id',
     function ($id) use($app,$env) {
-        $env['translationdb']->renderdeleteview($id,'Views/Translation/deletetranslationcontent.php');
+        $env['translationdb']->renderdeleteview($id,$env['globalobj'],'Views/Translation/deletetranslationcontent.php');
 
     })->name('viewtranslation');
 
@@ -325,6 +358,8 @@ $app->post(
 
 //-----------------End TranslationCRUD----------------------
 
-
+//-----------------TEST--------------------------
+   
+//-----------------End TESTS---------------------- 
 
 $app->run();

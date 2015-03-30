@@ -1,48 +1,6 @@
-<?php
-require_once '../../Controller/TranslationController.php';
-$globalobj=new GlobalController();
-$db=new TranslationController();
-$errormessage="";
-$username =$globalobj->getcurrentuser();
-$parentid ="";
-$objectcode="";
-if (!empty($_GET))
-{    
-$id=$_GET['id'];
-$datas=$db->gettranslationbyid($id);
-foreach($datas as $data)
-{
-$objectcode =$data['objectcode'];
-$parentid =$data['parentid'];
-$objectid=$data['objectid']; 
-$languagecode=$data['languagecode']; 
-$field=$data['field']; 
-$content=$data['content']; 
-$_SESSION["idold"] = $id;
-}
-}
-
-if (!empty($_POST))
-
-{
-    $id=$_SESSION["idold"];
-    $objectcode =$_POST['objectcode'];
-    $parentid =$_POST['parentid'];  
-    $objectid=$_POST['objectid']; 
-    $languagecode=$_POST['languagecode']; 
-    $field=$_POST['field']; 
-    $content=$_POST['content']; 
-    
-    $db->updatetranslation($id, $username, $objectcode,$parentid,$objectid, $languagecode, $field, $content, 'translationcontent.php');
-       
-}
-?>
-<script src="validatetranslation.js"></script>
-<script src="selectajaxscript.js"></script>
-
-</script>
-<label class="error"><?php echo $errormessage;?></label><br>
-<form id="appform" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+<script src="<?php echo $templatepath.'/Views/Translation/validatetranslation.js';?>"></script>
+<script src="<?php echo $templatepath.'/Views/Translation/selectajaxscript.js';?>"></script>
+<form id="appform" method="post" action="<?php echo $updateurl;?>">
     <table width="400" border="0" cellspacing="1" cellpadding="2">
         <tr>
             <td width="100"><label class="control-label">Object Code</label></td>
@@ -84,6 +42,7 @@ if (!empty($_POST))
     <br>
     <div class="options btn-group">
         <input  id ="deletebutton" class="btn btn-primary" type="submit" value="Save" />
-        <input onClick="window.location.href='translationcontent.php'"id ="cancelbutton" class=" btn input-small"  value="Cancel" />
+        <input onClick="window.location.href='<?php echo $listurl;?>'"id ="cancelbutton" class=" btn input-small"  value="Cancel" />
     </div>
+    <input type="hidden" id="id" name="id"  value="<?php echo $id;?>">
 </form>
