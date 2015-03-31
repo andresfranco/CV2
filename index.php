@@ -1,19 +1,23 @@
 <?php
 //---------------Require Classes----------------------------
 require 'Slim/Slim.php';
-
+require_once 'Slim/View.php';
+require 'Views/Twig.php';
 require_once 'Backend/libraries/medoo.php';
 require_once 'Backend/Controller/GlobalController.php';
 require_once 'Backend/Controller/LanguageController.php';
 require_once 'Backend/Controller/CurricullumController.php';
 require_once 'Backend/Controller/TranslationController.php';
+require_once 'Backend/Controller/EducationController.php';
 
-\Slim\Slim::registerAutoloader();	
+\Slim\Slim::registerAutoloader();
+Twig_Autoloader::register();
 //------------------------------------------------------------
-
+$twigView = new Slim\Views\Twig();
 // Configure Slim --------------------------------------------
 $app = new \Slim\Slim(array(
-    'templates.path' => './Backend'
+    'templates.path' => './Backend',
+    'view' => $twigView
 ));
 //------------------------------------------------------------
 
@@ -23,6 +27,7 @@ $globalobj =new GlobalController();
 $languagedb = new LanguageController($app,$medoo);
 $curricullumdb = new CurricullumController($app,$medoo);
 $translationdb = new TranslationController($app,$medoo);
+$educationdb = new EducationController($app, $medoo);
 
 //----Define enviroment variables-----------------------------
 $env = $app->environment();
@@ -30,7 +35,7 @@ $env['globalobj'] = $globalobj;
 $env['languagedb'] = $languagedb;
 $env['curricullumdb'] = $curricullumdb;
 $env['translationdb'] = $translationdb;
-
+$env['educationdb'] = $educationdb;
 
 //------------------------------------------------------------
 //-----------------Homepage-----------------------------------
@@ -148,14 +153,14 @@ $app->get(
     '/languages',
     function () use($app,$env) {
 
-        $env['languagedb']->rendergridview('Views/Language/languagecontent.php');
+        $env['languagedb']->rendergridview('Views/Language/languagelist.html.twig');
 
     })->name('languages');
 
 $app->get(
     '/newlanguage',
     function () use($app,$env) {
-        $env['languagedb']->rendernewview('','','','Views/Language/languageinsertcontent.php');
+        $env['languagedb']->rendernewview('','','','Views/Language/languagenew.html.twig');
         
     })->name('newlanguage');
 
@@ -163,14 +168,17 @@ $app->post(
     '/newlanguage',
     function () use($app,$env) {
 
-        $env['languagedb']->addnewitem($env['globalobj']->getcurrentuser(),htmlEntities($app->request()->post('code')),htmlEntities($app->request()->post('language')),'Views/Language/languageinsertcontent.php') ;
+        $env['languagedb']->addnewitem($env['globalobj']->getcurrentuser()
+                ,htmlEntities($app->request()->post('code'))
+                ,htmlEntities($app->request()->post('language'))
+                ,'Views/Language/languagenew.html.twig') ;
         
     })->name('insertlanguage');
 
 $app->get(
     '/editlanguage/:id',
     function ($id) use($app,$env) {
-        $env['languagedb']->rendereditview($id,'Views/Language/languageeditcontent.php');
+        $env['languagedb']->rendereditview($id,'Views/Language/languageedit.html.twig');
 
     })->name('editlanguage');
 
@@ -183,7 +191,7 @@ $app->post(
 $app->get(
     '/viewlanguage/:id',
     function ($id) use($app,$env) {
-        $env['languagedb']->renderdeleteview($id,'Views/Language/deletelanguagecontent.php');
+        $env['languagedb']->renderdeleteview($id,'Views/Language/languagedelete.html.twig');
 
     })->name('viewlanguage');
 
@@ -200,14 +208,14 @@ $app->get(
     '/curricullumlist',
     function () use($app,$env) {
 
-        $env['curricullumdb']->rendergridview('Views/Curricullum/curricullumcontent.php');
+        $env['curricullumdb']->rendergridview('Views/Curricullum/curricullumlist.html.twig');
 
     })->name('curricullumlist');
 
 $app->get(
     '/newcurricullum',
     function () use($app,$env) {
-        $env['curricullumdb']->rendernewview('','','','','','','Views/Curricullum/curriculluminsertcontent.php');
+        $env['curricullumdb']->rendernewview('','','','','','','Views/Curricullum/curricullumnew.html.twig');
         
     })->name('newcurricullum');
 
@@ -221,14 +229,14 @@ $app->post(
                 ,htmlEntities($app->request()->post('aboutme'))
                 ,htmlEntities($app->request()->post('contactdetails'))
                 ,htmlEntities($app->request()->post('mainskills'))
-                ,'Views/Curricullum/curriculluminsertcontent.php') ;
+                ,'Views/Curricullum/curricullumnew.html.twig') ;
         
     })->name('insertcurricullum');
 
 $app->get(
     '/editcurricullum/:id',
     function ($id) use($app,$env) {
-        $env['curricullumdb']->rendereditview($id,'Views/Curricullum/curricullumeditcontent.php');
+        $env['curricullumdb']->rendereditview($id,'Views/Curricullum/curricullumedit.html.twig');
 
     })->name('editcurricullum');
 
@@ -247,7 +255,7 @@ $app->post(
 $app->get(
     '/viewcurricullum/:id',
     function ($id) use($app,$env) {
-        $env['curricullumdb']->renderdeleteview($id,'Views/Curricullum/deletecurricullumcontent.php');
+        $env['curricullumdb']->renderdeleteview($id,'Views/Curricullum/curricullumdelete.html.twig');
 
     })->name('viewcurricullum');
 
@@ -264,14 +272,14 @@ $app->get(
     '/translations',
     function () use($app,$env) {
 
-        $env['translationdb']->rendergridview('Views/Translation/translationcontent.php');
+        $env['translationdb']->rendergridview('Views/Translation/translationlist.html.twig');
 
     })->name('translations');
 
 $app->get(
     '/newtranslation',
     function () use($app,$env) {
-        $env['translationdb']->rendernewview('','','','','','','','Views/Translation/translationinsertcontent.php');
+        $env['translationdb']->rendernewview('','','','','','','',$env['globalobj'],$env['translationdb'],'Views/Translation/translationnew.html.twig');
 
     })->name('newtranslation');
 
@@ -285,7 +293,7 @@ $app->post(
             ,htmlEntities($app->request()->post('languagecode'))
             ,htmlEntities($app->request()->post('field'))
             ,htmlEntities($app->request()->post('content'))    
-            ,'Views/Translation/translationinsertcontent.php') ;
+            ,'Views/Translation/translationnew.html.twig') ;
 
     })->name('inserttranslation');
     
@@ -320,7 +328,7 @@ $app->post(
 $app->get(
     '/edittranslation/:id',
     function ($id) use($app,$env) {
-        $env['translationdb']->rendereditview($id,$env['globalobj'],'Views/Translation/translationeditcontent.php');
+        $env['translationdb']->rendereditview($id,$env['globalobj'],'Views/Translation/translationedit.html.twig');
 
     })->name('edittranslation');
 
@@ -343,7 +351,7 @@ $app->post(
 $app->get(
     '/viewtranslation/:id',
     function ($id) use($app,$env) {
-        $env['translationdb']->renderdeleteview($id,$env['globalobj'],'Views/Translation/deletetranslationcontent.php');
+        $env['translationdb']->renderdeleteview($id,$env['globalobj'],'Views/Translation/translationdelete.html.twig');
 
     })->name('viewtranslation');
 
@@ -358,8 +366,69 @@ $app->post(
 
 //-----------------End TranslationCRUD----------------------
 
-//-----------------TEST--------------------------
-   
-//-----------------End TESTS---------------------- 
+//-----------------Education CRUD--------------------------
+$app->get(
+    '/educationlist',
+    function () use($app,$env) {
+
+        $env['educationdb']->rendergridview('Views/Education/educationlist.html.twig');
+
+    })->name('educationlist');
+
+$app->get(
+    '/neweducation',
+    function () use($app,$env) {
+       $env['educationdb']->rendernewview('','','','','',$env['globalobj'],'Views/Education/educationnew.html.twig');
+
+    })->name('neweducation');
+    
+ $app->post(
+    '/neweducation',
+    function () use($app,$env) {
+        $env['educationdb']->addnewitem($env['globalobj']->getcurrentuser()
+            ,htmlEntities($app->request()->post('curricullumid'))
+            ,htmlEntities($app->request()->post('institution'))    
+            ,htmlEntities($app->request()->post('degree'))
+            ,htmlEntities($app->request()->post('date'))    
+            ,'Views/Education/educationnew.html.twig') ;
+
+    })->name('inserteducation');
+    
+  $app->get(
+    '/editeducation/:id',
+    function ($id) use($app,$env) {
+        $env['educationdb']->rendereditview($id,$env['globalobj'],'Views/Education/educationedit.html.twig');
+
+    })->name('editeducation');
+
+$app->post(
+    '/updateeducation',
+    function () use($app,$env) {
+        $env['educationdb']->updateitem($env['globalobj']->getcurrentuser()
+            ,htmlEntities($app->request()->post('curricullumid'))
+            ,htmlEntities($app->request()->post('institution'))    
+            ,htmlEntities($app->request()->post('degree'))
+            ,htmlEntities($app->request()->post('date'))  
+        )
+
+           ;
+    })->name('updateeducation');
+
+$app->get(
+    '/vieweducation/:id',
+    function ($id) use($app,$env) {
+        $env['educationdb']->renderdeleteview($id,$env['globalobj'],'Views/Education/educationdelete.html.twig');
+
+    })->name('vieweducation');
+
+$app->post(
+    '/deleteeducation',
+    function () use($app,$env) {
+        $env['educationdb']->deleteitem(htmlEntities($app->request()->post('id')));
+    })->name('deleteeducation');
+  
+    
+    
+//-----------------End Education CRUD---------------------- 
 
 $app->run();

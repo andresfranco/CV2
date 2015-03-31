@@ -47,6 +47,27 @@ Class GlobalController
          echo '</select>';
     } 
     
+        function getcurricullumlist($attribute,$id)
+    {
+
+        $sth = $this->database->pdo->prepare('SELECT id ,name FROM curricullum');
+        $sth->execute();
+         echo '<select id ="curricullumid" name="curricullumid"'.$attribute.'>';
+         echo'<option value="0">Please select an option</option>';
+        $selected="";
+        foreach ($sth as $row) {
+            if ($row['id'] == $id) {
+                $selected = 'selected';
+            }
+            else
+            {$selected="";
+            }
+            echo '<option value ="'.$row['id'].'" '.$selected.' >'.$row['name'].'</option>';
+
+        }
+         echo '</select>';
+    }
+    
     function getobjectcodes($setvalue,$attribute)
     {
        $objectcodes= array("cv"=>"Curricullum", "ed"=>"Education", "sk"=>"Skill", "wo"=>"Work","pr"=>"Project","pt"=>"Proyect Tag");

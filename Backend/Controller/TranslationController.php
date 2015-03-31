@@ -4,19 +4,28 @@ Class TranslationController
     private $database;
     private $editurl;
     private $deleteurl;
+    private $mainlink;
+    private $mainoption;
     public function __construct($app,$medoo) {
 
         $this->database =$medoo;
         $this->app=$app;
         $this->editurl ='edittranslation';
         $this->deleteurl='viewtranslation';
+        $this->mainlink = '/translationlist';
+        $this->mainoption ='Translations';
 
     }
     function rendergridview($renderpath)
     {
 
         $this->app->render($renderpath,
-            array('newurl'=>$this->app->urlFor('newtranslation'),'editurl'=>$this->editurl,'deleteurl'=>$this->deleteurl,'translationobj'=>$this));
+            array('newurl'=>$this->app->urlFor('newtranslation')
+                ,'editurl'=>$this->editurl,'deleteurl'=>$this->deleteurl
+                ,'translationobj'=>$this 
+                ,'option'=>$this->mainoption
+                ,'route'=>''
+                ,'link'=>$this->mainlink));
 
     }
     
@@ -56,7 +65,7 @@ Class TranslationController
        echo'</tbody></table>';
    }
    
-   function rendernewview($objectcode,$parentid,$objectid,$languagecode,$field,$content,$errormessage,$renderpath)
+   function rendernewview($objectcode,$parentid,$objectid,$languagecode,$field,$content,$errormessage,$globalobj,$db,$renderpath)
 {
     $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('translations')
             ,'selfurl'=>$this->app->urlFor('newtranslation')
@@ -66,7 +75,12 @@ Class TranslationController
             ,'languagecode'=>$languagecode
             ,'field'=>$field
             ,'content'=>$content
-            ,'errormessage'=>$errormessage));
+            ,'errormessage'=>$errormessage
+            ,'option'=>$this->mainoption
+            ,'route'=>'New'
+            ,'link'=>$this->mainlink
+            ,'globalobj'=>$globalobj
+            ,'db'=>$db));
 
 }
 
@@ -93,7 +107,10 @@ function rendereditview($id,$globalobj,$renderpath)
             ,'updateurl'=>$this->app->urlFor('updatetranslation')
             ,'listurl'=>$this->app->urlFor('translations')
             ,'db'=>$this
-            ,'globalobj'=>$globalobj));
+            ,'globalobj'=>$globalobj
+            ,'option'=>$this->mainoption
+            ,'route'=>'Edit'
+            ,'link'=>$this->mainlink));
 
 }
 
@@ -117,7 +134,12 @@ function renderdeleteview($id,$globalobj,$renderpath)
             ,'field'=>$field
             ,'content'=>$content
             ,'deleteurl'=>$this->app->urlFor('deletetranslation')
-            ,'listurl'=>$this->app->urlFor('translations'),'globalobj'=>$globalobj,'db'=>$this));
+            ,'listurl'=>$this->app->urlFor('translations')
+            ,'globalobj'=>$globalobj
+            ,'db'=>$this
+            ,'option'=>$this->mainoption
+            ,'route'=>'Delete'
+            ,'link'=>$this->mainlink));
 }
 
 

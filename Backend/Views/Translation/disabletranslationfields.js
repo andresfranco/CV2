@@ -7,4 +7,4 @@ $(document).ready(function(){
     $('select[name=languagecode]').prop('disabled', true);
     $('#field').prop('disabled', true);
 
-})
+});

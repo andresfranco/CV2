@@ -1,0 +1,39 @@
+{% extends "Templates/Masterpage/masterbackend.html.twig" %}
+{% block content %}
+<script src="{{templatepath~'/Views/Curricullum/validatecurricullum.js'}}"></script>
+<label class="error">{{errormessage|raw}}</label><br>
+<form id="appform" method="post" action="{{selfurl}}">
+    <table width="400" border="0" cellspacing="1" cellpadding="2">
+        <tr>
+            <td width="100"><label class="control-label">{{'Name'}}</label></td>
+            <td><input id ="name" name="name" type="text" id="language" class="span6 typeahead" value="{{name|raw}}"></td>
+        </tr>
+        <tr>
+            <td width="100"><label class="control-label">{{'Main Text'}}</label></td>
+            <td width="100"><textarea class="cleditor" name="maintext" rows="3">{{maintext}}</textarea></td>
+            <td><label id ="maintexterror" name="maintexterror"></label></td>
+        </tr>
+        <tr>
+            <td width="100"><label class="control-label">{{'About Me'}}</label></td>
+            <td width="100"><textarea class="cleditor" name="aboutme"  rows="3">{{aboutme}}</textarea></td>
+            <td><label id ="aboutmeerror" name="aboutmeerror"></label></td>
+        </tr>
+        <tr>
+            <td width="100"><label class="control-label">{{'Contact Details'}}</label></td>
+            <td width="100"><textarea class="cleditor" name="contactdetails"  rows="3">{{contactdetails}}</textarea></td>
+            <td><label id ="contactdetailserror" name="contactdetailserror"></label></td>
+        </tr>
+        <tr>
+            <td width="100"><label class="control-label">{{'Main Skills'}}</label></td>
+            <td width="100"><textarea class="cleditor" name="mainskills" rows="3">{{mainskills}}</textarea></td>
+            <td><label id ="mainskillserror" name="mainskillserror"></label></td> 
+        </tr>
+
+    </table>
+    <br>
+    <div class="options btn-group">
+        <input  id ="deletebutton" class="btn btn-primary" type="submit" value="Save" />
+        <input onClick="window.location.href='{{listurl}}'"id ="cancelbutton" class=" btn input-small"  value="Cancel" />
+    </div>
+</form>
+{% endblock content%}

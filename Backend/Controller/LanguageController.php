@@ -4,12 +4,16 @@ Class LanguageController {
     private $database;
     private $editurl;
     private $deleteurl;
+    private $mainlink;
+    private $mainoption;
     public function __construct($app,$medoo) {
 
         $this->database =$medoo;
         $this->app=$app;
         $this->editurl ='editlanguage';
         $this->deleteurl='viewlanguage';
+        $this->mainlink = '/languages';
+        $this->mainoption ='Languages';
 
     }
 
@@ -18,13 +22,26 @@ function rendergridview($renderpath)
 {
 
     $this->app->render($renderpath,
-        array('newurl'=>$this->app->urlFor('newlanguage'),'editurl'=>$this->editurl,'deleteurl'=>$this->deleteurl,'languageobj'=>$this));
+        array('newurl'=>$this->app->urlFor('newlanguage')
+            ,'editurl'=>$this->editurl
+            ,'deleteurl'=>$this->deleteurl
+            ,'languageobj'=>$this
+            ,'option'=>$this->mainoption
+            ,'route'=>''
+            ,'link'=>$this->mainlink));
 
 }
 
 function rendernewview($code,$language,$errormessage,$renderpath)
 {
-    $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('languages'),'selfurl'=>$this->app->urlFor('newlanguage'),'code'=>$code,'language'=>$language,'errormessage'=>$errormessage));
+    $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('languages')
+            ,'selfurl'=>$this->app->urlFor('newlanguage')
+            ,'code'=>$code
+            ,'language'=>$language
+            ,'errormessage'=>$errormessage
+            ,'option'=>$this->mainoption
+            ,'route'=>'New'
+            ,'link'=>$this->mainlink));
 
 }
 
@@ -37,7 +54,13 @@ function rendereditview($code,$renderpath)
         $language = $data["language"];
         $code =$data["code"];
     }
-    $this->app->render($renderpath,array('codeold'=>$code ,'code'=>$code,'language'=>$language,'updateurl'=>$this->app->urlFor('updatelanguage'),'listurl'=>$this->app->urlFor('languages')));
+    $this->app->render($renderpath,array('codeold'=>$code 
+            ,'code'=>$code,'language'=>$language
+            ,'updateurl'=>$this->app->urlFor('updatelanguage')
+            ,'listurl'=>$this->app->urlFor('languages')
+            ,'option'=>$this->mainoption
+            ,'route'=>'Edit'
+            ,'link'=>$this->mainlink));
 
 }
 
@@ -49,7 +72,13 @@ function renderdeleteview($code,$renderpath)
         $language = $data["language"];
         $code =$data["code"];
     }
-    $this->app->render($renderpath,array('code'=>$code,'language'=>$language,'deleteurl'=>$this->app->urlFor('deletelanguage'),'listurl'=>$this->app->urlFor('languages')));
+    $this->app->render($renderpath,array('code'=>$code
+            ,'language'=>$language
+            ,'deleteurl'=>$this->app->urlFor('deletelanguage')
+            ,'listurl'=>$this->app->urlFor('languages')
+             ,'option'=>$this->mainoption
+            ,'route'=>'Delete'
+            ,'link'=>$this->mainlink));
 
 
 }
@@ -78,12 +107,21 @@ function addnewitem($username,$code,$language,$renderpath)
     {
         $this->insertlanguage($username,$code,$language);
 
-        $this->app->response->redirect($this->app->urlFor('languages'), array('newurl'=>$this->app->urlFor('newlanguage') ,'editurl'=>$this->editurl,'deleteurl'=>$this->deleteurl));
+        $this->app->response->redirect($this->app->urlFor('languages')
+                , array('newurl'=>$this->app->urlFor('newlanguage') 
+                ,'editurl'=>$this->editurl
+                ,'deleteurl'=>$this->deleteurl));
 
     }
     else
     {
-        $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('languages'),'selfurl'=>$this->app->urlFor('newlanguage'),'code'=>$code,'language'=>$language,'errormessage'=>$errormessage));
+        $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('languages')
+                ,'selfurl'=>$this->app->urlFor('newlanguage')
+                ,'code'=>$code,'language'=>$language
+                ,'errormessage'=>$errormessage
+                ,'option'=>$this->mainoption
+                ,'route'=>'New'
+                ,'link'=>$this->mainlink));
     }
 
 
@@ -105,22 +143,32 @@ function addnewitem($username,$code,$language,$renderpath)
 function buildgrid($editurl,$deleteurl)
 {
     $result =$this->getall();
-    foreach ($result as $row)
-    {
-        echo '<tr>';
-        echo '<td>'. $row['code'] . '</td>';
-        echo '<td>'. $row['language'] . '</td>';
-        echo '<td class="center">
-         <a class="btn btn-info" href="'.$editurl.'/'.$row['code'].'">
-	 <i class="halflings-icon white edit"></i>
-	 </a>
-	 <a href ="'.$deleteurl.'/'.$row['code'].'" class="btn btn-danger">
-	 <i class="halflings-icon white trash"></i>
-	 </a>
-	 </td>';
+    echo '<table class="table table-striped table-bordered bootstrap-datatable datatable">
+          <thead>
+          <tr>
+          <th>Code</th>
+          <th>Language</th>
+          <th>Actions</th>
+          </tr>
+          </thead>   
+          <tbody>';
+            foreach ($result as $row)
+            {
+                echo '<tr>';
+                echo '<td>'. $row['code'] . '</td>';
+                echo '<td>'. $row['language'] . '</td>';
+                echo '<td class="center">
+                 <a class="btn btn-info" href="'.$editurl.'/'.$row['code'].'">
+                 <i class="halflings-icon white edit"></i>
+                 </a>
+                 <a href ="'.$deleteurl.'/'.$row['code'].'" class="btn btn-danger">
+                 <i class="halflings-icon white trash"></i>
+                 </a>
+                 </td>';
 
-        echo '</tr>';
-    }
+                echo '</tr>';
+            }
+            echo'  </tbody></table>';
 }
 
 

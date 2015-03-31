@@ -4,12 +4,16 @@ Class CurricullumController {
     private $database;
     private $editurl;
     private $deleteurl;
+     private $mainlink;
+    private $mainoption;
     public function __construct($app,$medoo) {
 
         $this->database =$medoo;
         $this->app=$app;
         $this->editurl ='editcurricullum';
         $this->deleteurl='viewcurricullum';
+        $this->mainlink = '/curricullumlist';
+        $this->mainoption ='Curricullum';
 
     }
 
@@ -17,7 +21,13 @@ Class CurricullumController {
    {
 
     $this->app->render($renderpath,
-        array('newurl'=>$this->app->urlFor('newcurricullum'),'editurl'=>$this->editurl,'deleteurl'=>$this->deleteurl,'curricullumobj'=>$this));
+        array('newurl'=>$this->app->urlFor('newcurricullum')
+            ,'editurl'=>$this->editurl
+            ,'deleteurl'=>$this->deleteurl
+            ,'curricullumobj'=>$this
+            ,'option'=>$this->mainoption
+            ,'route'=>''
+            ,'link'=>$this->mainlink));
 
    }
    
@@ -58,7 +68,10 @@ Class CurricullumController {
             ,'aboutme'=>$aboutme
             ,'contactdetails'=>$contactdetails
             ,'mainskills'=>$mainskills
-            ,'errormessage'=>$errormessage));
+            ,'errormessage'=>$errormessage
+            ,'option'=>$this->mainoption
+            ,'route'=>'New'
+            ,'link'=>$this->mainlink));
 
 }
 
@@ -80,7 +93,10 @@ function rendereditview($id,$renderpath)
             ,'contactdetails'=>$contactdetails
             ,'mainskills'=>$mainskills
             ,'updateurl'=>$this->app->urlFor('updatecurricullum')
-            ,'listurl'=>$this->app->urlFor('curricullumlist')));
+            ,'listurl'=>$this->app->urlFor('curricullumlist')
+            ,'option'=>$this->mainoption
+            ,'route'=>'Edit'
+            ,'link'=>$this->mainlink));
 
 }
 
@@ -101,7 +117,10 @@ function renderdeleteview($id,$renderpath)
             ,'contactdetails'=>$contactdetails
             ,'mainskills'=>$mainskills
             ,'deleteurl'=>$this->app->urlFor('deletecurricullum')
-            ,'listurl'=>$this->app->urlFor('curricullumlist')));
+            ,'listurl'=>$this->app->urlFor('curricullumlist')
+            ,'option'=>$this->mainoption
+            ,'route'=>'Delete'
+            ,'link'=>$this->mainlink));
 }
 
     function validateinsert($name)
@@ -138,7 +157,10 @@ function renderdeleteview($id,$renderpath)
             ,'aboutme'=>$aboutme
             ,'contactdetails'=>$contactdetails
             ,'mainskills'=>$mainskills
-            ,'errormessage'=>$errormessage));
+            ,'errormessage'=>$errormessage
+            ,'option'=>$this->mainoption
+            ,'route'=>'New'
+            ,'link'=>$this->mainlink));
         }
 
 
