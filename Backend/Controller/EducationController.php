@@ -86,12 +86,13 @@ function rendereditview($id,$globalobj,$renderpath)
     $datas=$this->geteducationbyid($id);
     foreach($datas as $data)
     {
+        
         $curricullumid = $data["curricullumid"];
         $institution =$data["institution"];
         $degree =$data["degree"];
         $date =$data["datechar"];
     }
-    $this->app->render($renderpath,array('curricullumid'=>$curricullumid
+    $this->app->render($renderpath,array('id'=>$id,'curricullumid'=>$curricullumid
             ,'institution'=>$institution
             ,'degree'=>$degree
             ,'date'=>$date
@@ -114,7 +115,7 @@ function renderdeleteview($id,$globalobj,$renderpath)
         $degree =$data["degree"];
         $date =$data["datechar"];
     }
-    $this->app->render($renderpath,array('curricullumid'=>$curricullumid
+    $this->app->render($renderpath,array('id'=>$id,'curricullumid'=>$curricullumid
             ,'institution'=>$institution
             ,'degree'=>$degree
             ,'date'=>$date
@@ -172,7 +173,32 @@ function addnewitem($username,$curricullumid,$institution,$degree,$date,$renderp
 
 }
 
+  function updateitem($username,$id,$curricullumid,$institution,$degree,$date)
+    {
+        $this->updateeducation($id, $username,$curricullumid,$institution,$degree,$date);
+        $this->app->response->redirect(
+            $this->app->urlFor('educationlist'),
+            array(
+                'newurl' => $this->app->urlFor('neweducation'),
+                'editurl' => $this->editurl,
+                'deleteurl' => $this->deleteurl
+            )
+        );
 
+    }
+
+        function deleteitem($id)
+        {
+            $this->deleteeducation($id);
+            $this->app->response->redirect(
+                $this->app->urlFor('educationlist'),
+                array(
+                    'newurl' => $this->app->urlFor('neweducation'),
+                    'editurl' => $this->editurl,
+                    'deleteurl' => $this->deleteurl
+                )
+            );
+        }
 function getall()
 {
     $sth = $this->database->pdo->prepare('SELECT * FROM education');
@@ -209,7 +235,40 @@ $this->database->insert("education", ["curricullumid" => $curricullumid,
 "modifydate" => $dt ]);
 
 }
+function updateeducation($id,$username,$curricullumid,$institution,$degree,$date)
+    {
 
+        $dt = date('Y-m-d H:i:s');
+        $this->database->update("education",
+            [
+             "curricullumid" => $curricullumid,
+             "institution" => $institution,
+             "degree"=>$degree,
+             "datechar"=>$date,    
+             "modifyuser"=>$username,
+             "modifydate"=>$dt
+        ],
+            [
+            "id[=]" => $id
+        ]);
+
+
+
+    }
+
+    function deleteeducation($id)
+    {
+
+        $this->database->delete("education", [
+            "AND" => [
+                "id" => $id
+
+            ]
+
+        ]);
+
+
+    }
 function findeducation($curricullumid,$institution)
 {
     $count =  $this->database->count("education", [

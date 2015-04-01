@@ -405,6 +405,7 @@ $app->post(
     '/updateeducation',
     function () use($app,$env) {
         $env['educationdb']->updateitem($env['globalobj']->getcurrentuser()
+            ,htmlEntities($app->request()->post('id'))    
             ,htmlEntities($app->request()->post('curricullumid'))
             ,htmlEntities($app->request()->post('institution'))    
             ,htmlEntities($app->request()->post('degree'))
