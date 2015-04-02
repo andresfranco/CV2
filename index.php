@@ -48,7 +48,7 @@ $env['workdb'] = $workdb;
 $app->get(
     '/login',
     function ()use($app) {
-         $app->render('Views/Security/Login.html.twig',array('username'=>'','password'=>'','errormessage'=>'','loginaction'=>$app->urlFor('validateuser')));
+         $app->render('Views/Security/login.html.twig',array('username'=>'','password'=>'','errormessage'=>'','loginaction'=>$app->urlFor('validateuser')));
     }
 );
 
@@ -60,7 +60,12 @@ $app->post(
          $env['securityobj']->validatepassword($username,$password);
     }
 )->name('validateuser');
-
+$app->get(
+    '/home',
+    function ()use($app) {
+        $app->render('Views/Home/home.html.twig');
+    }
+)->name('home');
 
 //---------------------------------------------------
 

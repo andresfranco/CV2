@@ -9,7 +9,7 @@ class SecurityController {
   
    function getuserbyusername($username)
    {
-    $data = $this->database->select("systemuser", [
+    $datas = $this->database->select("systemuser", [
     "username",
     "password",
     "salt"    
@@ -28,24 +28,23 @@ class SecurityController {
        
    }
    
- function existuser($username,$password) 
+ function existuser($username)
  {
       $count =  $this->database->count("systemuser", [
       "id" ]
       ,["AND" => [ 
-            "username" => $username,
-            "password"=>$password
+            "username" => $username
             ]]);
- 
+
     if ($count>0)
     {
-     $erromessage ="";
+     $errormessage ="";
     }
       else   
     {
-     $errormessage= '<div class="alert alert-error">invalid username or password</div>'; 
+     $errormessage= '<div class="errorlogin">invalid username or password</div>';
     }
-       
+      return $errormessage;
 } 
 
 function createsalt()
@@ -63,7 +62,7 @@ function Sethashpassword($salt,$password)
 
 function validatepassword($username,$password)
 {
-    $errormessage=$this->existuser($username, $password);
+    $errormessage=$this->existuser($username);
     
     if ($errormessage =="")
     {
@@ -72,18 +71,20 @@ function validatepassword($username,$password)
         
         if($passwordhash != $userdata ["password"]) //incorrect password
          {
-          $this->app->render('Views/Security/login.html.twig',array('username'=>$username,'password'=>$password,'errormessage'=>$errormessage)); 
+             $errormessage= '<div class="errorlogin">invalid password</div>';
+             $this->app->render('Views/Security/login.html.twig',array('username'=>$username,'password'=>$password,'errormessage'=>$errormessage));
          }
          else
          {
-           $_SESSION['username'] = $userdata ["username"];
-           $this->app->render('Views/Home/home.html.twig');  
+           $username = $userdata ["username"];
+           $this->app->redirect('home');
          }    
              
     } 
     else
     {
-       $this->app->render('Views/Security/login.html.twig',array('username'=>$username,'password'=>$password,'errormessage'=>$errormessage)); 
+
+       $this->app->render('Views/Security/login.html.twig',array('username'=>$username,'password'=>$password,'errormessage'=>$errormessage));
     }    
 }
  

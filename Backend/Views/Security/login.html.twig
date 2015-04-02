@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html>
-<head>  
-<link rel="stylesheet" href="{{basepath~'/Backend/css/bootstrap32.min.css'}}">
-<link rel="stylesheet" href="{{basepath~'/Backend/css/font-awesome.min.css'}}">
-<link href="{{basepath~'/Backend/css/login.css'}}" rel="stylesheet">
- <script src="{{templatepath~'/js/jquery-1.11.2.js'}}"></script>
-<script src="{{templatepath~'/js/bootstrap.min.js'}}"></script></head>
+<head>
+    <link rel="stylesheet" href="{{basepath~'/Backend/css/bootstrap32.min.css'}}">
+    <link rel="stylesheet" href="{{basepath~'/Backend/css/font-awesome.min.css'}}">
+    <link href="{{basepath~'/Backend/css/login.css'}}" rel="stylesheet">
+    <script src="{{templatepath~'/js/jquery-1.11.2.js'}}"></script>
+    <script src="{{templatepath~'/js/bootstrap.min.js'}}"></script></head>
 <body>
 <div class="container">
-  <div class="row" id="pwd-container">
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-      <section class="login-form">
-        <form method="post" action="{{loginaction}}" role="login">
-          <img src="{{templatepath ~ '/img/cvmaker.png'}}" class="img-responsive" alt=""/>
-          <label class="error">{{errormessage}}</label>
-          <input  id ="username" name="username" placeholder="User" required class="form-control input-lg" value="{{username}}"/>
-          <input type="password" name ="password" class="form-control input-lg" id="password" placeholder="Password" value="{{password}}" />
-          <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Sign in</button>
-        </form> 
-      </section>  
-      </div>
-  </div>
+    <div class="row" id="pwd-container">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <section class="login-form">
+                <form method="post" action="{{loginaction}}" role="login">
+                    <img src="{{templatepath ~ '/img/cvmaker.png'}}" class="img-responsive" alt=""/>
+                    {{errormessage|raw}}
+                    <input  id ="username" name="username" placeholder="User" required class="form-control input-lg" value="{{username}}"/>
+                    <input type="password" name ="password" class="form-control input-lg" id="password" placeholder="Password" value="{{password}}" />
+                    <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Sign in</button>
+                </form>
+            </section>
+        </div>
+    </div>
 </div>
-</body>    
+</body>
 </html>

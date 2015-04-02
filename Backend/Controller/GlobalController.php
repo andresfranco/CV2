@@ -111,7 +111,7 @@ Class GlobalController
     
     function getcurrentuser()
     {
-      $username ="admin";  
+      $username ="admin";
       return $username ; 
     }
 
