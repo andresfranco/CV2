@@ -62,6 +62,8 @@ function Sethashpassword($salt,$password)
 
 function validatepassword($username,$password)
 {
+    $_SESSION['username'] ="";
+    $_SESSION['valid'] ='0';
     $errormessage=$this->existuser($username);
     
     if ($errormessage =="")
@@ -76,7 +78,8 @@ function validatepassword($username,$password)
          }
          else
          {
-           $username = $userdata ["username"];
+           $_SESSION['username'] = $userdata ["username"];
+           $_SESSION['valid'] ='1';
            $this->app->redirect('home');
          }    
              
@@ -86,6 +89,13 @@ function validatepassword($username,$password)
 
        $this->app->render('Views/Security/login.html.twig',array('username'=>$username,'password'=>$password,'errormessage'=>$errormessage));
     }    
+}
+
+function logout()
+{
+unset($_SESSION["valid"]);
+unset($_SESSION["username"]);
+$this->app->redirect('login');  
 }
  
 

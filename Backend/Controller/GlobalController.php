@@ -189,6 +189,35 @@ Class GlobalController
 
 
     }
+    
+    function getmultiparamselect($code,$setvalue,$attribute,$emptyitemtitle,$selectid,$selectname)
+    {
+        $sth = $this
+            ->database
+            ->pdo
+            ->prepare("select mp.value,mp.valuedesc
+                       from sysparam sp inner join multiparam mp
+                       on (sp.id =mp.sysparamid)
+                       where sp.code ='".$code."'");
+        $sth->execute();
+        echo '<select id ="'.$selectid.'" name="'.$selectname.'"' .$attribute.'>';
+        echo '<option value="0">'.$emptyitemtitle.'</option>';
+        foreach ($sth as $row) {
+            if ($setvalue == $row['value']) {
+                $attribute = 'selected';
+            }
+            else
+            {
+                $attribute="";
+            }
+            echo '<option value ="'.$row['value'].'" '.$attribute.' >'.$row['valuedesc'].'</option>';
+
+        }
+        echo '</select>';
+
+
+
+    }
 
   function getparentselect($attribute,$id,$objectcode,$table)
     {

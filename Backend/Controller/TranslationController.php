@@ -47,9 +47,9 @@ Class TranslationController
         {
          echo '<tr>';
          echo '<td>'. $row['objectcode'] . '</td>';
-         echo '<td>'. $row['parentid'] . '</td>';
+         echo '<td>'. $row['parent'] . '</td>';
          echo '<td>'. $row['objectid'] . '</td>';
-         echo '<td>'. $row['languagecode'] . '</td>';
+         echo '<td>'. $row['language'] . '</td>';
          echo '<td>'. $row['field'] . '</td>';
          echo '<td>'. $row['content'] . '</td>';
          echo '<td class="center">
@@ -236,7 +236,21 @@ function inserttranslation($username,$objectcode,$parentid,$objectid,$languageco
     {
 
 
-        $sth = $this->database->pdo->prepare('SELECT * FROM translation');
+        $sth = $this->database->pdo->prepare("select t.id,(select valuedesc from multiparam where value =t.objectcode and sysparamid ='3')as objectcode,(CASE objectcode WHEN 'cv' THEN 'No parent' 
+ WHEN 'pt' THEN (select name from project where id = t.parentid)
+ELSE (select name from curricullum where id =t.parentid) END) as parent ,
+(case objectcode 
+when 'cv' then (select name from curricullum where id =t.objectid)  
+when 'ed' then (select institution from education where id =t.objectid)
+when 'sk' then (select skill from skill where id =t.objectid)
+when 'wo' then (select company from work where id =t.objectid)
+when 'pr' then (select name from project where id =t.objectid)
+when 'pt' then (select tagname from project_tag where id =t.objectid)
+ END ) as objectid,
+(select language from language where code =t.languagecode) as language
+,t.field as field
+,t.content as content
+ from translation t");
         $sth->execute();
         return $sth;
 

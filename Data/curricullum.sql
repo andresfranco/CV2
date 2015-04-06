@@ -3,12 +3,13 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-03-2015 a las 23:03:27
+-- Tiempo de generación: 06-04-2015 a las 23:18:40
 -- Versión del servidor: 5.5.27
 -- Versión de PHP: 5.4.7
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -77,19 +78,20 @@ CREATE TABLE IF NOT EXISTS `education` (
   `degree` varchar(60) DEFAULT NULL,
   `datechar` varchar(45) DEFAULT NULL,
   `createuser` varchar(45) NOT NULL,
-  `cratedate` datetime NOT NULL,
+  `createdate` datetime NOT NULL,
   `modifyuser` varchar(45) NOT NULL,
   `modifydate` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_education_curricullum1_idx` (`curricullumid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `education`
 --
 
-INSERT INTO `education` (`id`, `curricullumid`, `institution`, `degree`, `datechar`, `createuser`, `cratedate`, `modifyuser`, `modifydate`) VALUES
-(1, 1, 'Universidad Tecnologica de Panamá', 'System Information engeeniering', '2009', 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07');
+INSERT INTO `education` (`id`, `curricullumid`, `institution`, `degree`, `datechar`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
+(1, 1, 'Universidad Tecnologica de Panamá', 'System Information engeeniering', '2009', 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07'),
+(2, 1, 'sdsdd', 'sdds', 'sddsds', 'admin', '2015-03-31 22:42:41', 'admin', '2015-03-31 22:42:41');
 
 -- --------------------------------------------------------
 
@@ -113,7 +115,10 @@ CREATE TABLE IF NOT EXISTS `language` (
 
 INSERT INTO `language` (`code`, `language`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
 ('en', 'English', 'admin', '2015-03-04 11:25:23', 'admin', '2015-03-04 11:25:23'),
-('es', 'Spanish', 'admin', '2015-03-04 11:25:37', 'admin', '2015-03-04 11:25:37');
+('es', 'Spanish', 'admin', '2015-03-04 11:25:37', 'admin', '2015-03-04 11:25:37'),
+('fr', 'french', 'admin', '2015-03-25 17:52:52', 'admin', '2015-03-25 17:52:52'),
+('ge', 'German', 'admin', '2015-03-25 20:35:36', 'admin', '2015-03-25 20:35:36'),
+('jp', 'Japanese', 'admin', '2015-03-25 17:54:57', 'admin', '2015-03-28 01:52:11');
 
 -- --------------------------------------------------------
 
@@ -128,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `multiparam` (
   `valuedesc` varchar(900) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_multiparam_sysparam1_idx` (`sysparamid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Volcado de datos para la tabla `multiparam`
@@ -140,7 +145,9 @@ INSERT INTO `multiparam` (`id`, `sysparamid`, `value`, `valuedesc`) VALUES
 (3, 3, 'sk', 'Skill'),
 (4, 3, 'wo', 'Work'),
 (5, 3, 'pr', 'Project'),
-(6, 3, 'pt', 'Project Tag');
+(6, 3, 'pt', 'Project Tag'),
+(7, 4, 'personal', 'Personal Skill'),
+(8, 4, 'technical', 'Technical Skill');
 
 -- --------------------------------------------------------
 
@@ -253,7 +260,7 @@ CREATE TABLE IF NOT EXISTS `skill` (
   `modifydate` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_skill_curricullum1_idx` (`curricullumid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Volcado de datos para la tabla `skill`
@@ -261,7 +268,9 @@ CREATE TABLE IF NOT EXISTS `skill` (
 
 INSERT INTO `skill` (`id`, `curricullumid`, `type`, `skill`, `percentage`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
 (1, 1, 'programming', 'PHP', 50, 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07'),
-(3, 1, 'programming', 'JQUERY', 50, 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07');
+(3, 1, 'programming', 'JQUERY', 50, 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07'),
+(6, 1, 'test2', 'test2', 45, 'admin', '2015-04-06 21:06:42', 'admin', '2015-04-06 21:07:00'),
+(8, 1, 'personal', 'test', 56, 'admin', '2015-04-06 21:55:40', 'admin', '2015-04-06 21:57:56');
 
 -- --------------------------------------------------------
 
@@ -275,7 +284,7 @@ CREATE TABLE IF NOT EXISTS `sysparam` (
   `value` varchar(900) DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `sysparam`
@@ -284,7 +293,8 @@ CREATE TABLE IF NOT EXISTS `sysparam` (
 INSERT INTO `sysparam` (`id`, `code`, `value`, `description`) VALUES
 (1, 'lang', 'eng', 'Default Language'),
 (2, 'cvname', 'Andrés Franco', 'Default Curricullum Name'),
-(3, 'objcode', 'objcode', 'Translation object codes');
+(3, 'objcode', 'objcode', 'Translation object codes'),
+(4, 'skilltype', 'skilltype', 'Skills Types');
 
 -- --------------------------------------------------------
 
@@ -303,7 +313,14 @@ CREATE TABLE IF NOT EXISTS `systemuser` (
   `modifyuser` varchar(45) NOT NULL,
   `modifydate` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Volcado de datos para la tabla `systemuser`
+--
+
+INSERT INTO `systemuser` (`id`, `username`, `salt`, `password`, `email`, `crerateuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
+(1, 'admin', '8d5', '3e32e55d986dc2b14f44df2bdfa6fd334bf771e2d8fbf1238ab05be1aa8a60aa', 'andresfranco@cableonda.net', 'admin', '2015-03-04 11:25:23', 'admin', '2015-03-04 11:25:23');
 
 -- --------------------------------------------------------
 
@@ -325,18 +342,19 @@ CREATE TABLE IF NOT EXISTS `translation` (
   `modifydate` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_translation_language1_idx` (`languagecode`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 
 --
 -- Volcado de datos para la tabla `translation`
 --
 
 INSERT INTO `translation` (`id`, `objectcode`, `parentid`, `objectid`, `languagecode`, `field`, `content`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
-(4, 'cv', 0, 1, 'en', 'name', 'Andr&eacute;s Franco&lt;br&gt;', 'admin', '2015-03-17 20:07:46', 'admin', '2015-03-17 20:07:46'),
-(5, 'cv', 0, 1, 'en', 'aboutme', 'About me text', 'admin', '2015-03-17 21:32:46', 'admin', '2015-03-17 21:32:46'),
-(6, 'cv', 0, 1, 'en', 'maintext', '&lt;b&gt;Main Text&lt;/b&gt;&lt;br&gt;', 'admin', '2015-03-17 21:48:36', 'admin', '2015-03-17 21:48:36'),
-(7, 'cv', 0, 1, 'en', 'contactdetails', '&lt;span&gt;Phone:(507) 6981-0649&lt;/span&gt;\r\n&lt;span&gt;Email:andresfranco@cableonda.net&lt;/span&gt;', 'admin', '2015-03-17 21:51:51', 'admin', '2015-03-17 21:51:51'),
-(8, 'cv', 0, 1, 'en', 'mainskills', 'Main Skills Text&lt;br&gt;', 'admin', '2015-03-17 22:03:42', 'admin', '2015-03-17 22:03:42');
+(4, 'cv', -1, 1, 'en', 'name', 'Andr&eacute;s Franco&lt;br&gt;', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+(5, 'cv', -1, 1, 'en', 'aboutme', 'About me text', 'admin', '2015-03-30 19:50:53', 'admin', '2015-03-30 19:50:53'),
+(6, 'cv', -1, 1, 'en', 'maintext', '&lt;b&gt;Main Text&lt;/b&gt;&lt;br&gt;', 'admin', '2015-03-30 19:50:29', 'admin', '2015-03-30 19:50:29'),
+(7, 'cv', -1, 1, 'en', 'contactdetails', '&lt;span&gt;Phone:(507) 6981-0649&lt;/span&gt;\r\n&lt;span&gt;Email:andresfranco@cableonda.net&lt;/span&gt;', 'admin', '2015-03-30 19:50:07', 'admin', '2015-03-30 19:50:07'),
+(8, 'cv', -1, 1, 'en', 'mainskills', 'Main Skills Text2&lt;br&gt;', 'admin', '2015-03-30 19:49:04', 'admin', '2015-03-30 19:49:04'),
+(23, 'ed', 1, 1, 'en', 'degree', 'System Information Engeneering', 'admin', '2015-03-31 18:24:02', 'admin', '2015-03-31 18:24:02');
 
 -- --------------------------------------------------------
 
@@ -370,7 +388,7 @@ CREATE TABLE IF NOT EXISTS `work` (
   `from` varchar(45) DEFAULT NULL,
   `to` varchar(45) DEFAULT NULL,
   `createuser` varchar(45) NOT NULL,
-  `creratedate` datetime NOT NULL,
+  `createdate` datetime NOT NULL,
   `modifyuser` varchar(45) NOT NULL,
   `modifydate` datetime NOT NULL,
   PRIMARY KEY (`id`),
@@ -381,7 +399,7 @@ CREATE TABLE IF NOT EXISTS `work` (
 -- Volcado de datos para la tabla `work`
 --
 
-INSERT INTO `work` (`id`, `curricullumid`, `company`, `position`, `from`, `to`, `createuser`, `creratedate`, `modifyuser`, `modifydate`) VALUES
+INSERT INTO `work` (`id`, `curricullumid`, `company`, `position`, `from`, `to`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
 (1, 1, 'Arango Software International', 'Genexus Developer', '2008', '2009', 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07'),
 (2, 1, 'ADR Technologies', 'System Consultant', '2010', 'Present', 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07');
 

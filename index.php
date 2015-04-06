@@ -11,17 +11,22 @@ require_once 'Backend/Controller/TranslationController.php';
 require_once 'Backend/Controller/EducationController.php';
 require_once 'Backend/Controller/WorkController.php';
 require_once 'Backend/Controller/SecurityController.php';
+require_once 'Backend/Controller/SkillController.php';
 
+session_cache_limiter(false);
+session_start();
 \Slim\Slim::registerAutoloader();
 Twig_Autoloader::register();
 //------------------------------------------------------------
 $twigView = new Slim\Views\Twig();
+
 // Configure Slim --------------------------------------------
 $app = new \Slim\Slim(array(
     'templates.path' => './Backend',
     'view' => $twigView
 ));
 //------------------------------------------------------------
+
 
 //-------Set objects from classes-----------------------------
 $medoo =new medoo();
@@ -32,6 +37,12 @@ $curricullumdb = new CurricullumController($app,$medoo);
 $translationdb = new TranslationController($app,$medoo);
 $educationdb = new EducationController($app, $medoo);
 $workdb = new WorkController($app, $medoo);
+$skilldb = new SkillController($app,$medoo);
+
+//--Set twig globals 
+$twig = $app->view()->getEnvironment();
+$twig->addGlobal("session", $_SESSION);
+
 
 //----Define enviroment variables-----------------------------
 $env = $app->environment();
@@ -42,15 +53,29 @@ $env['curricullumdb'] = $curricullumdb;
 $env['translationdb'] = $translationdb;
 $env['educationdb'] = $educationdb;
 $env['workdb'] = $workdb;
+$env['skilldb'] = $skilldb;
 //------------------------------------------------------------
 //-----------------Login-----------------------------------
-
+$twig->addGlobal("securityobj", $securityobj);
+$app->get(
+    '/',
+    function ()use($app) {
+         $app->render('Views/Security/login.html.twig',array('username'=>'','password'=>'','errormessage'=>'','loginaction'=>$app->urlFor('validateuser')));
+    }
+)->name('root');
 $app->get(
     '/login',
     function ()use($app) {
          $app->render('Views/Security/login.html.twig',array('username'=>'','password'=>'','errormessage'=>'','loginaction'=>$app->urlFor('validateuser')));
     }
-);
+)->name('login');
+
+$app->get(
+    '/logout',
+    function ()use($app,$env) {
+    $env['securityobj']->logout();
+    }
+)->name('logout');
 
 $app->post(
     '/validateuser',
@@ -428,4 +453,74 @@ $app->post(
   
     
 //-----------------End Work CRUD---------------------- 
+//-----------------skill CRUD--------------------------
+$app->get(
+    '/skills',
+    function () use($app,$env) {
+
+        $env['skilldb']->rendergridview('Views/Skill/skills.html.twig');
+
+    })->name('skills');
+
+$app->get(
+    '/newskill',
+    function () use($app,$env) {
+       $env['skilldb']->rendernewview('','','','','',$env['globalobj'],'Views/Skill/skillnew.html.twig');
+
+    })->name('newskill');
+    
+ $app->post(
+    '/newskill',
+    function () use($app,$env) {
+        $env['skilldb']->addnewitem($env['globalobj']->getcurrentuser()
+            ,htmlEntities($app->request()->post('curricullumid'))
+            ,htmlEntities($app->request()->post('type'))    
+            ,htmlEntities($app->request()->post('skill'))
+            ,htmlEntities($app->request()->post('percentage'))
+            ,$env['globalobj']    
+            ,'Views/Skill/skillnew.html.twig') ;
+
+    })->name('insertskill');
+    
+  $app->get(
+    '/editskill/:id',
+    function ($id) use($app,$env) {
+        $env['skilldb']->rendereditview($id,$env['globalobj'],'Views/Skill/skilledit.html.twig');
+
+    })->name('editskill');
+
+$app->post(
+    '/updateskill',
+    function () use($app,$env) {
+        $env['skilldb']->updateitem($env['globalobj']->getcurrentuser()
+            ,htmlEntities($app->request()->post('id'))    
+            ,htmlEntities($app->request()->post('curricullumid'))
+            ,htmlEntities($app->request()->post('type'))    
+            ,htmlEntities($app->request()->post('skill'))
+            ,htmlEntities($app->request()->post('percentage'))  
+        )
+
+           ;
+    })->name('updateskill');
+
+$app->get(
+    '/viewskill/:id',
+    function ($id) use($app,$env) {
+        $env['skilldb']->renderdeleteview($id,$env['globalobj'],'Views/Skill/skilldelete.html.twig');
+
+    })->name('viewskill');
+
+$app->post(
+    '/deleteskill',
+    function () use($app,$env) {
+        $env['skilldb']->deleteitem(htmlEntities($app->request()->post('id')));
+    })->name('deleteskill');
+  
+    
+    
+//-----------------End skill CRUD----------------------     
+    
+    
+    
+    
 $app->run();

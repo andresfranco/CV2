@@ -182,7 +182,7 @@ function buildgrid($editurl,$deleteurl)
             foreach ($result as $row)
             {
                 echo '<tr>';
-                echo '<td>'. $row['curricullumid'] . '</td>';
+                echo '<td>'. $row['cvname'] . '</td>';
                 echo '<td>'. $row['company'] . '</td>';
                 echo '<td>'. $row['position'] . '</td>';
                 echo '<td class="center">
@@ -226,7 +226,10 @@ function getall()
 {
 
 
-    $sth = $this->database->pdo->prepare('SELECT * FROM work');
+    $sth = $this->database->pdo->prepare(
+            'select w.id, w.curricullumid,w.company
+        ,w.position,w.from,w.to ,c.name as cvname from work w 
+        inner join curricullum c on (w.curricullumid = c.id)');
     $sth->execute();
     return $sth;
 

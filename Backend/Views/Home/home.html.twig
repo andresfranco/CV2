@@ -1,6 +1,49 @@
 {% extends "Templates/Masterpage/masterbackend.html.twig" %}
-{% block content %}
-<p>HOMEPAGE</p>
+{% block breadcrumb %}
+<ul class="breadcrumb">
+<li><h3>{{'Home'}}</h3></li>
+</ul>
+{% endblock breadcrumb%}
 
-<p>{{ username }}</p>
+{% block content %}
+<h1>{{'Welcome to CV Maker'}}</h1>
+<br><br>
+<div class="row-fluid">	
+<a href="{{basepath ~'/languages'}}" class="quick-button metro yellow span2">
+<i class="icon-flag"></i>    
+<p>{{'Manage Languages'}}</p>
+</a>
+<a href="{{basepath ~'/curricullumlist'}}" class="quick-button metro red span2">
+<i class="icon-file"></i>
+<p>{{'Manage Curricullums'}}</p>
+</a>
+<a href="{{basepath ~'/translations'}}" class="quick-button metro blue span2">
+<i class="icon-repeat"></i>
+<p>{{'Manage Translations'}}</p>
+</a>
+<a href="{{basepath ~'/educationlist'}}" class="quick-button metro green span2">
+<i class="icon-book"></i>
+<p>{{'Manage Education'}}</p>
+</a>
+<a href="{{basepath ~'/worklist'}}" class="quick-button metro pink span2">
+<i class="icon-dashboard"></i>
+<p>{{'Manage Work History'}}</p>
+</a>
+<a href="{{basepath ~'/skills'}}" class="quick-button metro black span2">
+<i class="icon-list-alt"></i>
+<p>{{'Manage Skills'}}</p>
+</a>				
+</div>
+<br><br>
+<div class="row-fluid">	
+<a class="quick-button metro orangeDark span2">
+<i class="icon-edit"></i>
+<p>{{'Manage Projects'}}</p>
+</a>
+<a class="quick-button metro blueDark span2">
+<i class="icon-cogs"></i>
+<p>{{'System Administration'}}</p>
+</a>    
+
+</div>
 {% endblock content %}
