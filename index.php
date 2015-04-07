@@ -12,6 +12,8 @@ require_once 'Backend/Controller/EducationController.php';
 require_once 'Backend/Controller/WorkController.php';
 require_once 'Backend/Controller/SecurityController.php';
 require_once 'Backend/Controller/SkillController.php';
+require_once 'Backend/Controller/ProjectController.php';
+require_once 'Backend/Controller/ProjecttagController.php';
 
 session_cache_limiter(false);
 session_start();
@@ -38,7 +40,8 @@ $translationdb = new TranslationController($app,$medoo);
 $educationdb = new EducationController($app, $medoo);
 $workdb = new WorkController($app, $medoo);
 $skilldb = new SkillController($app,$medoo);
-
+$projectdb =new ProjectController($app, $medoo);
+$projecttagdb =new ProjecttagController($app, $medoo);
 //--Set twig globals 
 $twig = $app->view()->getEnvironment();
 $twig->addGlobal("session", $_SESSION);
@@ -54,6 +57,8 @@ $env['translationdb'] = $translationdb;
 $env['educationdb'] = $educationdb;
 $env['workdb'] = $workdb;
 $env['skilldb'] = $skilldb;
+$env['projectdb'] = $projectdb;
+$env['projecttagdb'] = $projecttagdb;
 //------------------------------------------------------------
 //-----------------Login-----------------------------------
 $twig->addGlobal("securityobj", $securityobj);
@@ -519,8 +524,127 @@ $app->post(
     
     
 //-----------------End skill CRUD----------------------     
+//-----------------project CRUD--------------------------
+$app->get(
+    '/projects',
+    function () use($app,$env) {
+
+        $env['projectdb']->rendergridview('Views/Project/projects.html.twig');
+
+    })->name('projects');
+
+$app->get(
+    '/newproject',
+    function () use($app,$env) {
+       $env['projectdb']->rendernewview('','','','','',$env['globalobj'],'Views/Project/projectnew.html.twig');
+
+    })->name('newproject');
+    
+ $app->post(
+    '/newproject',
+    function () use($app,$env) {
+        $env['projectdb']->addnewitem($env['globalobj']->getcurrentuser()
+            ,htmlEntities($app->request()->post('curricullumid'))
+            ,htmlEntities($app->request()->post('name'))    
+            ,htmlEntities($app->request()->post('description'))
+            ,htmlEntities($app->request()->post('link'))
+            ,$env['globalobj']    
+            ,'Views/Project/projectnew.html.twig') ;
+
+    })->name('insertproject');
+    
+  $app->get(
+    '/editproject/:id',
+    function ($id) use($app,$env) {
+        $env['projectdb']->rendereditview($id,$env['globalobj'],'Views/Project/projectedit.html.twig');
+
+    })->name('editproject');
+
+$app->post(
+    '/updateproject',
+    function () use($app,$env) {
+        $env['projectdb']->updateitem($env['globalobj']->getcurrentuser()
+            ,htmlEntities($app->request()->post('id'))    
+            ,htmlEntities($app->request()->post('curricullumid'))
+            ,htmlEntities($app->request()->post('name'))    
+            ,htmlEntities($app->request()->post('description'))
+            ,htmlEntities($app->request()->post('link'))  
+        )
+
+           ;
+    })->name('updateproject');
+
+$app->get(
+    '/viewproject/:id',
+    function ($id) use($app,$env) {
+        $env['projectdb']->renderdeleteview($id,$env['globalobj'],'Views/Project/projectdelete.html.twig');
+
+    })->name('viewproject');
+
+$app->post(
+    '/deleteproject',
+    function () use($app,$env) {
+        $env['projectdb']->deleteitem(htmlEntities($app->request()->post('id')));
+    })->name('deleteproject');
+  
     
     
+//-----------------End project CRUD----------------------      
+//-----------------projecttag CRUD---------------------
+$app->get(
+    '/projecttags',
+    function () use($app,$env) {
+
+        $env['projecttagdb']->rendergridview('Views/Projecttag/projecttags.html.twig');
+
+    })->name('projecttags');
+
+$app->get(
+    '/newprojecttag',
+    function () use($app,$env) {
+        $env['projecttagdb']->rendernewview('','','',$env['globalobj'],'Views/Projecttag/projecttagnew.html.twig');
+        
+    })->name('newprojecttag');
+
+$app->post(
+    '/newprojecttag',
+    function () use($app,$env) {
+
+        $env['projecttagdb']->addnewitem($env['globalobj']->getcurrentuser()
+                ,htmlEntities($app->request()->post('projectid'))
+                ,htmlEntities($app->request()->post('tagname'))
+                ,$env['globalobj']
+                ,'Views/Projecttag/projecttagnew.html.twig') ;
+        
+    })->name('insertprojecttag');
+
+$app->get(
+    '/editprojecttag/:id',
+    function ($id) use($app,$env) {
+        $env['projecttagdb']->rendereditview($id,$env['globalobj'],'Views/Projecttag/projecttagedit.html.twig');
+
+    })->name('editprojecttag');
+
+$app->post(
+    '/updateprojecttag',
+    function () use($app,$env) {
+    $env['projecttagdb']->updateitem($env['globalobj']->getcurrentuser(), htmlEntities($app->request()->post('id')),htmlEntities($app->request()->post('projectid')),htmlEntities($app->request()->post('tagname'))) ;
+    })->name('updateprojecttag');  
+
+$app->get(
+    '/viewprojecttag/:id',
+    function ($id) use($app,$env) {
+        $env['projecttagdb']->renderdeleteview($id,$env['globalobj'],'Views/Projecttag/projecttagdelete.html.twig');
+
+    })->name('viewprojecttag');
+
+$app->post(
+    '/deleteprojecttag',
+    function () use($app,$env) {
+        $env['projecttagdb']->deleteitem(htmlEntities($app->request()->post('id')));
+    })->name('deleteprojecttag');
+
+//-----------------End projecttag CRUD----------------------    
     
     
 $app->run();

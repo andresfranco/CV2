@@ -1,0 +1,31 @@
+{% extends "Templates/Masterpage/masterbackend.html.twig" %}
+{% block content %}
+<script src="{{templatepath~'/Views/Project/validateproject.js'}}"></script>
+<form id="appform" method="post" action="{{updateurl}}">
+    <table width="400" border="0" cellspacing="1" cellpadding="2">
+        <tr>
+            <td ><label class="control-label">{{'Curricullum'}}</label></td>
+            <td>{{globalobj.getcurricullumlist('',curricullumid)}}</td>
+        </tr>
+        <tr>
+            <td><label class="control-label">{{'Name'}}</label></td>
+            <td><input id ="name" name="name" type="text" id="language" class="span6 nameahead" value="{{name|raw}}"></td>   
+        </tr>
+        <tr>
+            <td><label class="control-label">{{'Description'}}</label></td>
+            <td><input id ="description" name="description" type="text" id="language" class="span6 typeahead" value="{{description|raw}}"></td>
+        </tr>
+        <tr>
+            <td><label class="control-label">{{'Link'}}</label></td>
+            <td><input id ="link" name="link" type="text" id="language" class="span6 typeahead" value="{{linkproject|raw}}"></td>
+        </tr>
+       
+    </table>
+    <br>
+    <div class="options btn-group">
+        <input  id ="deletebutton" class="btn btn-primary" type="submit" value="Save" />
+        <input onClick="window.location.href='{{listurl}}'"id ="cancelbutton" class=" btn input-small"  value="Cancel" />
+    </div>
+     <input type="hidden" id="id" name="id"  value="{{id}}">
+</form>
+{% endblock content%}

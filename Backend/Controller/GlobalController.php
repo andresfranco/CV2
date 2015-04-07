@@ -26,6 +26,27 @@ Class GlobalController
         }
          echo '</select>';
     } 
+    
+       function getprojectselect($attribute,$projectid)
+    {
+        $sth = $this->database->pdo->prepare('SELECT id ,name FROM project');
+        $sth->execute();
+         echo '<select id ="projectid" name="projectid"'.$attribute.'>';
+         echo'<option value="0">Please select a Project</option>';
+        $selected="";
+        foreach ($sth as $row) {
+            if ($projectid == $row['id']) {
+                $selected = 'selected';
+            }
+            else
+            {$selected="";
+            }
+            echo '<option value ="'.$row['id'].'" '.$selected.' >'.$row['name'].'</option>';
+
+        }
+         echo '</select>';
+    } 
+    
       function getcurricullumselect($attribute,$id)
     {
 
