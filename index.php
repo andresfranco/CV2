@@ -14,6 +14,7 @@ require_once 'Backend/Controller/SecurityController.php';
 require_once 'Backend/Controller/SkillController.php';
 require_once 'Backend/Controller/ProjectController.php';
 require_once 'Backend/Controller/ProjecttagController.php';
+require_once 'Backend/Controller/FrontendController.php';
 
 session_cache_limiter(false);
 session_start();
@@ -42,11 +43,12 @@ $workdb = new WorkController($app, $medoo);
 $skilldb = new SkillController($app,$medoo);
 $projectdb =new ProjectController($app, $medoo);
 $projecttagdb =new ProjecttagController($app, $medoo);
+$frontendobj = new FrontendController($app, $medoo, $globalobj, $languagedb, $translationdb, $educationdb, $skilldb, $projectdb, $projecttagdb);
 //--Set twig globals 
 $twig = $app->view()->getEnvironment();
 $twig->addGlobal("session", $_SESSION);
 
-
+$twigobj =$app->view()->getInstance();
 //----Define enviroment variables-----------------------------
 $env = $app->environment();
 $env['globalobj'] = $globalobj;
@@ -59,18 +61,43 @@ $env['workdb'] = $workdb;
 $env['skilldb'] = $skilldb;
 $env['projectdb'] = $projectdb;
 $env['projecttagdb'] = $projecttagdb;
+$env['frontend'] = $frontendobj;
+
 //------------------------------------------------------------
 //-----------------Login-----------------------------------
 $twig->addGlobal("securityobj", $securityobj);
+
 $app->get(
     '/',
-    function ()use($app) {
-         $app->render('Views/Security/login.html.twig',array('username'=>'','password'=>'','errormessage'=>'','loginaction'=>$app->urlFor('validateuser')));
+    function ()use($app,$env) {
+    $languagecode=$env['globalobj']->getsysparam('lang');  
+    $app->response->redirect('./main'.'/'.$languagecode);
     }
 )->name('root');
+
+
+
+$app->get(
+    '/main/:lang',
+    function ($lang)use($app,$twigobj,$env) {
+    $loader = $twigobj->getLoader();
+    $loader->setPaths('Views');
+    $maindata =$env['frontend']->getcurricullumdata($lang);
+    $app->render('Mainview/frontendtemplate.html.twig',array('aboutme'=>$maindata["aboutme"]
+            ,'contactdetails'=>$maindata["contactdetails"]
+            ,'name'=>$maindata["name"]
+            ,'maintext'=>$maindata["maintext"]
+            ,'frontendobj'=>$env['frontend']
+            ,'lang'=>$lang
+            ));
+    }
+)->name('cv_mainpage');
+
+
 $app->get(
     '/login',
-    function ()use($app) {
+    function ()use($app,$twigobj) {
+         
          $app->render('Views/Security/login.html.twig',array('username'=>'','password'=>'','errormessage'=>'','loginaction'=>$app->urlFor('validateuser')));
     }
 )->name('login');

@@ -1,7 +1,3 @@
-<?php
-?>
-<!-- Resume Section
-================================================== -->
 <section id="resume">
 
     <!-- Education
@@ -9,40 +5,12 @@
     <div class="row education">
 
         <div class="three columns header-col">
-            <h1><span>Education</span></h1>
+            <h1><span>{{'Education'}}</span></h1>
         </div>
 
         <div class="nine columns main-col">
 
-            <div class="row item">
-
-                <div class="twelve columns">
-
-                    <h3>Universidad Tecnológica de Panamá</h3>
-                    <p class="info">Degree in Information Systems Engineering <span>&bull;</span> <em class="date">2009</em></p>
-
-                    <p>
-
-                    </p>
-
-                </div>
-
-            </div> <!-- item end -->
-
-            <div class="row item">
-
-                <div class="twelve columns">
-
-                    <h3>Instituto Pedagógico de Panamá</h3>
-                    <p class="info">Bachiller en ciencias y letras <span>&bull;</span> <em class="date">2001</em></p>
-
-                    <p>
-
-                    </p>
-
-                </div>
-
-            </div> <!-- item end -->
+           {{frontendobj.geteducation(lang)}} 
 
         </div> <!-- main-col end -->
 
@@ -54,7 +22,7 @@
     <div class="row work">
 
         <div class="three columns header-col">
-            <h1><span>Work</span></h1>
+            <h1><span>{{'Work'}}</span></h1>
         </div>
 
         <div class="nine columns main-col">
@@ -111,7 +79,7 @@
     <div class="row skill">
 
         <div class="three columns header-col">
-            <h1><span>Skills</span></h1>
+            <h1><span>{{'Skills'}}</span></h1>
         </div>
 
         <div class="nine columns main-col">
@@ -140,3 +108,4 @@
     </div> <!-- End skills -->
 
 </section> <!-- Resume Section End-->
+

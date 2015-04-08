@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--[if lt IE 8 ]><html class="no-js ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="no-js ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 8)|!(IE)]><!--><html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+   {% include '/Mainview/headfiles.html.twig' %}
+</head>
+
+<body>
+
+{% block header%} 
+ {% include '/Mainview/header.html.twig' %}
+{% endblock header%} 
+
+
+{% block about%} 
+ {% include '/Mainview/about.html.twig' %}
+{% endblock about%} 
+
+
+{% block resume%} 
+ {% include '/Mainview/resume.html.twig' %}
+{% endblock resume%} 
+
+{% block myprojects%} 
+ {% include '/Mainview/projects.html.twig' %}
+{% endblock myprojects%}
+
+
+{% block contact%} 
+ {% include '/Mainview/contact.html.twig' %}
+{% endblock contact%}
+
+{% block footer%} 
+ {% include '/Mainview/footer.html.twig' %}
+{% endblock footer%}
+
+{% block javascripts%} 
+ {% include '/Mainview/javascripts.html.twig' %}
+{% endblock javascripts%}
+
+</body>
+
+</html>
