@@ -27,47 +27,7 @@
 
         <div class="nine columns main-col">
 
-            <div class="row item">
-
-                <div class="twelve columns">
-
-                    <h3>ADR Technologies</h3>
-                    <p class="info">System Consultant <span>&bull;</span> <em class="date">2010 - Present</em></p>
-
-                    <p>
-
-                    </p>
-
-                </div>
-
-            </div> <!-- item end -->
-
-            <div class="row item">
-
-                <div class="twelve columns">
-
-                    <h3>Arango Software International</h3>
-                    <p class="info">Component Engineer<span>&bull;</span> <em class="date">2009 - 2010</em></p>
-
-
-                    </p>
-
-                </div>
-
-            </div> <!-- item end -->
-            <div class="row item">
-
-                <div class="twelve columns">
-
-                    <h3>Arango Capucho Consultores</h3>
-                    <p class="info">Genexus Developer<span>&bull;</span> <em class="date">2006 - 2009</em></p>
-
-
-                    </p>
-
-                </div>
-
-            </div> <!-- item end -->
+            {{frontendobj.getwork(lang)}} 
 
         </div> <!-- main-col end -->
 
@@ -75,6 +35,7 @@
 
 
     <!-- Skills
+    
     ----------------------------------------------- -->
     <div class="row skill">
 
@@ -84,24 +45,10 @@
 
         <div class="nine columns main-col">
 
-            <?php echo $mainskills;?>
+            {{mainskills}}
 
-
-            <div class="bars">
-
-                <ul class="skills">
-                    <li><span class="bar-expand photoshop"></span><em>Php</em></li>
-                    <li><span class="bar-expand illustrator"></span><em>Symfony2</em></li>
-                    <li><span class="bar-expand wordpress"></span><em>C#</em></li>
-                    <li><span class="bar-expand photoshop"></span><em>Mysql</em></li>
-                    <li><span class="bar-expand photoshop"></span><em>Microsoft SQL Server</em></li>
-                    <li><span class="bar-expand photoshop"></span><em>JavaScript</em></li>
-                    <li><span class="bar-expand wordpress"></span><em>Jquery</em></li>
-                    <li><span class="bar-expand photoshop"></span><em>CSS</em></li>
-                    <li><span class="bar-expand wordpress"></span><em>HTML5</em></li>
-                </ul>
-
-            </div><!-- end skill-bars -->
+              {{frontendobj.getskills(lang)}} 
+            
 
         </div> <!-- main-col end -->
 

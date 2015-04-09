@@ -25,6 +25,10 @@ $(function() {
             link:{
                 required:true
 
+            },
+             imagename:{
+                required:true
+
             }
             
            
@@ -49,7 +53,11 @@ $(function() {
                 required:"You must enter a link"
 
             }
-         
+           ,
+            imagename:{
+                required:"You must enter a image name"
+
+            }
            
            
             

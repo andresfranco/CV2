@@ -64,7 +64,7 @@ function buildgrid($editurl,$deleteurl)
             }
             echo'  </tbody></table>';
 }
-function rendernewview($curricullumid,$name,$description,$link,$errormessage,$globalobj,$renderpath)
+function rendernewview($curricullumid,$name,$description,$link,$imagename,$errormessage,$globalobj,$renderpath)
 {
     $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('projects')
             ,'selfurl'=>$this->app->urlFor('newproject')
@@ -72,6 +72,7 @@ function rendernewview($curricullumid,$name,$description,$link,$errormessage,$gl
             ,'name'=>$name
             ,'description'=>$description
             ,'linkproject'=>$link
+            ,'imagename'=>$imagename
             ,'globalobj'=>$globalobj
             ,'errormessage'=>$errormessage
             ,'option'=>$this->mainoption
@@ -91,11 +92,13 @@ function rendereditview($id,$globalobj,$renderpath)
         $name =$data["name"];
         $description =$data["description"];
         $link =$data["link"];
+        $imagename=$data["imagename"];
     }
     $this->app->render($renderpath,array('id'=>$id,'curricullumid'=>$curricullumid
             ,'name'=>$name
             ,'description'=>$description
             ,'linkproject'=>$link
+            ,'imagename'=>$imagename
             ,'globalobj'=>$globalobj
             ,'updateurl'=>$this->app->urlFor('updateproject')
             ,'listurl'=>$this->app->urlFor('projects')
@@ -114,11 +117,13 @@ function renderdeleteview($id,$globalobj,$renderpath)
         $name =$data["name"];
         $description =$data["description"];
         $link =$data["link"];
+        $imagename=$data["imagename"];
     }
     $this->app->render($renderpath,array('id'=>$id,'curricullumid'=>$curricullumid
             ,'name'=>$name
             ,'description'=>$description
             ,'linkproject'=>$link
+            ,'imagename'=>$imagename
             ,'globalobj'=>$globalobj
             ,'deleteurl'=>$this->app->urlFor('deleteproject')
             ,'listurl'=>$this->app->urlFor('projects')
@@ -142,13 +147,13 @@ function validateinsert($curricullumid,$name,$description)
 }
 
 
-function addnewitem($username,$curricullumid,$name,$description,$link,$globalobj,$renderpath)
+function addnewitem($username,$curricullumid,$name,$description,$link,$imagename,$globalobj,$renderpath)
 {
     $errormessage = $this->validateinsert($curricullumid,$name,$description);
 
     if($errormessage=="")
     {
-        $this->insertproject($username,$curricullumid,$name,$description,$link);
+        $this->insertproject($username,$curricullumid,$name,$description,$link,$imagename);
 
        $this->app->response->redirect($this->app->urlFor('projects')
                 , array('newurl'=>$this->app->urlFor('newproject') 
@@ -164,6 +169,7 @@ function addnewitem($username,$curricullumid,$name,$description,$link,$globalobj
                 ,'name'=>$name
                 ,'description'=>$description
                 ,'linkproject'=>$link
+                ,'imagename'=>$imagename
                 ,'globalobj'=>$globalobj
                 ,'errormessage'=>$errormessage
                 ,'option'=>$this->mainoption
@@ -174,9 +180,9 @@ function addnewitem($username,$curricullumid,$name,$description,$link,$globalobj
 
 }
 
-  function updateitem($username,$id,$curricullumid,$name,$description,$link)
+  function updateitem($username,$id,$curricullumid,$name,$description,$link,$imagename)
     {
-        $this->updateproject($id, $username,$curricullumid,$name,$description,$link);
+        $this->updateproject($id, $username,$curricullumid,$name,$description,$link,$imagename);
         $this->app->response->redirect(
             $this->app->urlFor('projects'),
             array(
@@ -205,7 +211,7 @@ function getall()
     $sth = $this->database->pdo->prepare(
     'select p.id 
      ,p.curricullumid,p.name
-     ,p.description,p.link
+     ,p.description,p.link,p.imagename
      ,c.name as cvname from project p
      inner join curricullum c on (p.curricullumid = c.id) ');
     $sth->execute();
@@ -219,7 +225,8 @@ $data = $this->database->select("project", [
 "curricullumid",
 "name",
 "description"  ,
-"link"  ,    
+"link"  ,
+"imagename"    
 ], [
 "id" => $id
 ]);
@@ -227,21 +234,22 @@ $data = $this->database->select("project", [
 return $data;   
 }
 
-function insertproject($username,$curricullumid,$name,$description,$link)
+function insertproject($username,$curricullumid,$name,$description,$link,$imagename)
 {
   
 $dt = date('Y-m-d H:i:s');
 $this->database->insert("project", ["curricullumid" => $curricullumid,
 "name" => $name,
 "description"=>$description,
-"link"=>$link,    
+"link"=>$link, 
+"imagename"=>$imagename ,   
 "createuser" => $username,
 "createdate" => $dt ,
 "modifyuser" => $username,
 "modifydate" => $dt ]);
 
 }
-function updateproject($id,$username,$curricullumid,$name,$description,$link)
+function updateproject($id,$username,$curricullumid,$name,$description,$link,$imagename)
     {
 
         $dt = date('Y-m-d H:i:s');
@@ -250,7 +258,8 @@ function updateproject($id,$username,$curricullumid,$name,$description,$link)
              "curricullumid" => $curricullumid,
              "name" => $name,
              "description"=>$description,
-             "link"=>$link,    
+             "link"=>$link,
+             "imagename"=>$imagename,   
              "modifyuser"=>$username,
              "modifydate"=>$dt
         ],

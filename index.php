@@ -563,7 +563,7 @@ $app->get(
 $app->get(
     '/newproject',
     function () use($app,$env) {
-       $env['projectdb']->rendernewview('','','','','',$env['globalobj'],'Views/Project/projectnew.html.twig');
+       $env['projectdb']->rendernewview('','','','','','',$env['globalobj'],'Views/Project/projectnew.html.twig');
 
     })->name('newproject');
     
@@ -575,6 +575,7 @@ $app->get(
             ,htmlEntities($app->request()->post('name'))    
             ,htmlEntities($app->request()->post('description'))
             ,htmlEntities($app->request()->post('link'))
+            ,htmlEntities($app->request()->post('imagename'))    
             ,$env['globalobj']    
             ,'Views/Project/projectnew.html.twig') ;
 
@@ -595,7 +596,8 @@ $app->post(
             ,htmlEntities($app->request()->post('curricullumid'))
             ,htmlEntities($app->request()->post('name'))    
             ,htmlEntities($app->request()->post('description'))
-            ,htmlEntities($app->request()->post('link'))  
+            ,htmlEntities($app->request()->post('link'))
+            ,htmlEntities($app->request()->post('imagename'))     
         )
 
            ;

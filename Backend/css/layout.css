@@ -355,6 +355,21 @@ ul#nav li.current a { color: #00E8F0; }
   	-moz-animation: jquery 2s ease;
   	-webkit-animation: jquery 2s ease;
 }
+.barsize {
+    
+    width: 10%;
+    -moz-animation: barsize 2s ease;
+    -webkit-animation: barsize 2s ease;
+} 
+
+@-moz-keyframes barsize {
+  0%   { width: 0px;  }
+  100% { width: 10%;  }
+}
+@-webkit-keyframes barsize {
+  0%   { width: 0px;  }
+  100% { width: 10%;  }
+}
 
 @-moz-keyframes photoshop {
   0%   { width: 0px;  }
