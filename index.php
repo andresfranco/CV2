@@ -23,13 +23,20 @@ Twig_Autoloader::register();
 //------------------------------------------------------------
 $twigView = new Slim\Views\Twig();
 
+
+
 // Configure Slim --------------------------------------------
 $app = new \Slim\Slim(array(
     'templates.path' => './Backend',
     'view' => $twigView
 ));
 //------------------------------------------------------------
+//Not found route--------------------------------------------
 
+$app->notFound(function () use ($app) {
+$app->render('Views/Error/404error.html.twig');
+});
+//-----------------------------------------------------------
 
 //-------Set objects from classes-----------------------------
 $medoo =new medoo();
