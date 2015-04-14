@@ -413,15 +413,18 @@ where objectcode='ed'
      
      function translatetag($languagecode,$key)
      {
-      $sth = $this->database->pdo->prepare("select t.translation  "
+      $translation ="";
+     $sth = $this->database->pdo->prepare("select t.translation  "
               . "from translatetag t "
               . "where t.languagecode ='".$languagecode."' "
               . "and t.key ='".$key."'"); 
      $sth->execute();
+
           foreach ($sth as $row)
         {
          $translation= $row['translation'];
         }
+
         echo $translation;
      }
     

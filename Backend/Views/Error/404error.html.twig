@@ -1,7 +1,29 @@
 <html>
-<body>
-<p>NO SE ENCONTRO NADA 404</p>
+<head>
+    <link id="bootstrap-style" href="{{basepath~'/Backend/css/bootstrap.min.css'}}" rel="stylesheet">
+    <link href="{{basepath~'/Backend/css/bootstrap-responsive.min.css'}}" rel="stylesheet">
+    <link id="base-style-responsive" href="{{basepath~'/Backend/css/style-responsive.css'}}" rel="stylesheet">
+    <link  href="{{templatepath~'/css/404.css'}}" rel="stylesheet">
+    <script src="{{templatepath~'/js/jquery-1.11.2.js'}}"></script>
+    <script src="{{templatepath~'/js/bootstrap.min.js'}}"></script></head>
 
+</head>
+<body>
+<div class="wrapper row2">
+    <div>
+
+
+            <div class="hgroup">
+                <h1>{{ '404' }}<img src="{{templatepath ~ '/img/logo404.png'}}"></h1>
+                <h1>{{ 'PAGE NOT FOUND' }}</h1>
+                <br>
+                <p><a class="btn btn-info btn-lg"href="{{ basepath }}" role="button">{{ 'GO HOME' }}</a></p>
+
+            </div>
+
+    </div>
+
+</div>
 </body>
 
 </html>
