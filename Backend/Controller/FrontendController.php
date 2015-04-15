@@ -126,12 +126,12 @@ class FrontendController {
     return $maindata;
    }
     
-    function getheaderlanguages()
+    function getheaderlanguages($languagecode)
     {
         $result=$this->language->getall();
         foreach ($result as $row)
                 {
-                  echo '<a href="./'.$row['code'].'">'.$row['language'].'</a>|';
+                  echo '<a href="./'.$row['code'].'">'.$this->gettranslation($languagecode,$row['language']).'</a>|';
                 }
     }
     
@@ -427,6 +427,50 @@ where objectcode='ed'
 
         echo $translation;
      }
+     
+     
+      function gettranslation($languagecode,$key)
+     {
+      $translation ="";
+     $sth = $this->database->pdo->prepare("select t.translation  "
+              . "from translatetag t "
+              . "where t.languagecode ='".$languagecode."' "
+              . "and t.key ='".$key."'"); 
+     $sth->execute();
+
+          foreach ($sth as $row)
+        {
+         $translation= $row['translation'];
+        }
+
+       return $translation;
+     }
+     
+     function getsocialnetworklinks()
+     {
+       
+     $sth = $this->database->pdo->prepare("select u.name,u.link from url u where u.type ='socialnetwork' and u.name in ('facebook','twitter','linkedin','github')");
+              
+     $sth->execute();
+
+          foreach ($sth as $row)
+        {
+          echo'<li><a href="'.$row['link'].'"><i class="fa fa-'.$row['name'].'"></i></a></li>';
+        }  
+     }
+     
+     function getcopyright()
+     {
+     $sth = $this->database->pdo->prepare("select u.name,u.link from url u where u.type ='copyright'");
+              
+     $sth->execute();
+
+          foreach ($sth as $row)
+        {
+          echo $row['link'];
+        }  
+     }
+     
     
 }
 

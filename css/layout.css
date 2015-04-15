@@ -1004,3 +1004,15 @@ footer .social-links li:first-child { margin-left: 0; }
 }
 #go-top a:hover { background-color: #0F9095; }
 
+span.projecttitle 
+{
+
+    border-bottom: 3px solid #11ABB0;
+    padding-bottom: 6px;
+    color: #313131;
+    font: 18px/24px "opensans-bold",sans-serif;
+ text-transform: uppercase;
+ letter-spacing: 1px;   
+}
+
+    

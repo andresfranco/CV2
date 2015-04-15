@@ -4,11 +4,11 @@
 <img class="profile-pic"  src="{{basepath~'/images/profilepic2.jpg'}}" alt="" />
 </div>
 <div class="nine columns main-col">
-<h2>{{'About Me'}}</h2>
+<h2>{{frontendobj.translatetag(lang,'aboutme.title')}}</h2>
 <p>{{aboutme|raw}} </p>
 <div class="row">
 <div class="columns contact-details">
-<h2>{{'Contact Details'}}</h2>
+<h2>{{frontendobj.translatetag(lang,'contactdetails.title')}}</h2>
 <p class="address">
 {{contactdetails|raw}}
 </p>
@@ -16,7 +16,7 @@
 <div class="columns download">
 <p>
 <a href="{{basepath~'/files/Curriculum%20Andres%20Franco.doc'}}" class="button" download="CV_AndresFranco.doc">
- <i class="fa fa-download"></i>{{'Download Resume'}}
+ <i class="fa fa-download"></i>{{frontendobj.translatetag(lang,'downloadresume.title')}}
 </a>
 </p>
 </div>

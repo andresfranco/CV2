@@ -1,1 +1,0 @@
-<?php echo '404 no encontro nada';  ?>

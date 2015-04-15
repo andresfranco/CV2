@@ -8,15 +8,15 @@
         <a class="mobile-btn" href="#" title="Hide navigation">{{'Hide navigation'}}</a>
 
         <ul id="nav" class="nav">
-            <li class="current"><a class="smoothscroll" href="#home">{{frontendobj.translatetag(lang,'Home')}}</a></li>
-            <li><a class="smoothscroll" href="#about">{{'About'}}</a></li>
-            <li><a class="smoothscroll" href="#resume">{{'Resume'}}</a></li>
-            <li><a class="smoothscroll" href="#portfolio">{{'My Proyects'}}</a></li>
-            <li><a class="smoothscroll" href="#contact">{{'Contact'}}</a></li>
+            <li class="current"><a class="smoothscroll" href="#home">{{frontendobj.translatetag(lang,'HOME')}}</a></li>
+            <li><a class="smoothscroll" href="#about">{{frontendobj.translatetag(lang,'ABOUT')}}</a></li>
+            <li><a class="smoothscroll" href="#resume">{{frontendobj.translatetag(lang,'Resume')}}</a></li>
+            <li><a class="smoothscroll" href="#portfolio">{{frontendobj.translatetag(lang,'Projects')}}</a></li>
+            <li><a class="smoothscroll" href="#contact">{{frontendobj.translatetag(lang,'Contact')}}</a></li>
 
             <li>
                
-               {{frontendobj.getheaderlanguages()}}
+               {{frontendobj.getheaderlanguages(lang)}}
 
             </li>
         </ul> <!-- end #nav -->

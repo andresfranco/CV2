@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-04-2015 a las 23:16:56
+-- Tiempo de generación: 15-04-2015 a las 23:49:07
 -- Versión del servidor: 5.5.27
 -- Versión de PHP: 5.4.7
 
@@ -19,6 +19,7 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `curricullum`
 --
+
 -- --------------------------------------------------------
 
 --
@@ -164,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `project` (
   `modifydate` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_project_curricullum1_idx` (`curricullumid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `project`
@@ -338,8 +339,50 @@ CREATE TABLE IF NOT EXISTS `translatetag` (
 --
 
 INSERT INTO `translatetag` (`languagecode`, `key`, `translation`) VALUES
-('en', 'HOME', 'HOME'),
-('es', 'HOME', 'INICIO');
+('en', 'About', 'About'),
+('en', 'aboutme.title', 'About me'),
+('en', 'Contact', 'Contact'),
+('en', 'contact.sidetitle.text', 'E-mail and Phone'),
+('en', 'contactdetails.title', 'Contact Details'),
+('en', 'contacttitle.text', 'If you have any comments or would like to contact me, you can fill the form below'),
+('en', 'downloadresume.title', 'Download Resume'),
+('en', 'education.title', 'Education'),
+('en', 'Email', 'Email'),
+('en', 'English', 'English'),
+('en', 'Home', 'Home'),
+('en', 'Message', 'Message'),
+('en', 'Name', 'Name'),
+('en', 'Projects', 'Projects'),
+('en', 'projects.title', 'Personal Projects'),
+('en', 'Resume', 'Resume'),
+('en', 'sendmessage.text', 'Your message was sent, thank you!'),
+('en', 'skills.title', 'Skills'),
+('en', 'Spanish', 'Spanish'),
+('en', 'Subject', 'Subject'),
+('en', 'Submit', 'Submit'),
+('en', 'work.title', 'Work Experience'),
+('es', 'About', 'A Cerca de'),
+('es', 'aboutme.title', 'A cerca de mi'),
+('es', 'Contact', 'Contacto'),
+('es', 'contact.sidetitle.text', 'Correo y Teléfono'),
+('es', 'contactdetails.title', 'Detalles de contacto'),
+('es', 'contacttitle.text', 'Si usted tiene algún comentario o desea ponerse en contacto conmigo, puedes llenar el siguiente formulario'),
+('es', 'downloadresume.title', 'Descargue el Currícullum'),
+('es', 'education.title', 'Educación'),
+('es', 'Email', 'Correo'),
+('es', 'English', 'Inglés'),
+('es', 'Home', 'Inicio'),
+('es', 'Message', 'Mensaje'),
+('es', 'Name', 'Nombre'),
+('es', 'Projects', 'Proyectos'),
+('es', 'projects.title', 'Proyectos personales'),
+('es', 'Resume', 'Currícullum'),
+('es', 'sendmessage.text', 'Su mensaje ha sido enviado,gracias!'),
+('es', 'skills.title', 'Habilidades'),
+('es', 'Spanish', 'Español'),
+('es', 'Subject', 'Asunto'),
+('es', 'Submit', 'Enviar'),
+('es', 'work.title', 'Experiencia');
 
 -- --------------------------------------------------------
 
@@ -398,6 +441,31 @@ INSERT INTO `translation` (`id`, `objectcode`, `parentid`, `objectid`, `language
 (45, 'pt', 1, 2, 'en', 'tagname', 'PHP', 'admin', '2015-04-09 21:30:39', 'admin', '2015-04-09 21:30:39'),
 (46, 'pr', 1, 2, 'en', 'name', 'Condo Handler&lt;br&gt;', 'admin', '2015-04-09 22:20:22', 'admin', '2015-04-09 22:20:22'),
 (47, 'pr', 1, 2, 'en', 'imagename', 'condohandler.png', 'admin', '2015-04-09 22:22:11', 'admin', '2015-04-09 22:22:11');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `url`
+--
+
+CREATE TABLE IF NOT EXISTS `url` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `curricullumid` int(11) NOT NULL,
+  `name` varchar(60) DEFAULT NULL,
+  `link` varchar(2000) DEFAULT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_url_curricullum1_idx` (`curricullumid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Volcado de datos para la tabla `url`
+--
+
+INSERT INTO `url` (`id`, `curricullumid`, `name`, `link`, `type`) VALUES
+(1, 1, 'github', 'https://github.com/andresfranco', 'socialnetwork'),
+(2, 1, 'linkedin', 'https://www.linkedin.com/in/andresmfranco', 'socialnetwork'),
+(3, 1, 'copy rigth content', 'Powered by CV MAKER and <a href="http://www.styleshout.com">Stylesout</a>', 'copyright');
 
 -- --------------------------------------------------------
 
@@ -498,6 +566,12 @@ ALTER TABLE `translatetag`
 --
 ALTER TABLE `translation`
   ADD CONSTRAINT `fk_translation_language1` FOREIGN KEY (`languagecode`) REFERENCES `language` (`code`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `url`
+--
+ALTER TABLE `url`
+  ADD CONSTRAINT `fk_url_curricullum1` FOREIGN KEY (`curricullumid`) REFERENCES `curricullum` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `userrole`

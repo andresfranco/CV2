@@ -1,6 +1,5 @@
 <?php
-require('../libraries/PHPMailer/class.phpmailer.php');
-require('../libraries/PHPMailer/PHPMailerAutoload.php');
+
 Class ManageEmail
 
 {
@@ -50,7 +49,7 @@ Class ManageEmail
 
 
           $mail->Send();
-          echo "OK";
+          echo 'OK';
 
       }
       else {
@@ -108,6 +107,22 @@ Class ManageEmail
       $message .= "<br /> ----- <br /> This email was sent from your site's contact form. <br />";
 
       return $message;
+  }
+  
+  function sendemailaction($name,$email,$subject,$contact_message)
+  
+  {
+    //$message = "";
+    //$error = [];
+   
+    //$manageemail=new ManageEmail();
+
+    $error =$this->validateemail($name,$email,$contact_message);
+    $subject =$this->validatesubject($subject);
+    $message= $this->setmailmessage($name,$email,$contact_message);
+    $this->sendemail($name,$email,$subject,$message,$error);
+  
+      
   }
 
 

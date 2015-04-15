@@ -3,6 +3,8 @@
 require 'Slim/Slim.php';
 require_once 'Slim/View.php';
 require 'Views/Twig.php';
+require_once 'Backend/libraries/PHPMailer/class.phpmailer.php';
+require_once 'Backend/libraries/PHPMailer/PHPMailerAutoload.php';
 require_once 'Backend/libraries/medoo.php';
 require_once 'Backend/Controller/GlobalController.php';
 require_once 'Backend/Controller/LanguageController.php';
@@ -15,6 +17,8 @@ require_once 'Backend/Controller/SkillController.php';
 require_once 'Backend/Controller/ProjectController.php';
 require_once 'Backend/Controller/ProjecttagController.php';
 require_once 'Backend/Controller/FrontendController.php';
+require_once 'Backend/Controller/ManageEmailController.php';
+
 
 session_cache_limiter(false);
 session_start();
@@ -51,6 +55,7 @@ $skilldb = new SkillController($app,$medoo);
 $projectdb =new ProjectController($app, $medoo);
 $projecttagdb =new ProjecttagController($app, $medoo);
 $frontendobj = new FrontendController($app, $medoo, $globalobj, $languagedb, $translationdb, $educationdb, $skilldb, $projectdb, $projecttagdb);
+$manageemailobj =new ManageEmail();
 //--Set twig globals 
 $twig = $app->view()->getEnvironment();
 $twig->addGlobal("session", $_SESSION);
@@ -69,6 +74,7 @@ $env['skilldb'] = $skilldb;
 $env['projectdb'] = $projectdb;
 $env['projecttagdb'] = $projecttagdb;
 $env['frontend'] = $frontendobj;
+$env['manageemailobj'] =$manageemailobj;
 
 //------------------------------------------------------------
 //-----------------Login-----------------------------------
@@ -90,6 +96,7 @@ $app->get(
     $loader = $twigobj->getLoader();
     $loader->setPaths('Views');
     $maindata =$env['frontend']->getcurricullumdata($lang);
+    //$translations
     $app->render('Mainview/frontendtemplate.html.twig',array('aboutme'=>$maindata["aboutme"]
             ,'contactdetails'=>$maindata["contactdetails"]
             ,'name'=>$maindata["name"]
@@ -682,5 +689,17 @@ $app->post(
 
 //-----------------End projecttag CRUD----------------------    
     
+//-----------------Contact Form--------------------------------
+    
+    $app->post(
+    '/sendemail',
+    function () use($app,$env) {
+        $env['manageemailobj']->sendemailaction($app->request()->post('contactName')
+                ,$app->request()->post('contactEmail')
+                ,$app->request()->post('contactSubject')
+                ,$app->request()->post('contactMessage'));
+    })->name('sendemail');
+    
+ //-----------------End Contact Form--------------------------------  
     
 $app->run();

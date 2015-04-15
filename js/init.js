@@ -152,12 +152,12 @@
       $.ajax({
 
 	      type: "POST",
-	      url: "Formactions/sendmail.php",
+	      url: "/CV2/sendemail",
 	      data: data,
 	      success: function(msg) {
-
+               
             // Message was sent
-            if (msg == 'OK') {
+            if ($.trim(msg) == 'OK') {
                $('#image-loader').fadeOut();
                $('#message-warning').hide();
                $('#contactForm').fadeOut();

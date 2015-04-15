@@ -4,10 +4,12 @@
 
         <div class="twelve columns collapsed">
             
+          <div class="three columns collapsed">
+            <h1><span class ="projecttitle">{{frontendobj.translatetag(lang,'projects.title')}}</span></h1>
+        
+          </div>
           
-
-            <h1>{{'My personal Projects'}}</h1>
-
+             <div class="nine columns collapsed">
             <!-- portfolio-wrapper -->
             <div id="portfolio-wrapper" class="bgrid-quarters s-bgrid-thirds cf">
 
@@ -16,31 +18,13 @@
             </div> <!-- portfolio-wrapper end -->
 
         </div> <!-- twelve columns end -->
+        </div>
 
 
         <!-- Modal Popup
          --------------------------------------------------------------- -->
           {{frontendobj.getprojectmodal(lang,basepath)}}
         <!-- modal-01 End -->
-
-
-
-        <div id="modal-2" class="popup-modal mfp-hide">
-
-
-
-            <div class="description-box">
-                <h4>CV MAKER</h4>
-                <p>Multi language Responsive PHP Web app for make your own curricullum</p>
-                <span class="categories"><i class="fa fa-tag"></i>PHP Development,Web Design</span>
-            </div>
-
-            <div class="link-box">
-                <a href="">Details</a>
-                <a class="popup-modal-dismiss">Close</a>
-            </div>
-
-        </div><!-- modal-01 End -->
 
 
     </div> <!-- row End -->
