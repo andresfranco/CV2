@@ -1,5 +1,20 @@
 {% extends "Templates/Masterpage/masterbackend.html.twig" %}
 {% block content %}
+<div class="row-fluid">	
+<div class="box blue span12">
+<div class="box-header">
+    {{'Translation Features'}}
+</div>
+<div class="box-content">
+    <a href="{{basepath~'/translatetags'}}" class="quick-button span2">
+<i class="icon-tag"></i>
+<p>{{'Translate Tags'}}</p>
+</a>
+<div class="clearfix"></div>
+</div>	
+</div><!--/span-->
+</div><!--/row-->
+<br>
 <div><a href="{{newurl}}"><img src="{{templatepath~'/img/addrow.png'}}"></a></div><br>
 <div class="row-fluid sortable">		
 <div class="box span12">

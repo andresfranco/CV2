@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-04-2015 a las 23:49:07
+-- Tiempo de generación: 17-04-2015 a las 23:58:28
 -- Versión del servidor: 5.5.27
 -- Versión de PHP: 5.4.7
 
@@ -330,6 +330,10 @@ CREATE TABLE IF NOT EXISTS `translatetag` (
   `languagecode` varchar(10) NOT NULL,
   `key` varchar(100) NOT NULL,
   `translation` mediumtext,
+  `createuser` varchar(45) NOT NULL,
+  `createdate` datetime NOT NULL,
+  `modifyuser` varchar(45) NOT NULL,
+  `modifydate` datetime NOT NULL,
   PRIMARY KEY (`languagecode`,`key`),
   KEY `fk_translatetag_language1_idx` (`languagecode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -338,51 +342,53 @@ CREATE TABLE IF NOT EXISTS `translatetag` (
 -- Volcado de datos para la tabla `translatetag`
 --
 
-INSERT INTO `translatetag` (`languagecode`, `key`, `translation`) VALUES
-('en', 'About', 'About'),
-('en', 'aboutme.title', 'About me'),
-('en', 'Contact', 'Contact'),
-('en', 'contact.sidetitle.text', 'E-mail and Phone'),
-('en', 'contactdetails.title', 'Contact Details'),
-('en', 'contacttitle.text', 'If you have any comments or would like to contact me, you can fill the form below'),
-('en', 'downloadresume.title', 'Download Resume'),
-('en', 'education.title', 'Education'),
-('en', 'Email', 'Email'),
-('en', 'English', 'English'),
-('en', 'Home', 'Home'),
-('en', 'Message', 'Message'),
-('en', 'Name', 'Name'),
-('en', 'Projects', 'Projects'),
-('en', 'projects.title', 'Personal Projects'),
-('en', 'Resume', 'Resume'),
-('en', 'sendmessage.text', 'Your message was sent, thank you!'),
-('en', 'skills.title', 'Skills'),
-('en', 'Spanish', 'Spanish'),
-('en', 'Subject', 'Subject'),
-('en', 'Submit', 'Submit'),
-('en', 'work.title', 'Work Experience'),
-('es', 'About', 'A Cerca de'),
-('es', 'aboutme.title', 'A cerca de mi'),
-('es', 'Contact', 'Contacto'),
-('es', 'contact.sidetitle.text', 'Correo y Teléfono'),
-('es', 'contactdetails.title', 'Detalles de contacto'),
-('es', 'contacttitle.text', 'Si usted tiene algún comentario o desea ponerse en contacto conmigo, puedes llenar el siguiente formulario'),
-('es', 'downloadresume.title', 'Descargue el Currícullum'),
-('es', 'education.title', 'Educación'),
-('es', 'Email', 'Correo'),
-('es', 'English', 'Inglés'),
-('es', 'Home', 'Inicio'),
-('es', 'Message', 'Mensaje'),
-('es', 'Name', 'Nombre'),
-('es', 'Projects', 'Proyectos'),
-('es', 'projects.title', 'Proyectos personales'),
-('es', 'Resume', 'Currícullum'),
-('es', 'sendmessage.text', 'Su mensaje ha sido enviado,gracias!'),
-('es', 'skills.title', 'Habilidades'),
-('es', 'Spanish', 'Español'),
-('es', 'Subject', 'Asunto'),
-('es', 'Submit', 'Enviar'),
-('es', 'work.title', 'Experiencia');
+INSERT INTO `translatetag` (`languagecode`, `key`, `translation`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
+('en', 'About', 'About', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'aboutme.title', 'About me', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'asas', '&lt;br&gt;', 'admin', '2015-04-17 21:47:44', 'admin', '2015-04-17 21:47:44'),
+('en', 'Contact', 'Contact', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'contact.sidetitle.text', 'E-mail and Phone', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'contactdetails.title', 'Contact Details', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'contacttitle.text', 'If you have any comments or would like to contact me, you can fill the form below', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'downloadresume.title', 'Download Resume', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'education.title', 'Education', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'Email', 'Email', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'English', 'English', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'Home', 'Home', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'Message', 'Message', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'Name', 'Name', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'Projects', 'Projects', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'projects.title', 'Personal Projects', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'Resume', 'Resume', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'sendmessage.text', 'Your message was sent, thank you!', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'skills.title', 'Skills', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'Spanish', 'Spanish', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'Subject', 'Subject', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'Submit', 'Submit', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('en', 'test2', 'test2', 'admin', '2015-04-17 20:09:39', 'admin', '2015-04-17 20:09:39'),
+('en', 'work.title', 'Work Experience', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'About', 'A Cerca de', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'aboutme.title', 'A cerca de mi', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'Contact', 'Contacto', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'contact.sidetitle.text', 'Correo y Teléfono', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'contactdetails.title', 'Detalles de contacto', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'contacttitle.text', 'Si usted tiene algún comentario o desea ponerse en contacto conmigo, puedes llenar el siguiente formulario', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'downloadresume.title', 'Descargue el Currícullum', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'education.title', 'Educación', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'Email', 'Correo', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'English', 'Inglés', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'Home', 'Inicio', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'Message', 'Mensaje', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'Name', 'Nombre', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'Projects', 'Proyectos', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'projects.title', 'Proyectos personales', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'Resume', 'Currícullum', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'sendmessage.text', 'Su mensaje ha sido enviado,gracias!', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'skills.title', 'Habilidades', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'Spanish', 'Español', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'Subject', 'Asunto', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'Submit', 'Enviar', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28'),
+('es', 'work.title', 'Experiencia', 'admin', '2015-03-30 19:51:28', 'admin', '2015-03-30 19:51:28');
 
 -- --------------------------------------------------------
 

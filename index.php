@@ -18,7 +18,7 @@ require_once 'Backend/Controller/ProjectController.php';
 require_once 'Backend/Controller/ProjecttagController.php';
 require_once 'Backend/Controller/FrontendController.php';
 require_once 'Backend/Controller/ManageEmailController.php';
-
+require_once 'Backend/Controller/TranslatetagController.php';
 
 session_cache_limiter(false);
 session_start();
@@ -56,6 +56,7 @@ $projectdb =new ProjectController($app, $medoo);
 $projecttagdb =new ProjecttagController($app, $medoo);
 $frontendobj = new FrontendController($app, $medoo, $globalobj, $languagedb, $translationdb, $educationdb, $skilldb, $projectdb, $projecttagdb);
 $manageemailobj =new ManageEmail();
+$translatetagobj = new TranslatetagController($app, $medoo);
 //--Set twig globals 
 $twig = $app->view()->getEnvironment();
 $twig->addGlobal("session", $_SESSION);
@@ -75,6 +76,7 @@ $env['projectdb'] = $projectdb;
 $env['projecttagdb'] = $projecttagdb;
 $env['frontend'] = $frontendobj;
 $env['manageemailobj'] =$manageemailobj;
+$env['translatetagdb']=$translatetagobj;
 
 //------------------------------------------------------------
 //-----------------Login-----------------------------------
@@ -701,5 +703,65 @@ $app->post(
     })->name('sendemail');
     
  //-----------------End Contact Form--------------------------------  
+    
+//-----------------Translatetag CRUD---------------------
+$app->get(
+    '/translatetags',
+    function () use($app,$env) {
+
+        $env['translatetagdb']->rendergridview('Views/Translatetag/translatetags.html.twig');
+
+    })->name('translatetags');
+
+$app->get(
+    '/newtranslatetag',
+    function () use($app,$env) {
+        $env['translatetagdb']->rendernewview('','','','',$env['globalobj'],'Views/Translatetag/translatetagnew.html.twig');
+        
+    })->name('newtranslatetag');
+
+$app->post(
+    '/newtranslatetag',
+    function () use($app,$env) {
+
+        $env['translatetagdb']->addnewitem($env['globalobj']->getcurrentuser()
+                ,htmlEntities($app->request()->post('languagecode'))
+                ,htmlEntities($app->request()->post('key'))
+                ,htmlEntities($app->request()->post('translation'))
+                ,'Views/Translatetag/translatetagnew.html.twig') ;
+        
+    })->name('inserttranslatetag');
+
+$app->get(
+    '/edittranslatetag/:parameter',
+    function ($parameter) use($app,$env) {
+        $env['translatetagdb']->rendereditview($parameter,$env['globalobj'],'Views/Translatetag/translatetagedit.html.twig');
+
+    })->name('edittranslatetag');
+
+$app->post(
+    '/updatetranslatetag',
+    function () use($app,$env) {
+    $env['translatetagdb']->updateitem($env['globalobj']->getcurrentuser()
+            ,$app->request()->post('languagecode')
+            ,$app->request()->post('key')
+            ,$app->request()->post('translation')
+            ,$app->request()->post('parameter')) ;
+    })->name('updatetranslatetag');  
+
+$app->get(
+    '/viewtranslatetag/:parameter',
+    function ($parameter) use($app,$env) {
+        $env['translatetagdb']->renderdeleteview($parameter,$env['globalobj'],'Views/Translatetag/translatetagdelete.html.twig');
+
+    })->name('viewtranslatetag');
+
+$app->post(
+    '/deletetranslatetag',
+    function () use($app,$env) {
+        $env['translatetagdb']->deleteitem($app->request()->post('parameter'));
+    })->name('deletetranslatetag');
+
+//-----------------End translatetag CRUD----------------------        
     
 $app->run();

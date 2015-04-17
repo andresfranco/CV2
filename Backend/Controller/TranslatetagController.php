@@ -10,19 +10,19 @@ class TranslatetagController {
 
         $this->database =$medoo;
         $this->app=$app;
-        $this->editurl ='edittranslationtag';
-        $this->deleteurl='viewtranslationtag';
-        $this->mainlink = '/translationtaglist';
-        $this->mainoption ='Translation Tags';
+        $this->editurl ='edittranslatetag';
+        $this->deleteurl='viewtranslatetag';
+        $this->mainlink = '/translatetaglist';
+        $this->mainoption ='Translate Tags';
 
     }
     function rendergridview($renderpath)
     {
 
         $this->app->render($renderpath,
-            array('newurl'=>$this->app->urlFor('newtranslationtag')
+            array('newurl'=>$this->app->urlFor('newtranslatetag')
                 ,'editurl'=>$this->editurl,'deleteurl'=>$this->deleteurl
-                ,'translationtagobj'=>$this 
+                ,'obj'=>$this 
                 ,'option'=>$this->mainoption
                 ,'route'=>''
                 ,'link'=>$this->mainlink));
@@ -59,78 +59,72 @@ class TranslatetagController {
        echo'</tbody></table>';
    }
    
-   function rendernewview($objectcode,$parentid,$objectid,$languagecode,$field,$content,$errormessage,$globalobj,$db,$renderpath)
+   function rendernewview($languagecode,$key,$translation,$errormessage,$globalobj,$renderpath)
 {
-    $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('translationtags')
-            ,'selfurl'=>$this->app->urlFor('newtranslationtag')
-            ,'objectcode'=>$objectcode
-            ,'parentid'=>$parentid
-            ,'objectid'=>$objectid
+    $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('translatetags')
+            ,'selfurl'=>$this->app->urlFor('newtranslatetag')
             ,'languagecode'=>$languagecode
-            ,'field'=>$field
-            ,'content'=>$content
+            ,'key'=>$key
+            ,'translation'=>$translation
+            ,'languagecode'=>$translation
             ,'errormessage'=>$errormessage
             ,'option'=>$this->mainoption
             ,'route'=>'New'
             ,'link'=>$this->mainlink
             ,'globalobj'=>$globalobj
-            ,'db'=>$db));
+           ));
 
 }
 
-function rendereditview($id,$globalobj,$renderpath)
+function rendereditview($parameter,$globalobj,$renderpath)
 {
-
-    $datas=$this->gettranslationtagbyid($id);
+    $arrayparameter = explode('-', $parameter);
+    $languagecode = $arrayparameter[0];
+    $key = $arrayparameter[1];
+    
+    $datas=$this->gettranslatetagbyid($languagecode,$key);
     foreach($datas as $data)
     {
-        $objectcode = $data["objectcode"];
-        $parentid =$data["parentid"];
-        $objectid =$data["objectid"];
-        $languagecode =$data["languagecode"];
-        $field =$data["field"];
-        $content=$data["content"];
+        $languagecode = $data["languagecode"];
+        $key =$data["key"];
+        $translation =$data["translation"];
+        
     }
-    $this->app->render($renderpath,array('id'=>$id
-            ,'objectcode'=>$objectcode
-            ,'parentid'=>$parentid
-            ,'objectid'=>$objectid
-            ,'languagecode'=>$languagecode
-            ,'field'=>$field
-            ,'content'=>$content
-            ,'updateurl'=>$this->app->urlFor('updatetranslationtag')
-            ,'listurl'=>$this->app->urlFor('translationtags')
+    $this->app->render($renderpath,array(
+            'languagecode'=>$languagecode
+            ,'key'=>$key
+            ,'translation'=>$translation
+            ,'updateurl'=>$this->app->urlFor('updatetranslatetag')
+            ,'listurl'=>$this->app->urlFor('translatetags')
             ,'db'=>$this
             ,'globalobj'=>$globalobj
             ,'option'=>$this->mainoption
             ,'route'=>'Edit'
+            ,'parameter'=>$parameter
             ,'link'=>$this->mainlink));
 
 }
 
-function renderdeleteview($id,$globalobj,$renderpath)
+function renderdeleteview($parameter,$globalobj,$renderpath)
 {
-   $datas=$this->gettranslationtagbyid($id);
+    $arrayparameter = explode('-', $parameter);
+    $languagecode = $arrayparameter[0];
+    $key = $arrayparameter[1];
+   $datas=$this->gettranslatetagbyid($languagecode,$key);
     foreach($datas as $data)
     {
-        $objectcode = $data["objectcode"];
-        $parentid =$data["parentid"];
-        $objectid =$data["objectid"];
-        $languagecode =$data["languagecode"];
-        $field =$data["field"];
-        $content=$data["content"];
+        $languagecode = $data["languagecode"];
+        $key =$data["key"];
+        $translation =$data["translation"];
     }
-    $this->app->render($renderpath,array('id'=>$id
-             ,'objectcode'=>$objectcode
-            ,'parentid'=>$parentid
-            ,'objectid'=>$objectid
-            ,'languagecode'=>$languagecode
-            ,'field'=>$field
-            ,'content'=>$content
-            ,'deleteurl'=>$this->app->urlFor('deletetranslationtag')
-            ,'listurl'=>$this->app->urlFor('translationtags')
+    $this->app->render($renderpath,array(
+             'languagecode'=>$languagecode
+            ,'key'=>$key
+            ,'translation'=>$translation
+            ,'deleteurl'=>$this->app->urlFor('deletetranslatetag')
+            ,'listurl'=>$this->app->urlFor('translatetags')
             ,'globalobj'=>$globalobj
-            ,'db'=>$this
+            ,'parameter'=>$parameter
             ,'option'=>$this->mainoption
             ,'route'=>'Delete'
             ,'link'=>$this->mainlink));
@@ -138,54 +132,53 @@ function renderdeleteview($id,$globalobj,$renderpath)
 
 
 
-function validateinsert($objectcode, $parentid, $objectid, $languagecode, $field)
+function validateinsert($languagecode, $key, $translation)
     {
         //Validate if exist
-        $count =$this->findtranslationtag($objectcode, $parentid, $objectid, $languagecode, $field);
+        $count =$this->findtranslatetag($languagecode, $key, $translation);
         $errormessage="";
         if($count>0)
         {
-            $errormessage= '<div class="alert alert-error">The translationtag already exist</div>';
+            $errormessage= '<div class="alert alert-error">The translation tag already exist</div>';
 
         }
         return $errormessage;
     }
 
 
-    function addnewitem($username,$objectcode, $parentid, $objectid, $languagecode,$field,$content,$renderpath)
+    function addnewitem($username,$languagecode,$key, $translation,$renderpath)
     {
-        $errormessage = $this->validateinsert($objectcode, $parentid, $objectid, $languagecode, $field);
+        $errormessage = $this->validateinsert($languagecode, $key, $translation);
 
         if($errormessage=="")
         {
-            $this->inserttranslationtag($username, $objectcode, $parentid, $objectid, $languagecode, $field, $content);
+            $this->inserttranslatetag($username, $languagecode, $key, $translation);
 
-            $this->app->response->redirect($this->app->urlFor('translationtags'), array('newurl'=>$this->app->urlFor('newtranslationtag') ,'editurl'=>$this->editurl,'deleteurl'=>$this->deleteurl));
+            $this->app->response->redirect($this->app->urlFor('translatetags'), array('newurl'=>$this->app->urlFor('newtranslatetag') ,'editurl'=>$this->editurl,'deleteurl'=>$this->deleteurl));
 
         }
         else
         {
-            $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('translationtags')
-            ,'selfurl'=>$this->app->urlFor('newtranslationtag')
-            ,'objectcode'=>$objectcode
-            ,'parentid'=>$parentid
-            ,'objectid'=>$objectid
+            $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('translatetags')
+            ,'selfurl'=>$this->app->urlFor('newtranslatetag')
             ,'languagecode'=>$languagecode
-            ,'field'=>$field
-            ,'content'=>$content
+            ,'key'=>$key
+            ,'translation'=>$translation
             ,'errormessage'=>$errormessage));
         }
 
 
     }
   
-   function updateitem($username,$id,$objectcode, $parentid, $objectid, $languagecode,$field,$content)
+   function updateitem($username,$languagecode, $key, $translation,$parameter)
     {
-        $this->updatetranslationtag($id, $username, $objectcode, $parentid, $objectid, $languagecode, $field, $content);
+       
+        
+        $this->updatetranslatetag($username, $languagecode, $key, $translation,$parameter);
         $this->app->response->redirect(
-            $this->app->urlFor('translationtags'),
+            $this->app->urlFor('translatetags'),
             array(
-                'newurl' => $this->app->urlFor('newtranslationtag'),
+                'newurl' => $this->app->urlFor('newtranslatetag'),
                 'editurl' => $this->editurl,
                 'deleteurl' => $this->deleteurl
             )
@@ -193,37 +186,37 @@ function validateinsert($objectcode, $parentid, $objectid, $languagecode, $field
 
     }
 
-        function deleteitem($id)
+        function deleteitem($parameter)
         {
-            $this->deletetranslationtag($id);
+             $arrayparameter = explode('-', $parameter);
+             $languagecode = $arrayparameter[0];
+             $key = $arrayparameter[1];
+            $this->deletetranslatetag($languagecode,$key);
             $this->app->response->redirect(
-                $this->app->urlFor('translationtags'),
+                $this->app->urlFor('translatetags'),
                 array(
-                    'newurl' => $this->app->urlFor('newtranslationtag'),
+                    'newurl' => $this->app->urlFor('newtranslatetag'),
                     'editurl' => $this->editurl,
                     'deleteurl' => $this->deleteurl
                 )
             );
         }   
 
-function inserttranslationtag($username,$objectcode,$parentid,$objectid,$languagecode,$field,$content)
+function inserttranslatetag($username,$languagecode,$key,$translation)
     {
 
         $dt = date('Y-m-d H:i:s');
-        $this->database->insert("translationtag", 
+        $this->database->insert("translatetag", 
         [
-            "objectcode" => $objectcode,
-            "parentid"=>$parentid,
-            "objectid" => $objectid,
             "languagecode" => $languagecode,
-            "field"=>$field,
-            "content"=>$content,
+            "key"=>$key,
+            "translation" => $translation,
             "createuser" => $username,
             "createdate" => $dt ,
             "modifyuser" => $username,
             "modifydate" => $dt 
          ]);
-
+        
     }
 
     function getall()
@@ -231,42 +224,42 @@ function inserttranslationtag($username,$objectcode,$parentid,$objectid,$languag
 
 
         $sth = $this->database->pdo->prepare("select t.languagecode"
-                . ",t.key,t.translation , l.language as language "
+                . ",t.key,t.translation,l.language as language "
                 . "from translatetag t inner join language l on (t.languagecode=l.code) ");
         $sth->execute();
         return $sth;
 
 
     }
-    function updatetranslationtag($id,$username,$objectcode,$parentid,$objectid,$languagecode,$field,$content)
+    function updatetranslatetag($username,$languagecode,$key,$translation,$parameter)
     {
-
+        $arrayparameter = explode('-', $parameter);
+        $languagecodeold = $arrayparameter[0];
+        $keyold = $arrayparameter[1];
+        
         $dt = date('Y-m-d H:i:s');
-        $this->database->update("translationtag",
+        $this->database->update("translatetag",
             [
-            "objectcode" => $objectcode,
-            "parentid"=>$parentid,    
-            "objectid" => $objectid,
             "languagecode" => $languagecode,
-            "field"=>$field,
-            "content"=>$content,
-            "createuser" => $username,
-            "createdate" => $dt ,
+            "key"=>$key,    
+            "translation" => $translation,
             "modifyuser" => $username,
             "modifydate" => $dt 
         ],
-            [
-            "id[=]" => $id
-        ]);
-
+            ["AND"=>[
+            "languagecode[=]" => $languagecodeold,
+            "key[=]" => $keyold,    
+        ]]);
+         
     }
 
-    function deletetranslationtag($id)
+    function deletetranslatetag($languagecode,$key)
     {
 
-        $this->database->delete("translationtag", [
+        $this->database->delete("translatetag", [
             "AND" => [
-                "id" => $id
+                 "languagecode" => $languagecode,
+                  "key" => $key,   
 
             ]
 
@@ -274,249 +267,36 @@ function inserttranslationtag($username,$objectcode,$parentid,$objectid,$languag
 
     }
 
-    function findtranslationtag($objectcode,$parentid,$objectid,$languagecode, $field)
+    function findtranslatetag($languagecode,$key,$translation)
     {
-        $count =  $this->database->count("translationtag", [
-           "id"
+        $count =  $this->database->count("translatetag", [
+           "languagecode"
             
-        ],["AND" => [ "objectcode" => $objectcode,
-            "parentid"=>$parentid,
-            "objectid" => $objectid,
-            "languagecode" => $languagecode,
-            "field"=>$field]]);
+        ],["AND" => [ "languagecode" => $languagecode,
+            "key"=>$key,
+            "translation" => $translation,
+          ]]);
         
         return $count;
 
     }
 
-    function gettranslationtagbyid($id)
+    function gettranslatetagbyid($languagecode,$key)
     {
 
-        $data = $this->database->select("translationtag", [
-            "id",
-            "objectcode",
-            "parentid",
-            "objectid" ,
+        $data = $this->database->select("translatetag", [
             "languagecode",
-            "field",
-            "content"
-        ], [
-            "id" => $id
-        ]);
-
+            "key",
+            "translation" 
+           
+        ],["AND"=>[
+            "languagecode" => $languagecode,
+            "key"=>$key]]);
+        
         return $data;
     }
     
-    function gettranslatecontent($objectcode,$objectid,$languagecode,$field)
-    {
-         $data = $this->database->select("translationtag", [
-            
-            "content",
-           
-        ], [
-            "objectcode" => $objectcode,
-            "objectid" => $objectid,
-            "languagecode" => $languagecode,
-            "field"=>$field
-            
-        ]);
-         
-       return $data; 
-    }  
-    
-    function getcurricullumtranslate($objectcode,$objectid,$languagecode)
-    {
-         $sth = $this->database
-                 ->pdo
-                 ->prepare("SELECT field,content FROM translationtag "
-                         . "where objectcode='".$objectcode
-                         ."' and objectid ='".$objectid."' and languagecode ='".$languagecode."'");
-        $sth->execute();
-        return $sth;
-        
-    }
-    function getparent($globalobj,$objectcode,$parentid)
-    {
-     
-    
-     if ($objectcode=="pt")
-     { 
-     $tablename ="project";  
-     }
-     else
-     {
-     $tablename ="curricullum";  
-     }    
-    
-
-if ($objectcode !="cv")
-{
- $globalobj->getparentselect('',$parentid,$objectcode,$tablename);   
-    
-}else
-{
-echo '<select id="parentid" name="parentid">
-                          <option value="-1">No parent needed</option>
-                          </select>
-          '  ;  
-    
-}   
-    }
-    
-    function getobject($globalobj,$objectcode,$parentid)
-    {
-   
-     $filterffield="curricullumid";
-     switch ($objectcode) {
-    
-    case "ed":
-        $tablename='education';
-        $fielddesc ="institution";
-        break;
-    case "sk":
-        $tablename='skill';
-        $fielddesc ="skill";
-        break;
-    case "wo":
-       $tablename='work';
-       $fielddesc ="company";
-        break;
-      case "pr":
-       $tablename='project';
-       $fielddesc ="name";   
-        break;
-    case "pt":
-       $tablename='project_tag';
-       $fielddesc ="tagname";
-       $filterffield="projectid";
-        break;
-    }
-    
-    if ($objectcode=="cv")
-    { 
-      $globalobj->getcurricullumselect('', $parentid);
-    }
-    else
-    {    
-    $globalobj->getselectoptionsbytable($parentid,$tablename,$fielddesc,$filterffield);  
-    }    
-    }
-
-    function getfields($globalobj,$objectcode,$field)
-    {
-
-        $databasename="curricullum";
-        $tablename="";
-        switch ($objectcode) {
-            case "cv":
-                $tablename='curricullum';
-                break;
-            case "ed":
-                $tablename='education';
-                break;
-            case "sk":
-                $tablename='skill';
-                break;
-            case "wo":
-                $tablename='work';
-                break;
-            case "pr":
-                $tablename='project';
-                break;
-            case "pt":
-                $tablename='project_tag';
-
-                break;
-        }
-        $globalobj->gettablefields($databasename, $tablename,$field);
-    }
-    
-    function getfieldsajax($objectcode,$field,$globalobj,$databasename)
-    {
-       switch ($objectcode) {
-    case "cv":
-        $tablename='curricullum';
-        break;
-    case "ed":
-        $tablename='education';
-        break;
-    case "sk":
-        $tablename='skill';
-        break;
-    case "wo":
-       $tablename='work';
-        break;
-      case "pr":
-       $tablename='project';
-        break;
-  case "pt":
-       $tablename='project_tag';
-       
-        break;
-   }
-    return $globalobj->gettablefields($databasename,$tablename,$field);   
-        
-    }
-    
-    
-   function getparentajax($objectcode,$globalobj)
-   {
-   
-    if ($objectcode=="pt")
-    { 
-     $tablename ="project";  
-    }
-    else
-   {
-    $tablename ="curricullum";  
-    }    
-    if ($objectcode !="cv")
-   {
-   $globalobj->getparentselect('','',$objectcode,$tablename);   
-    
-   }else
-   {
-    echo '<select id="parentid" name="parentid" disabled>
-                          <option value="-1">No parent needed</option>
-                          </select>
-          '  ;  
-   }   
-       
-   } 
-   
-   function getobjectidlistajax($globalobj)
-   {
-     $globalobj->getcurricullumselect('','');   
-   }
-   
-   function getobjects($objectcode,$parentid,$globalobj)
-   {
-   $filterffield="curricullumid";
-    switch ($objectcode) {
-     case "ed":
-        $tablename='education';
-        $fielddesc ="institution";
-        break;
-    case "sk":
-        $tablename='skill';
-        $fielddesc ="skill";
-        break;
-    case "wo":
-       $tablename='work';
-       $fielddesc ="company";
-        break;
-      case "pr":
-       $tablename='project';
-       $fielddesc ="name";   
-        break;
-  case "pt":
-       $tablename='project_tag';
-       $fielddesc ="tagname";
-       $filterffield="projectid";
-        break;
-   }
-    $globalobj->getselectoptionsbytable($parentid,$tablename,$fielddesc,$filterffield); 
-   }
+  
     
 }
 

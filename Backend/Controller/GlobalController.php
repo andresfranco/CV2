@@ -11,7 +11,7 @@ Class GlobalController
     {
         $sth = $this->database->pdo->prepare('SELECT code ,language FROM language');
         $sth->execute();
-         echo '<select name="languagecode"'.$attribute.'>';
+         echo '<select id ="languagecode" name="languagecode"'.$attribute.'>';
 
         $selected="";
         foreach ($sth as $row) {
