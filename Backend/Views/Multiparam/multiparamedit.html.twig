@@ -1,0 +1,28 @@
+{% extends "Templates/Masterpage/masterbackend.html.twig" %}
+{% block content %}
+<script src="{{templatepath ~'/Views/Multiparam/validatemultiparam.js'}}"></script>
+<form id="appform" method="post" action="{{updateurl}}">
+    <table  border="0" cellspacing="1" cellpadding="2">
+         <tr>
+            <td><label class="control-label">{{'System Parameter'}}</label></td>
+            <td>{{obj.getsysparamselect('',sysparamid)}}</td>
+        </tr>
+        <tr>
+            <td><label class="control-label">{{'Value'}}</label></td>
+            <td><textarea class="cleditor" id ="value"  name="value"  rows="3" maxlength="900">{{value}}</textarea></td>
+            <td><label id ="valueerror" name="valueerror"></label></td> 
+        </tr>
+        <tr>
+            <td><label class="control-label">{{'Description'}}</label></td>
+            <td><input name="valuedesc" type="text" id="valuedesc" maxlength="100" class="span6 typeahead" value="{{valuedesc}}"></td>
+        </tr>
+
+    </table>
+    <br>
+    <div class="options btn-group">
+        <input  id ="deletebutton" class="btn btn-primary" type="submit" value="Save" />
+        <input onClick="window.location.href='{{listurl}}'"id ="cancelbutton" class=" btn input-small"  value="Cancel" />
+    </div>
+    
+</form>
+{% endblock content %}

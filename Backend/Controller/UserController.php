@@ -35,15 +35,13 @@ function rendergridview($renderpath)
 
 }
 
-function rendernewview($username,$salt,$password,$email,$errormessage,$globalobj,$renderpath)
+function rendernewview($username,$password,$email,$errormessage,$renderpath)
 {
     $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('users')
             ,'selfurl'=>$this->app->urlFor('newuser')
             ,'username'=>$username
-            ,'salt'=>$salt
             ,'password'=>$password
             ,'email'=>$email
-            ,'globalobj'=>$globalobj
             ,'errormessage'=>$errormessage
             ,'option'=>$this->mainoption
             ,'route'=>'New'
@@ -51,15 +49,13 @@ function rendernewview($username,$salt,$password,$email,$errormessage,$globalobj
 
 }
 
-function rendereditview($id,$globalobj,$renderpath)
+function rendereditview($id,$renderpath)
 {
 
     $datas=$this->getuserbyid($id);
     foreach($datas as $data)
     {
         $username = $data["username"];
-        $salt = $data["salt"];
-        $password = $data["password"];
         $email = $data["email"];
        
         
@@ -67,10 +63,7 @@ function rendereditview($id,$globalobj,$renderpath)
     $this->app->render($renderpath,array( 
             'id'=>$id
             ,'username'=>$username
-            ,'salt'=>$salt
-            ,'password'=>$password
             ,'email'=>$email
-            ,'globalobj'=>$globalobj
             ,'updateurl'=>$this->app->urlFor('updateuser')
             ,'listurl'=>$this->app->urlFor('users')
             ,'option'=>$this->mainoption
@@ -79,20 +72,17 @@ function rendereditview($id,$globalobj,$renderpath)
 
 }
 
-function renderdeleteview($id,$globalobj,$renderpath)
+function renderdeleteview($id,$renderpath)
 {
     $datas=$this->getuserbyid($id);
     foreach($datas as $data)
     {
-        $salt = $data["salt"];
-        $username =$data["username"];
+        $username = $data["username"];
+        $email =$data["email"];
     }
     $this->app->render($renderpath,array('id'=>$id
             ,'username'=>$username
-            ,'salt'=>$salt
-            ,'password'=>$password
             ,'email'=>$email
-            ,'globalobj'=>$globalobj
             ,'deleteurl'=>$this->app->urlFor('deleteuser')
             ,'listurl'=>$this->app->urlFor('users')
             ,'option'=>$this->mainoption
@@ -100,7 +90,45 @@ function renderdeleteview($id,$globalobj,$renderpath)
             ,'link'=>$this->mainlink));
 }
 
+function renderpasswordchange($id,$renderpath)
+{
+  $datas=$this->getuserbyid($id);
+    foreach($datas as $data)
+    {
+        $username = $data["username"];
+    }  
+    $this->app->render($renderpath,array('id'=>$id
+            ,'username'=>$username
+            ,'updateurl'=>$this->app->urlFor('changepassword')
+            ,'listurl'=>$this->app->urlFor('users')
+            ,'option'=>$this->mainoption
+            ,'route'=>'Password Change'
+            ,'link'=>$this->mainlink));
+}
 
+function changepassword($user,$id,$password)
+{
+   $this->updatepassword($user, $id, $password) ;
+   $url = str_replace(':id', $id, $this->app->urlFor('edituser'));
+   $this->app->response->redirect($url);    
+} 
+
+function updatepassword($user,$id,$password)
+{
+   $salt =$this->security->createsalt();
+   $hashpassword =$this->security->Sethashpassword($salt,$password);
+   $dt = date('Y-m-d H:i:s');
+        $this->database->update("systemuser", [
+            
+            "password"=>$hashpassword
+           ,"salt"=>$salt            
+           ,"modifyuser" => $user
+           ,"modifydate"=>$dt
+             ],[
+            "id[=]" => $id
+        ]);   
+    
+}        
 
 function validateinsert($username)
 {
@@ -109,14 +137,14 @@ function validateinsert($username)
     $errormessage="";
     if($count>0)
     {
-        $errormessage= '<div class="alert alert-error">The username already exist</div>';
+        $errormessage= '<div class="alert alert-error">The username: '.$username.' already exist</div>';
 
     }
     return $errormessage;
 }
 
 
-function addnewitem($username,$password,$email,$globalobj,$renderpath)
+function addnewitem($user,$username,$password,$email,$renderpath)
 {
     $errormessage = $this->validateinsert($username);
 
@@ -124,7 +152,7 @@ function addnewitem($username,$password,$email,$globalobj,$renderpath)
     {
         $salt =$this->security->createsalt();
         $hashpassword =$this->security->Sethashpassword($salt,$password);
-        $this->insertuser($username,$salt,$hashpassword,$email);
+        $this->insertuser($user,$username,$salt,$hashpassword,$email);
 
         $this->app->response->redirect($this->app->urlFor('users')
                 , array('newurl'=>$this->app->urlFor('newuser') 
@@ -137,10 +165,7 @@ function addnewitem($username,$password,$email,$globalobj,$renderpath)
         $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('users')
                 ,'selfurl'=>$this->app->urlFor('newuser')
                 ,'username'=>$username
-                ,'salt'=>$salt
-                ,'password'=>$password
                 ,'email'=>$email
-                ,'globalobj'=>$globalobj
                 ,'errormessage'=>$errormessage
                 ,'option'=>$this->mainoption
                 ,'route'=>'New'
@@ -150,9 +175,9 @@ function addnewitem($username,$password,$email,$globalobj,$renderpath)
 
 }
 
-    function updateitem($username,$id,$username,$salt)
+    function updateitem($user,$id,$username,$email)
     {
-        $this->updateuser($id,$username);
+        $this->updateuser($user,$id,$username,$email);
         $this->app->response->redirect($this->app->urlFor('users'), array('newurl'=>$this->app->urlFor('newuser') ,'editurl'=>$this->editurl,'deleteurl'=>$this->deleteurl));
     }
 
@@ -196,20 +221,17 @@ function buildgrid($editurl,$deleteurl)
 
 
 
-
-function insertuser($username,$salt,$password,$email)
+function insertuser($user,$username,$salt,$password,$email)
 {
 $dt = date('Y-m-d H:i:s');
 $this->database->insert("systemuser", [ 'username'=>$username
 ,'salt'=>$salt
 ,'password'=>$password
 ,'email'=>$email
-,"createuser" => $username
+,"createuser" => $user
 ,"createdate" => $dt 
-,"modifyuser" => $username
+,"modifyuser" => $user
 ,"modifydate" => $dt ]);
-
-
 
 }
 
@@ -217,27 +239,26 @@ function getall()
 {
 
 
-    $sth = $this->database->pdo->prepare(''
-            . 'SELECT username,sat,password,email'
-            . 'FROM systemuser');
+    $sth = $this->database->pdo->prepare("SELECT id,username FROM systemuser");
     $sth->execute();
     return $sth;
 
 
 }
-    function updateuser($id,$username)
+    function updateuser($user,$id,$username,$email)
     {
         
         $dt = date('Y-m-d H:i:s');
         $this->database->update("systemuser", [
-            'username'=>$username
-           ,"modifyuser" => $username
+            "username"=>$username
+           ,"email"=>$email     
+           ,"modifyuser" => $user
            ,"modifydate"=>$dt
              ],[
             "id[=]" => $id
         ]);
 
-
+        
     }
 
 function deleteuser($id)

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-04-2015 a las 23:58:28
+-- Tiempo de generación: 21-04-2015 a las 00:01:55
 -- Versión del servidor: 5.5.27
 -- Versión de PHP: 5.4.7
 
@@ -128,23 +128,28 @@ CREATE TABLE IF NOT EXISTS `multiparam` (
   `sysparamid` int(11) NOT NULL,
   `value` varchar(900) DEFAULT NULL,
   `valuedesc` varchar(900) DEFAULT NULL,
+  `createuser` varchar(45) DEFAULT NULL,
+  `createdate` datetime DEFAULT NULL,
+  `modifyuser` varchar(45) DEFAULT NULL,
+  `modifydate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_multiparam_sysparam1_idx` (`sysparamid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 --
 -- Volcado de datos para la tabla `multiparam`
 --
 
-INSERT INTO `multiparam` (`id`, `sysparamid`, `value`, `valuedesc`) VALUES
-(1, 3, 'cv', 'Curricullum'),
-(2, 3, 'ed', 'Education'),
-(3, 3, 'sk', 'Skill'),
-(4, 3, 'wo', 'Work'),
-(5, 3, 'pr', 'Project'),
-(6, 3, 'pt', 'Project Tag'),
-(7, 4, 'personal', 'Personal Skill'),
-(8, 4, 'technical', 'Technical Skill');
+INSERT INTO `multiparam` (`id`, `sysparamid`, `value`, `valuedesc`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
+(1, 3, 'cv', 'Curricullum', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(2, 3, 'ed', 'Education', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(3, 3, 'sk', 'Skill', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(4, 3, 'wo', 'Work', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(5, 3, 'pr', 'Project', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(6, 3, 'pt', 'Project Tag', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(7, 4, 'personal', 'Personal Skill', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(8, 4, 'technical', 'Technical Skill', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(14, 3, 'test4', 'test4', 'admin', '2015-04-20 23:31:07', 'admin', '2015-04-20 23:58:49');
 
 -- --------------------------------------------------------
 
@@ -281,18 +286,22 @@ CREATE TABLE IF NOT EXISTS `sysparam` (
   `code` varchar(45) DEFAULT NULL,
   `value` varchar(900) DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
+  `createuser` varchar(45) NOT NULL,
+  `createdate` datetime NOT NULL,
+  `modifyuser` varchar(45) NOT NULL,
+  `modifydate` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Volcado de datos para la tabla `sysparam`
 --
 
-INSERT INTO `sysparam` (`id`, `code`, `value`, `description`) VALUES
-(1, 'lang', 'en', 'Default Language'),
-(2, 'cvname', 'Andrés Franco', 'Default Curricullum Name'),
-(3, 'objcode', 'objcode', 'Translation object codes'),
-(4, 'skilltype', 'skilltype', 'Skills Types');
+INSERT INTO `sysparam` (`id`, `code`, `value`, `description`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
+(1, 'lang', 'en', 'Default Language', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(2, 'cvname', 'Andrés Franco', 'Default Curricullum Name', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(3, 'objcode', 'objcode', 'Translation object codes', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(4, 'skilltype', 'skilltype', 'Skills Types', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05');
 
 -- --------------------------------------------------------
 
@@ -306,19 +315,20 @@ CREATE TABLE IF NOT EXISTS `systemuser` (
   `salt` varchar(100) DEFAULT NULL,
   `password` varchar(900) DEFAULT NULL,
   `email` varchar(60) DEFAULT NULL,
-  `crerateuser` varchar(45) NOT NULL,
+  `createuser` varchar(45) NOT NULL,
   `createdate` datetime NOT NULL,
   `modifyuser` varchar(45) NOT NULL,
   `modifydate` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Volcado de datos para la tabla `systemuser`
 --
 
-INSERT INTO `systemuser` (`id`, `username`, `salt`, `password`, `email`, `crerateuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
-(1, 'admin', '8d5', '3e32e55d986dc2b14f44df2bdfa6fd334bf771e2d8fbf1238ab05be1aa8a60aa', 'andresfranco@cableonda.net', 'admin', '2015-03-04 11:25:23', 'admin', '2015-03-04 11:25:23');
+INSERT INTO `systemuser` (`id`, `username`, `salt`, `password`, `email`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
+(1, 'admin', '8d5', '3e32e55d986dc2b14f44df2bdfa6fd334bf771e2d8fbf1238ab05be1aa8a60aa', 'andresfranco@cableonda.net', 'admin', '2015-03-04 11:25:23', 'admin', '2015-03-04 11:25:23'),
+(3, 'test', '0e5', '102f17512dd4e32c8b5612d53911189d7b9a265a8e43bd9c0f03f61b528cf3ff', 'test2@test.com', 'admin', '2015-04-20 17:40:59', 'admin', '2015-04-20 17:51:37');
 
 -- --------------------------------------------------------
 

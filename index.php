@@ -19,6 +19,9 @@ require_once 'Backend/Controller/ProjecttagController.php';
 require_once 'Backend/Controller/FrontendController.php';
 require_once 'Backend/Controller/ManageEmailController.php';
 require_once 'Backend/Controller/TranslatetagController.php';
+require_once 'Backend/Controller/UserController.php';
+require_once 'Backend/Controller/SystemParameterController.php';
+require_once 'Backend/Controller/MultiparamController.php';
 
 session_cache_limiter(false);
 session_start();
@@ -57,6 +60,9 @@ $projecttagdb =new ProjecttagController($app, $medoo);
 $frontendobj = new FrontendController($app, $medoo, $globalobj, $languagedb, $translationdb, $educationdb, $skilldb, $projectdb, $projecttagdb);
 $manageemailobj =new ManageEmail();
 $translatetagobj = new TranslatetagController($app, $medoo);
+$userobj =new UserController($app,$medoo,$securityobj);
+$sysparamobj =new SystemParameterController($app, $medoo);
+$multiparamobj= new MultiparamController($app,$medoo);
 //--Set twig globals 
 $twig = $app->view()->getEnvironment();
 $twig->addGlobal("session", $_SESSION);
@@ -77,6 +83,9 @@ $env['projecttagdb'] = $projecttagdb;
 $env['frontend'] = $frontendobj;
 $env['manageemailobj'] =$manageemailobj;
 $env['translatetagdb']=$translatetagobj;
+$env['userdb']=$userobj;
+$env['sysparamdb']=$sysparamobj;
+$env['multiparamdb']=$multiparamobj;
 
 //------------------------------------------------------------
 //-----------------Login-----------------------------------
@@ -763,5 +772,190 @@ $app->post(
     })->name('deletetranslatetag');
 
 //-----------------End translatetag CRUD----------------------        
+//-----------------User CRUD---------------------
+$app->get(
+    '/users',
+    function () use($app,$env) {
+
+        $env['userdb']->rendergridview('Views/User/users.html.twig');
+
+    })->name('users');
+
+$app->get(
+    '/newuser',
+    function () use($app,$env) {
+        $env['userdb']->rendernewview('','','','','Views/User/usernew.html.twig');
+        
+    })->name('newuser');
+
+$app->post(
+    '/newuser',
+    function () use($app,$env) {
+
+        $env['userdb']->addnewitem($env['globalobj']->getcurrentuser()
+                ,htmlEntities($app->request()->post('username'))
+                ,htmlEntities($app->request()->post('password'))
+                ,htmlEntities($app->request()->post('email'))
+                ,'Views/User/usernew.html.twig') ;
+        
+    })->name('insertuser');
+
+$app->get(
+    '/edituser/:id',
+    function ($id) use($app,$env) {
+        $env['userdb']->rendereditview($id,'Views/User/useredit.html.twig');
+
+    })->name('edituser');
+
+$app->post(
+    '/updateuser',
+    function () use($app,$env) {
+    $env['userdb']->updateitem($env['globalobj']->getcurrentuser(), $app->request()->post('id'),$app->request()->post('username'),$app->request()->post('email')) ;
+    })->name('updateuser');  
+
+$app->get(
+    '/viewuser/:id',
+    function ($id) use($app,$env) {
+        $env['userdb']->renderdeleteview($id,'Views/User/userdelete.html.twig');
+
+    })->name('viewuser');
+
+$app->post(
+    '/deleteuser',
+    function () use($app,$env) {
+        $env['userdb']->deleteitem(htmlEntities($app->request()->post('id')));
+    })->name('deleteuser');
+
+ $app->get(
+    '/passwordchange/:id',
+    function ($id) use($app,$env) {
+        $env['userdb']->renderpasswordchange($id,'Views/User/userpasswordchange.html.twig');
+
+    })->name('passwordchange');   
     
+  $app->post(
+    '/changepassword',
+    function () use($app,$env) {
+    $env['userdb']->changepassword($env['globalobj']->getcurrentuser(), $app->request()->post('id'),$app->request()->post('password')) ;
+    })->name('changepassword');   
+    
+//-----------------End user CRUD----------------------
+//-----------------sysparam CRUD---------------------
+$app->get(
+    '/sysparams',
+    function () use($app,$env) {
+
+        $env['sysparamdb']->rendergridview('Views/Sysparam/sysparams.html.twig');
+
+    })->name('sysparams');
+
+$app->get(
+    '/newsysparam',
+    function () use($app,$env) {
+        $env['sysparamdb']->rendernewview('','','','','Views/Sysparam/sysparamnew.html.twig');
+        
+    })->name('newsysparam');
+
+$app->post(
+    '/newsysparam',
+    function () use($app,$env) {
+
+        $env['sysparamdb']->addnewitem($env['globalobj']->getcurrentuser()
+                ,htmlEntities($app->request()->post('code'))
+                ,htmlEntities($app->request()->post('value'))
+                ,htmlEntities($app->request()->post('description'))
+                ,'Views/Sysparam/sysparamnew.html.twig') ;
+        
+    })->name('insertsysparam');
+
+$app->get(
+    '/editsysparam/:id',
+    function ($id) use($app,$env) {
+        $env['sysparamdb']->rendereditview($id,'Views/Sysparam/sysparamedit.html.twig');
+
+    })->name('editsysparam');
+
+$app->post(
+    '/updatesysparam',
+    function () use($app,$env) {
+    $env['sysparamdb']->updateitem($env['globalobj']->getcurrentuser()
+            ,$app->request()->post('id')
+            ,$app->request()->post('code')
+            ,$app->request()->post('value')
+            ,$app->request()->post('description')) ;
+    })->name('updatesysparam');  
+
+$app->get(
+    '/viewsysparam/:id',
+    function ($id) use($app,$env) {
+        $env['sysparamdb']->renderdeleteview($id,'Views/Sysparam/sysparamdelete.html.twig');
+
+    })->name('viewsysparam');
+
+$app->post(
+    '/deletesysparam',
+    function () use($app,$env) {
+        $env['sysparamdb']->deleteitem(htmlEntities($app->request()->post('id')));
+    })->name('deletesysparam');
+
+//-----------------End sysparam CRUD---------------------- 
+//-----------------multiparam CRUD---------------------
+$app->get(
+    '/multiparams/:sysparamid',
+    function ($sysparamid) use($app,$env) {
+
+        $env['multiparamdb']->rendergridview($sysparamid,'Views/Multiparam/multiparams.html.twig');
+
+    })->name('multiparams');
+
+$app->get(
+    '/newmultiparam/:sysparamid',
+    function ($sysparamid) use($app,$env) {
+        $env['multiparamdb']->rendernewview($sysparamid,'','','','Views/Multiparam/multiparamnew.html.twig');
+        
+    })->name('newmultiparam');
+
+$app->post(
+    '/newmultiparam',
+    function () use($app,$env) {
+
+        $env['multiparamdb']->addnewitem($env['globalobj']->getcurrentuser()
+                ,htmlEntities($app->request()->post('sysparamid'))
+                ,htmlEntities($app->request()->post('value'))
+                ,htmlEntities($app->request()->post('valuedesc'))
+                ,'Views/Multiparam/multiparamnew.html.twig') ;
+        
+    })->name('insertmultiparam');
+
+$app->get(
+    '/editmultiparam/:id',
+    function ($id) use($app,$env) {
+        $env['multiparamdb']->rendereditview($id,'Views/Multiparam/multiparamedit.html.twig');
+
+    })->name('editmultiparam');
+
+$app->post(
+    '/updatemultiparam/:id',
+    function ($id) use($app,$env) {
+    $env['multiparamdb']->updateitem($env['globalobj']->getcurrentuser()
+            ,$id
+            ,$app->request()->post('sysparamid')
+            ,$app->request()->post('value')
+            ,$app->request()->post('valuedesc')) ;
+    })->name('updatemultiparam');  
+
+$app->get(
+    '/viewmultiparam/:id',
+    function ($id) use($app,$env) {
+        $env['multiparamdb']->renderdeleteview($id,'Views/Multiparam/multiparamdelete.html.twig');
+
+    })->name('viewmultiparam');
+
+$app->post(
+    '/deletemultiparam',
+    function () use($app,$env) {
+        $env['multiparamdb']->deleteitem(htmlEntities($app->request()->post('id')));
+    })->name('deletemultiparam');
+
+//-----------------End multiparam CRUD----------------------     
 $app->run();
