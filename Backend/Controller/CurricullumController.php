@@ -286,20 +286,21 @@ function renderdeleteview($id,$renderpath)
         return $data;
 
     }
+    
 
-    function getcurricullumidbyname($name)
+    function getcvnamebyid($id)
     {
-        $id="";
+        $name="";
         $datas = $this->database->select("curricullum", [
-            "id",
+            "name",
         ], [
-            "name" => htmlEntities($name)
+            "id" => $id
         ]);
         foreach($datas as $data)
         {
-            $id= $data["id"];
+            $name= $data["name"];
         }
-        return $id;
+        return $name;
 
 
 

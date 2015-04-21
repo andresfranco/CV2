@@ -18,37 +18,54 @@ class ProjecttagController {
     }
 
 
-function rendergridview($renderpath)
+function rendergridview($projectid,$renderpath)
 {
-
+    $link =$this->mainlink.'/'.$projectid;
+    $projectname =$this->getprojectnamebyid($projectid);
+    $newurl =  str_replace(':projectid',$projectid,$this->app->urlFor('newprojecttag'));
     $this->app->render($renderpath,
-        array('newurl'=>$this->app->urlFor('newprojecttag')
+        array('newurl'=>$newurl
             ,'editurl'=>$this->editurl
             ,'deleteurl'=>$this->deleteurl
             ,'obj'=>$this
+            ,'projectid'=>$projectid
             ,'option'=>$this->mainoption
-            ,'route'=>''
-            ,'link'=>$this->mainlink));
+            ,'route'=>$projectname
+            ,'link'=>$link));
 
 }
 
-function rendernewview($projectid,$tagname,$errormessage,$globalobj,$renderpath)
-{
-    $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('projecttags')
-            ,'selfurl'=>$this->app->urlFor('newprojecttag')
+function rendernewview($projectid,$tagname,$errormessage,$renderpath)
+{   
+    $link =$this->mainlink.'/'.$projectid;
+    $listurl = str_replace(':projectid',$projectid,$this->app->urlFor('projecttags'));
+    $this->app->render($renderpath,array('listurl'=>$listurl
+            ,'selfurl'=>$this->app->urlFor('insertprojecttag')
             ,'projectid'=>$projectid
             ,'tagname'=>$tagname
-            ,'globalobj'=>$globalobj
+            ,'obj'=>$this
             ,'errormessage'=>$errormessage
             ,'option'=>$this->mainoption
             ,'route'=>'New'
-            ,'link'=>$this->mainlink));
+            ,'link'=>$link));
 
 }
 
-function rendereditview($id,$globalobj,$renderpath)
+function getprojectnamebyid($projectid)
 {
+  $sth = $this->database->pdo->prepare("SELECT name from project where id='".$projectid."'");
+  $sth->execute();
+  foreach ($sth as $row)
+            {
+                $projectname =$row['name'];
+                
+            } 
+  return $projectname;  
+}
 
+function rendereditview($id,$renderpath)
+{
+    
     $datas=$this->getprojecttagbyid($id);
     foreach($datas as $data)
     {
@@ -56,20 +73,22 @@ function rendereditview($id,$globalobj,$renderpath)
         $projectid = $data["projectid"];
         
     }
+    $link =$this->mainlink.'/'.$projectid;
+    $listurl =  str_replace(':projectid',$projectid,$this->app->urlFor('projecttags'));
+    $updateurl =str_replace(':id',$id,$this->app->urlFor('updateprojecttag'));
     $this->app->render($renderpath,array( 
-            'id'=>$id
-            ,'projectid'=>$projectid
+            'projectid'=>$projectid
             ,'tagname'=>$tagname
-            ,'globalobj'=>$globalobj
-            ,'updateurl'=>$this->app->urlFor('updateprojecttag')
-            ,'listurl'=>$this->app->urlFor('projecttags')
+            ,'obj'=>$this
+            ,'updateurl'=>$updateurl
+            ,'listurl'=>$listurl
             ,'option'=>$this->mainoption
             ,'route'=>'Edit'
-            ,'link'=>$this->mainlink));
+            ,'link'=>$link));
 
 }
 
-function renderdeleteview($id,$globalobj,$renderpath)
+function renderdeleteview($id,$renderpath)
 {
     $datas=$this->getprojecttagbyid($id);
     foreach($datas as $data)
@@ -77,15 +96,18 @@ function renderdeleteview($id,$globalobj,$renderpath)
         $tagname = $data["tagname"];
         $projectid =$data["projectid"];
     }
-    $this->app->render($renderpath,array('id'=>$id
-            ,'projectid'=>$projectid
+    $link =$this->mainlink.'/'.$projectid;
+    $deleteurl =str_replace(':id',$id,$this->app->urlFor('deleteprojecttag'));
+    $listurl =  str_replace(':projectid',$projectid,$this->app->urlFor('projecttags'));
+    $this->app->render($renderpath,array(
+            'projectid'=>$projectid
             ,'tagname'=>$tagname
-            ,'globalobj'=>$globalobj
-            ,'deleteurl'=>$this->app->urlFor('deleteprojecttag')
-            ,'listurl'=>$this->app->urlFor('projecttags')
+            ,'obj'=>$this
+            ,'deleteurl'=>$deleteurl
+            ,'listurl'=>$listurl 
              ,'option'=>$this->mainoption
             ,'route'=>'Delete'
-            ,'link'=>$this->mainlink));
+            ,'link'=>$link));
 
 
 }
@@ -106,52 +128,68 @@ function validateinsert($projectid,$tagname)
 }
 
 
-function addnewitem($username,$projectid,$tagname,$globalobj,$renderpath)
+function addnewitem($username,$projectid,$tagname,$renderpath)
 {
     $errormessage = $this->validateinsert($projectid,$tagname);
-
+    $listurl =  str_replace(':projectid',$projectid,$this->app->urlFor('projecttags'));
     if($errormessage=="")
     {
+       
+        
         $this->insertprojecttag($username,$projectid,$tagname);
-
-        $this->app->response->redirect($this->app->urlFor('projecttags')
-                , array('newurl'=>$this->app->urlFor('newprojecttag') 
-                ,'editurl'=>$this->editurl
-                ,'deleteurl'=>$this->deleteurl));
+        
+        $this->app->response->redirect($listurl);
 
     }
     else
     {
-        $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('projecttags')
-                ,'selfurl'=>$this->app->urlFor('newprojecttag')
+        $link =$this->mainlink.'/'.$projectid;
+        $this->app->render($renderpath,array('listurl'=>$listurl
+                ,'selfurl'=>$this->app->urlFor('insertprojecttag')
                 ,'projectid'=>$projectid
                 ,'tagname'=>$tagname
-                ,'globalobj'=>$globalobj
+                ,'obj'=>$this
                 ,'errormessage'=>$errormessage
                 ,'option'=>$this->mainoption
                 ,'route'=>'New'
-                ,'link'=>$this->mainlink));
+                ,'link'=>$link));
     }
 
 
 }
 
     function updateitem($username,$id,$projectid,$tagname)
-    {
+    { 
+        $listurl =  str_replace(':projectid',$projectid,$this->app->urlFor('projecttags'));
         $this->updateprojecttag($username,$id,$projectid,$tagname);
-        $this->app->response->redirect($this->app->urlFor('projecttags'), array('newurl'=>$this->app->urlFor('newprojecttag') ,'editurl'=>$this->editurl,'deleteurl'=>$this->deleteurl));
+        $this->app->response->redirect($listurl);
     }
 
     function deleteitem($id)
     {
+        $projectid =$this->getprojectidbyid($id);
+        $listurl =  str_replace(':projectid',$projectid,$this->app->urlFor('projecttags'));
         $this->deleteprojecttag($id);
-        $this->app->response->redirect($this->app->urlFor('projecttags'), array('newurl'=>$this->app->urlFor('newprojecttag') ,'editurl'=>$this->editurl,'deleteurl'=>$this->deleteurl));
+        
+        $this->app->response->redirect($listurl);
+    }
+    
+    function getprojectidbyid($id)
+    {
+     $sth = $this->database->pdo->prepare("SELECT projectid from project_tag where id='".$id."'");
+    $sth->execute();
+    
+      foreach ($sth as $row)
+            {
+             $projectid =$row['projectid'];
+            }
+       return $projectid; 
     }
 
 
-function buildgrid($editurl,$deleteurl)
+function buildgrid($projectid,$editurl,$deleteurl)
 {
-    $result =$this->getall();
+    $result =$this->getall($projectid);
     echo '<table class="table table-striped table-bordered bootstrap-datatable datatable">
           <thead>
           <tr>
@@ -200,14 +238,12 @@ $this->database->insert("project_tag", ["projectid" => $projectid,
 
 }
 
-function getall()
+function getall($projectid)
 {
 
 
-    $sth = $this->database->pdo->prepare(''
-            . 'SELECT pt.id,pt.projectid'
-            . ',pt.tagname,p.name as projectname '
-            . 'FROM project_tag pt inner join project p on (pt.projectid =p.id)');
+    $sth = $this->database->pdo->prepare("SELECT pt.id,pt.projectid,pt.tagname,p.name as projectname"
+            . " FROM project_tag pt inner join project p on (pt.projectid =p.id) where pt.projectid='".$projectid."'");
     $sth->execute();
     return $sth;
 
@@ -267,6 +303,25 @@ $data = $this->database->select("project_tag", [
    
 return $data;   
 }
+
+  function getprojectselectbyid($attribute,$projectid)
+    {
+        $sth = $this->database->pdo->prepare("SELECT id ,name FROM project where id='".$projectid."'");
+        $sth->execute();
+         echo '<select id ="projectid" name="projectid"'.$attribute.'>';
+        $selected="";
+        foreach ($sth as $row) {
+            if ($projectid == $row['id']) {
+                $selected = 'selected';
+            }
+            else
+            {$selected="";
+            }
+            echo '<option value ="'.$row['id'].'" '.$selected.' >'.$row['name'].'</option>';
+
+        }
+         echo '</select>';
+    } 
 
 }
 ?>

@@ -22,6 +22,7 @@ require_once 'Backend/Controller/TranslatetagController.php';
 require_once 'Backend/Controller/UserController.php';
 require_once 'Backend/Controller/SystemParameterController.php';
 require_once 'Backend/Controller/MultiparamController.php';
+require_once 'Backend/Controller/UrlController.php';
 
 session_cache_limiter(false);
 session_start();
@@ -63,6 +64,7 @@ $translatetagobj = new TranslatetagController($app, $medoo);
 $userobj =new UserController($app,$medoo,$securityobj);
 $sysparamobj =new SystemParameterController($app, $medoo);
 $multiparamobj= new MultiparamController($app,$medoo);
+$urlobj = new UrlController($app, $medoo,$curricullumdb);
 //--Set twig globals 
 $twig = $app->view()->getEnvironment();
 $twig->addGlobal("session", $_SESSION);
@@ -86,7 +88,7 @@ $env['translatetagdb']=$translatetagobj;
 $env['userdb']=$userobj;
 $env['sysparamdb']=$sysparamobj;
 $env['multiparamdb']=$multiparamobj;
-
+$env['urldb']=$urlobj;
 //------------------------------------------------------------
 //-----------------Login-----------------------------------
 $twig->addGlobal("securityobj", $securityobj);
@@ -646,17 +648,17 @@ $app->post(
 //-----------------End project CRUD----------------------      
 //-----------------projecttag CRUD---------------------
 $app->get(
-    '/projecttags',
-    function () use($app,$env) {
+    '/projecttags/:projectid',
+    function ($projectid) use($app,$env) {
 
-        $env['projecttagdb']->rendergridview('Views/Projecttag/projecttags.html.twig');
+        $env['projecttagdb']->rendergridview($projectid,'Views/Projecttag/projecttags.html.twig');
 
     })->name('projecttags');
 
 $app->get(
-    '/newprojecttag',
-    function () use($app,$env) {
-        $env['projecttagdb']->rendernewview('','','',$env['globalobj'],'Views/Projecttag/projecttagnew.html.twig');
+    '/newprojecttag/:projectid',
+    function ($projectid) use($app,$env) {
+        $env['projecttagdb']->rendernewview($projectid,'','','Views/Projecttag/projecttagnew.html.twig');
         
     })->name('newprojecttag');
 
@@ -667,7 +669,6 @@ $app->post(
         $env['projecttagdb']->addnewitem($env['globalobj']->getcurrentuser()
                 ,htmlEntities($app->request()->post('projectid'))
                 ,htmlEntities($app->request()->post('tagname'))
-                ,$env['globalobj']
                 ,'Views/Projecttag/projecttagnew.html.twig') ;
         
     })->name('insertprojecttag');
@@ -675,27 +676,27 @@ $app->post(
 $app->get(
     '/editprojecttag/:id',
     function ($id) use($app,$env) {
-        $env['projecttagdb']->rendereditview($id,$env['globalobj'],'Views/Projecttag/projecttagedit.html.twig');
+        $env['projecttagdb']->rendereditview($id,'Views/Projecttag/projecttagedit.html.twig');
 
     })->name('editprojecttag');
 
 $app->post(
-    '/updateprojecttag',
-    function () use($app,$env) {
-    $env['projecttagdb']->updateitem($env['globalobj']->getcurrentuser(), htmlEntities($app->request()->post('id')),htmlEntities($app->request()->post('projectid')),htmlEntities($app->request()->post('tagname'))) ;
+    '/updateprojecttag/:id',
+    function ($id) use($app,$env) {
+    $env['projecttagdb']->updateitem($env['globalobj']->getcurrentuser(),$id,htmlEntities($app->request()->post('projectid')),htmlEntities($app->request()->post('tagname'))) ;
     })->name('updateprojecttag');  
 
 $app->get(
     '/viewprojecttag/:id',
     function ($id) use($app,$env) {
-        $env['projecttagdb']->renderdeleteview($id,$env['globalobj'],'Views/Projecttag/projecttagdelete.html.twig');
+        $env['projecttagdb']->renderdeleteview($id,'Views/Projecttag/projecttagdelete.html.twig');
 
     })->name('viewprojecttag');
 
 $app->post(
-    '/deleteprojecttag',
-    function () use($app,$env) {
-        $env['projecttagdb']->deleteitem(htmlEntities($app->request()->post('id')));
+    '/deleteprojecttag/:id',
+    function ($id) use($app,$env) {
+        $env['projecttagdb']->deleteitem($id);
     })->name('deleteprojecttag');
 
 //-----------------End projecttag CRUD----------------------    
@@ -957,5 +958,71 @@ $app->post(
         $env['multiparamdb']->deleteitem($app->request()->post('id'),$app->request()->post('sysparamid'));
     })->name('deletemultiparam');
 
-//-----------------End multiparam CRUD----------------------     
+//-----------------End multiparam CRUD----------------------
+//-----------------url CRUD--------------------------
+$app->get(
+    '/urllist/:cvid',
+    function ($cvid) use($app,$env) {
+
+        $env['urldb']->rendergridview($cvid,'Views/Url/urllist.html.twig');
+
+    })->name('urllist');
+
+$app->get(
+    '/newurl/:cvid',
+    function ($cvid) use($app,$env) {
+       $env['urldb']->rendernewview($cvid,'','','','',$env['globalobj'],'Views/Url/urlnew.html.twig');
+
+    })->name('newurl');
+    
+ $app->post(
+    '/newurl',
+    function () use($app,$env) {
+        $env['urldb']->addnewitem($env['globalobj']->getcurrentuser()
+            ,htmlEntities($app->request()->post('curricullumid'))
+            ,htmlEntities($app->request()->post('type'))    
+            ,htmlEntities($app->request()->post('name'))
+            ,htmlEntities($app->request()->post('link'))
+            ,$env['globalobj'] 
+            ,'Views/Url/urlnew.html.twig') ;
+
+    })->name('inserturl');
+    
+  $app->get(
+    '/editurl/:id',
+    function ($id) use($app,$env) {
+        $env['urldb']->rendereditview($id,$env['globalobj'],'Views/Url/urledit.html.twig');
+
+    })->name('editurl');
+
+$app->post(
+    '/updateurl/:id',
+    function ($id) use($app,$env) {
+        $env['urldb']->updateitem($env['globalobj']->getcurrentuser()
+            ,$id   
+            ,htmlEntities($app->request()->post('curricullumid'))
+            ,htmlEntities($app->request()->post('type'))    
+            ,htmlEntities($app->request()->post('name'))
+            ,htmlEntities($app->request()->post('link'))  
+        )
+
+           ;
+    })->name('updateurl');
+
+$app->get(
+    '/viewurl/:id',
+    function ($id) use($app,$env) {
+        $env['urldb']->renderdeleteview($id,$env['globalobj'],'Views/Url/urldelete.html.twig');
+
+    })->name('viewurl');
+
+$app->post(
+    '/deleteurl/:id',
+    function ($id) use($app,$env) {
+        $env['urldb']->deleteitem($id);
+    })->name('deleteurl');
+  
+    
+    
+//-----------------End url CRUD----------------------        
 $app->run();

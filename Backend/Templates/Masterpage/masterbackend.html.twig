@@ -81,7 +81,7 @@
 <div id="content" class="span10">
 {% block breadcrumb %}
 <ul class="breadcrumb">
-<li><h3><a href="{{basepath~link}}">{{option}}</a>/{{route}}</h3></li>
+<li><h3><a href="{{basepath~link}}">{{option|raw}}</a>/{{route|raw}}</h3></li>
 </ul>
 {% endblock breadcrumb%}
 <div class="row-fluid">

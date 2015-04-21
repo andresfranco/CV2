@@ -1,0 +1,30 @@
+{% extends "Templates/Masterpage/masterbackend.html.twig" %}
+{% block content %}
+<script src="{{templatepath~'/Views/Url/validateurl.js'}}"></script>
+<form id="appform" method="post" action="{{updateurl}}">
+    <table border="0" cellspacing="1" cellpadding="2">
+        <tr>
+            <td ><label class="control-label">{{'Curricullum'}}</label></td>
+            <td>{{globalobj.getcurricullumlist('',curricullumid)}}</td>
+        </tr>
+        <tr>
+            <td><label class="control-label">{{'Type'}}</label></td>
+            <td>{{globalobj.getmultiparamselect('urltype',type,'','Select a Type','type','type')}}</td>
+        </tr>
+        <tr>
+            <td><label class="control-label">{{'Name'}}</label></td>
+            <td><input id ="name" name="name" type="text" id="language" class="span6 typeahead" value="{{name|raw}}"></td>
+        </tr>
+       <tr>
+            <td><label class="control-label">{{'Link'}}</label></td>
+            
+            <td><textarea  id ="link"  name="link"  rows="3" maxlength="900">{{linkurl}}</textarea></td>
+        </tr>
+    </table>
+    <br>
+    <div class="options btn-group">
+        <input  id ="deletebutton" class="btn btn-primary" type="submit" value="Save" />
+        <input onClick="window.location.href='{{listurl}}'"id ="cancelbutton" class=" btn input-small"  value="Cancel" />
+    </div>
+</form>
+{% endblock content%}

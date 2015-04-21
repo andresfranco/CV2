@@ -1,5 +1,19 @@
 {% extends "Templates/Masterpage/masterbackend.html.twig" %}
 {% block content %}
+<div class="row-fluid">	
+<div class="box blue span12">
+<div class="box-header">
+    {{'Project Features'}}
+</div>
+<div class="box-content">
+    <a href="{{basepath~'/projecttags/'~id}}" class="quick-button span2">
+<i class="icon-tag"></i>
+<p>{{'Project Tags'}}</p>
+</a>
+<div class="clearfix"></div>
+</div>	
+</div><!--/span-->
+</div><!--/row-->
 <script src="{{templatepath~'/Views/Project/validateproject.js'}}"></script>
 <form id="appform" method="post" action="{{updateurl}}">
     <table width="400" border="0" cellspacing="1" cellpadding="2">
