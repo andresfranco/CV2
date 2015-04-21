@@ -29,7 +29,7 @@ function rendergridview($sysparamid,$renderpath)
             ,'sysparamid'=>$sysparamid
             ,'option'=>$this->mainoption
             ,'route'=>''
-            ,'link'=>$this->mainlink));
+            ,'link'=>$this->mainlink.'/'.$sysparamid));
 
 }
 
@@ -47,7 +47,7 @@ function rendernewview($sysparamid,$value,$valuedesc,$errormessage,$renderpath)
             ,'sysparamid'=>$sysparamid
             ,'option'=>$this->mainoption
             ,'route'=>'New'
-            ,'link'=>$this->mainlink));
+            ,'link'=>$this->mainlink.'/'.$sysparamid));
 
 }
 
@@ -63,16 +63,17 @@ function rendereditview($id,$renderpath)
         $valuedesc =$data["valuedesc"];
     }
     $updateurl = str_replace(':id', $id,$this->app->urlFor('updatemultiparam'));
+    $listurl = str_replace(':sysparamid', $sysparamid,$this->app->urlFor('multiparams'));
     $this->app->render($renderpath,array(
             'sysparamid'=>$sysparamid
             ,'value'=>$value
             ,'valuedesc'=>$valuedesc
             ,'obj'=>$this
             ,'updateurl'=>$updateurl
-            ,'listurl'=>$this->app->urlFor('multiparams')
+            ,'listurl'=>$listurl
             ,'option'=>$this->mainoption
             ,'route'=>'Edit'
-            ,'link'=>$this->mainlink));
+            ,'link'=>$this->mainlink.'/'.$sysparamid));
 
 }
 
@@ -85,16 +86,17 @@ function renderdeleteview($id,$renderpath)
         $value =$data["value"];
         $valuedesc =$data["valuedesc"];
     }
+    $listurl = str_replace(':sysparamid', $sysparamid,$this->app->urlFor('multiparams'));
     $this->app->render($renderpath,array('sysparamid'=>$sysparamid
              ,'value'=>$value
             ,'valuedesc'=>$valuedesc
             ,'id'=>$id
             ,'obj'=>$this
             ,'deleteurl'=>$this->app->urlFor('deletemultiparam')
-            ,'listurl'=>$this->app->urlFor('multiparams')
+            ,'listurl'=>$listurl
             ,'option'=>$this->mainoption
             ,'route'=>'Delete'
-            ,'link'=>$this->mainlink));
+            ,'link'=>$this->mainlink.'/'.$sysparamid));
 
 
 }
@@ -140,7 +142,7 @@ function addnewitem($username,$sysparamid,$value,$valuedesc,$renderpath)
                 ,'errormessage'=>$errormessage
                 ,'option'=>$this->mainoption
                 ,'route'=>'New'
-                ,'link'=>$this->mainlink));
+                ,'link'=>$this->mainlink.'/'.$sysparamid));
     }
 
 
@@ -153,10 +155,11 @@ function addnewitem($username,$sysparamid,$value,$valuedesc,$renderpath)
         $this->app->response->redirect($redirecturl);
     }
 
-    function deleteitem($id)
+    function deleteitem($id,$sysparamid)
     {
         $this->deletemultiparam($id);
-        $this->app->response->redirect($this->app->urlFor('multiparams'), array('newurl'=>$this->app->urlFor('newmultiparam') ,'editurl'=>$this->editurl,'deleteurl'=>$this->deleteurl));
+        $listurl = str_replace(':sysparamid', $sysparamid,$this->app->urlFor('multiparams'));
+        $this->app->response->redirect($listurl);
     }
 
 

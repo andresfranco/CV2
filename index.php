@@ -954,7 +954,7 @@ $app->get(
 $app->post(
     '/deletemultiparam',
     function () use($app,$env) {
-        $env['multiparamdb']->deleteitem(htmlEntities($app->request()->post('id')));
+        $env['multiparamdb']->deleteitem($app->request()->post('id'),$app->request()->post('sysparamid'));
     })->name('deletemultiparam');
 
 //-----------------End multiparam CRUD----------------------     
