@@ -54,9 +54,11 @@ function rendereditview($code,$renderpath)
         $language = $data["language"];
         $code =$data["code"];
     }
-    $this->app->render($renderpath,array('codeold'=>$code 
-            ,'code'=>$code,'language'=>$language
-            ,'updateurl'=>$this->app->urlFor('updatelanguage')
+    $updateurl =  str_replace(':id',$code, $this->app->urlFor('updatelanguage'));
+    $this->app->render($renderpath,array( 
+            'code'=>$code
+            ,'language'=>$language
+            ,'updateurl'=>$updateurl
             ,'listurl'=>$this->app->urlFor('languages')
             ,'option'=>$this->mainoption
             ,'route'=>'Edit'
@@ -72,6 +74,7 @@ function renderdeleteview($code,$renderpath)
         $language = $data["language"];
         $code =$data["code"];
     }
+    
     $this->app->render($renderpath,array('code'=>$code
             ,'language'=>$language
             ,'deleteurl'=>$this->app->urlFor('deletelanguage')
@@ -130,7 +133,7 @@ function addnewitem($username,$code,$language,$renderpath)
     function updateitem($username,$code,$codeold,$language)
     {
         $this->updatelanguage($username,$code,$codeold,$language);
-        $this->app->response->redirect($this->app->urlFor('languages'), array('newurl'=>$this->app->urlFor('newlanguage') ,'editurl'=>$this->editurl,'deleteurl'=>$this->deleteurl));
+        $this->app->response->redirect($this->app->urlFor('languages'));
     }
 
     function deleteitem($id)
@@ -213,7 +216,7 @@ function getall()
             "code[=]" => $codeold
         ]);
 
-
+       
     }
 
 function deletelanguage($code)

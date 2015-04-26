@@ -90,6 +90,7 @@ function rendereditview($id,$globalobj,$renderpath)
     $datas=$this->gettranslationbyid($id);
     foreach($datas as $data)
     {
+        $id =$data["id"];
         $objectcode = $data["objectcode"];
         $parentid =$data["parentid"];
         $objectid =$data["objectid"];
@@ -97,6 +98,7 @@ function rendereditview($id,$globalobj,$renderpath)
         $field =$data["field"];
         $content=$data["content"];
     }
+    $updateurl =  str_replace(':id',$id,$this->app->urlFor('updatetranslation'));
     $this->app->render($renderpath,array('id'=>$id
             ,'objectcode'=>$objectcode
             ,'parentid'=>$parentid
@@ -104,7 +106,7 @@ function rendereditview($id,$globalobj,$renderpath)
             ,'languagecode'=>$languagecode
             ,'field'=>$field
             ,'content'=>$content
-            ,'updateurl'=>$this->app->urlFor('updatetranslation')
+            ,'updateurl'=>$updateurl 
             ,'listurl'=>$this->app->urlFor('translations')
             ,'db'=>$this
             ,'globalobj'=>$globalobj
@@ -119,6 +121,7 @@ function renderdeleteview($id,$globalobj,$renderpath)
    $datas=$this->gettranslationbyid($id);
     foreach($datas as $data)
     {
+        $id =$data["id"];
         $objectcode = $data["objectcode"];
         $parentid =$data["parentid"];
         $objectid =$data["objectid"];
@@ -126,6 +129,7 @@ function renderdeleteview($id,$globalobj,$renderpath)
         $field =$data["field"];
         $content=$data["content"];
     }
+    $deleteurl =  str_replace(':id',$id,$this->app->urlFor('deletetranslation'));
     $this->app->render($renderpath,array('id'=>$id
              ,'objectcode'=>$objectcode
             ,'parentid'=>$parentid
@@ -133,7 +137,7 @@ function renderdeleteview($id,$globalobj,$renderpath)
             ,'languagecode'=>$languagecode
             ,'field'=>$field
             ,'content'=>$content
-            ,'deleteurl'=>$this->app->urlFor('deletetranslation')
+            ,'deleteurl'=>$deleteurl
             ,'listurl'=>$this->app->urlFor('translations')
             ,'globalobj'=>$globalobj
             ,'db'=>$this

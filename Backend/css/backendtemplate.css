@@ -1,0 +1,134 @@
+#menutop
+{
+ padding-right:0;
+ padding-left:0;
+ margin-bottom:0;
+}
+#content {
+   padding-top:0; 
+   padding-right:0;
+   padding-left:0;
+   margin-bottom:65px; 
+   
+}
+.breadcrumb
+{
+background-color: black;
+color:white;
+}
+.breadcrumb h3 
+{
+  font-size: 14px; 
+  font-weight: bold;
+  color: #aaa;
+  
+}
+.breadcrumb a {
+	color: #C2C2C3;
+        font-weight: bold;
+	
+}
+
+.breadcrumb a:hover {
+        font-weight: bold;
+	color:white;
+	text-decoration: none;	
+}
+.col-sm-12
+{
+ padding-right:0;   
+}
+.col-sm-10
+{
+ padding-right:0;   
+}
+
+.form-horizontal
+{
+padding-left:20px;     
+    
+}
+.footer {
+  margin-bottom:0; 
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: black;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+
+}
+.form-horizontal .form-group
+{
+ margin-right:0px;    
+}
+
+
+.error
+{
+  color:#c7254e;  
+}
+
+.cancel
+{
+    
+  background-color:gray;
+  border-color: gray;
+ 
+}
+.cancel:hover
+{
+  background-color: #1b2426;
+  border-color: #1b2426;
+}
+
+
+.dropdown-menu > li > a:hover
+{
+   background-image: linear-gradient(to bottom, #606466, #82888C); 
+}
+
+#grids
+{
+  padding-top: 0px;  
+  padding-left: 25px;
+  padding-right:25px
+}
+div.dataTables_filter {
+    text-align: left;
+}
+
+div.dataTables_paginate
+{
+ margin-left: 0px;   
+}
+.pagination {
+margin: 0px !important;
+}
+
+div.dataTables_paginate {
+	margin: 0;
+	white-space: nowrap;
+	text-align: right;
+        padding-left: 0px;
+}
+.newitem
+{
+ margin-top: 25px;
+ margin-left: 25px;
+    
+}
+
+#formcontentgrid
+{
+  margin-top:40px;   
+}

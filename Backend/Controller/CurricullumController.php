@@ -59,6 +59,36 @@ Class CurricullumController {
        echo'</tbody></table>';
    }
    
+   function buildresponsivegrid($editurl,$deleteurl)
+   {
+     $result=$this->getall();
+     echo'<div id="grids" width="100%">         
+       <table id="datagrid" class="table table-striped table-hover dt-responsive" cellspacing="0" width="80%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th class="nosort">Actions</th>
+            </tr>
+        </thead>
+        <tbody>';
+        foreach ($result as $row) 
+        {
+         echo '<tr>';
+         echo '<td>'. $row['name'] . '</td>';
+         echo '<td class="center">
+         <a class="btn btn-info" href="'.$editurl.'/'.$row['id'].'">
+	 <i class="fa fa-edit"></i>  
+	 </a>
+	 <a href ="'.$deleteurl.'/'.$row['id'].'" class="btn btn-danger">
+	 <i class="fa fa-trash-o"></i> 
+	 </a>
+	 </td>';
+         echo '</tr>';
+        } 
+            
+        echo'</tbody></table></div>';
+   }
+   
    function rendernewview($name,$maintext,$aboutme,$contactdetails,$mainskills,$errormessage,$renderpath)
 {
     $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('curricullumlist')
@@ -81,18 +111,20 @@ function rendereditview($id,$renderpath)
     $datas=$this->getcurricullumbyid($id);
     foreach($datas as $data)
     {
+        $id=$data["id"];
         $name = $data["name"];
         $maintext =$data["maintext"];
         $aboutme =$data["aboutme"];
         $contactdetails =$data["contactdetails"];
         $mainskills =$data["mainskills"];
     }
+    $updateurl =  str_replace(':id', $id,$this->app->urlFor('updatecurricullum'));
     $this->app->render($renderpath,array('id'=>$id,'name'=>$name
             ,'maintext'=>$maintext
             ,'aboutme'=>$aboutme
             ,'contactdetails'=>$contactdetails
             ,'mainskills'=>$mainskills
-            ,'updateurl'=>$this->app->urlFor('updatecurricullum')
+            ,'updateurl'=>$updateurl
             ,'listurl'=>$this->app->urlFor('curricullumlist')
             ,'option'=>$this->mainoption
             ,'route'=>'Edit'
@@ -105,18 +137,20 @@ function renderdeleteview($id,$renderpath)
     $datas=$this->getcurricullumbyid($id);
     foreach($datas as $data)
     {
+        $id =$data["id"];
         $name = $data["name"];
         $maintext =$data["maintext"];
         $aboutme =$data["aboutme"];
         $contactdetails =$data["contactdetails"];
         $mainskills =$data["mainskills"];
     }
+    $deleteurl=  str_replace(':id', $id,$this->app->urlFor('deletecurricullum'));
     $this->app->render($renderpath,array('id'=>$id,'name'=>$name
             ,'maintext'=>$maintext
             ,'aboutme'=>$aboutme
             ,'contactdetails'=>$contactdetails
             ,'mainskills'=>$mainskills
-            ,'deleteurl'=>$this->app->urlFor('deletecurricullum')
+            ,'deleteurl'=>$deleteurl
             ,'listurl'=>$this->app->urlFor('curricullumlist')
             ,'option'=>$this->mainoption
             ,'route'=>'Delete'

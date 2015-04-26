@@ -1,7 +1,9 @@
 $(function() {
 
+   // $("#maintext").html($("#maintext").closest("Editor-editor").text());
    
     $("#appform").validate({
+        
        	 errorPlacement: function(error, element) {
              
         switch(element.attr("name"))

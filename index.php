@@ -195,9 +195,9 @@ $app->get(
     })->name('editlanguage');
 
 $app->post(
-    '/updatelanguage',
-    function () use($app,$env) {
-    $env['languagedb']->updateitem($env['globalobj']->getcurrentuser(), htmlEntities($app->request()->post('code')),htmlEntities($app->request()->post('codeold')),htmlEntities($app->request()->post('language'))) ;
+    '/updatelanguage/:id',
+    function ($id) use($app,$env) {
+    $env['languagedb']->updateitem($env['globalobj']->getcurrentuser(),htmlEntities($app->request()->post('code')),$id,htmlEntities($app->request()->post('language'))) ;
     })->name('updatelanguage');  
 
 $app->get(
@@ -253,10 +253,10 @@ $app->get(
     })->name('editcurricullum');
 
 $app->post(
-    '/updatecurricullum',
-    function () use($app,$env) {
+    '/updatecurricullum/:id',
+    function ($id) use($app,$env) {
     $env['curricullumdb']->updateitem($env['globalobj']->getcurrentuser()
-                ,htmlEntities($app->request()->post('id'))
+                ,$id
                 ,htmlEntities($app->request()->post('name'))
                 ,htmlEntities($app->request()->post('maintext'))
                 ,htmlEntities($app->request()->post('aboutme'))
@@ -272,9 +272,9 @@ $app->get(
     })->name('viewcurricullum');
 
 $app->post(
-    '/deletecurricullum',
-    function () use($app,$env) {
-        $env['curricullumdb']->deleteitem(htmlEntities($app->request()->post('id')));
+    '/deletecurricullum/:id',
+    function ($id) use($app,$env) {
+        $env['curricullumdb']->deleteitem($id);
     })->name('deletecurricullum');
 
 //-----------------End Curricullum CRUD----------------------
@@ -345,10 +345,10 @@ $app->get(
     })->name('edittranslation');
 
 $app->post(
-    '/updatetranslation',
-    function () use($app,$env) {
+    '/updatetranslation/:id',
+    function ($id) use($app,$env) {
         $env['translationdb']->updateitem($env['globalobj']->getcurrentuser()
-            ,htmlEntities($app->request()->post('id'))
+            ,$id
             ,htmlEntities($app->request()->post('objectcode'))
             ,htmlEntities($app->request()->post('parentid'))
             ,htmlEntities($app->request()->post('objectid'))
@@ -368,9 +368,9 @@ $app->get(
     })->name('viewtranslation');
 
 $app->post(
-    '/deletetranslation',
-    function () use($app,$env) {
-        $env['translationdb']->deleteitem(htmlEntities($app->request()->post('id')));
+    '/deletetranslation/:id',
+    function ($id) use($app,$env) {
+        $env['translationdb']->deleteitem($id);
     })->name('deletetranslation');
 
 
@@ -1023,6 +1023,11 @@ $app->post(
     })->name('deleteurl');
   
     
-    
+  $app->get(
+    '/test',
+    function () use($app) {
+        $app->render('Views/Test/test.html.twig');
+
+    })->name('test');  
 //-----------------End url CRUD----------------------        
 $app->run();
