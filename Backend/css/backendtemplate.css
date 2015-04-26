@@ -132,3 +132,8 @@ div.dataTables_paginate {
 {
   margin-top:40px;   
 }
+
+.errordiv
+{
+ margin-left:25px; 
+}

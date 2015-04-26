@@ -1,5 +1,15 @@
 {% extends "Templates/Masterpage/masteradmin.html.twig" %}
+{% block javascript%} 
+{{parent()}}
+<script src="{{templatepath~'/js/editor.js'}}"></script>
+<script src="{{templatepath~'/Views/Curricullum/textareacurricullum.js'}}"></script>
+{% endblock javascript%} 
+{% block css%}
+{{parent()}}
+<link href="{{basepath~'/Backend/css/editor.css'}}" type="text/css" rel="stylesheet"/>
+{% endblock css%}
 {% block content %}
+<script src="{{templatepath~'/Views/Curricullum/validatecurricullum.js'}}"></script>
 <div class="row-fluid">	
 <div class="box blue span12">
 <div class="box-header">
@@ -14,40 +24,59 @@
 </div>	
 </div><!--/span-->
 </div><!--/row-->
-<script src="{{templatepath~'/Views/Curricullum/validatecurricullum.js'}}"></script>
-<form id="appform" method="post" action="{{updateurl}}">
-    <table>  
-        <tr>
-            <td><label class="control-label">{{'Name'}}</label></td>
-            <td><input id ="name" name="name" type="text" id="language" class="span6 typeahead" value="{{name|raw}}"></td>
-        </tr>
-        <tr>
-            <td><label class="control-label">{{'Main Text'}}</label></td>
-            <td><textarea class="cleditor" id="maintext" name="maintext" rows="3">{{maintext|raw}}</textarea></td>
-
-        </tr>
-        <tr>
-            <td><label class="control-label">{{'About Me'}}</label></td>
-            <td><textarea class="cleditor" name="aboutme" id="aboutme" rows="3">{{aboutme|raw}}</textarea></td>
-
-        </tr>
-        <tr>
-            <td><label class="control-label">{{'Contact Details'}}</label></td>
-            <td><textarea class="cleditor" name="contactdetails" id="contactdetails" rows="3">{{contactdetails|raw}}</textarea></td>
-
-        </tr>
-        <tr>
-            <td><label class="control-label">{{'Main Skills'}}</label></td>
-            <td><textarea class="cleditor" name="mainskills" id="mainskills" rows="3">{{mainskills|raw}}</textarea></td>
-
-        </tr>
-
-
-    </table>
+<label class="error">{{errormessage|raw}}</label><br>
+<div id="formcontentgrid" class="col-sm-12">
+<form id="appform" method="post" action="{{updateurl}}" class="form-horizontal" role="form">
+    <div class="form-group">
+            <label class="control-label col-sm-2">{{'Name'}}</label>
+            <div class="col-sm-8">
+            <input id ="name" name="name" type="text" id="language" value="{{name|raw}}" class="col-sm-4">
+            </div>
+    </div>
+        <div class="form-group">
+             <label class="control-label col-sm-2">{{'Main Text'}}</label>
+              <div class="col-sm-8">
+              <textarea id ="maintext" name="maintext" rows="3">{{maintext}}</textarea>
+              </div>
+              <div class="col-sm-offset-2 col-sm-8">
+              <label id ="maintexterror" name="maintexterror"></label>
+              </div>
+        </div>
+         <div class="form-group">
+            
+            <label class="control-label col-sm-2">{{'About Me'}}</label>
+            <div class="col-sm-8"> 
+            <textarea id="aboutme" name="aboutme"  rows="3">{{aboutme}}</textarea>
+            </div>
+            <div class="col-sm-offset-2 col-sm-8">
+            <label id ="aboutmeerror" name="aboutmeerror"></label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">{{'Contact Details'}}</label>
+            <div class="col-sm-8"> 
+            <textarea class="cleditor" id ="contactdetails" name="contactdetails"  rows="3">{{contactdetails}}</textarea>
+            </div>
+             <div class="col-sm-offset-2 col-sm-8">
+            <label id ="contactdetailserror" name="contactdetailserror"></label>
+             </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">{{'Main Skills'}}</label>
+            <div class="col-sm-8"> 
+            <textarea class="cleditor" id ="mainskills" name="mainskills" rows="3">{{mainskills}}</textarea>
+            </div>
+             <div class="col-sm-offset-2 col-sm-8">
+            <label id ="mainskillserror" name="mainskillserror"></label>
+             </div>
+        </div>
     <br>
-    <div class="options btn-group">
-        <input  id ="deletebutton" class="btn btn-primary" type="submit" value="Save" />
-        <a href="{{listurl}}" id ="cancelbutton" class=" btn input-small">{{'Cancel'}}</a>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-12">
+        <input  id="savebutton" class="btn btn-primary" type="submit" value="Save"/>
+        <a href="{{listurl}}" id ="cancelbutton" class="btn btn-primary cancel">Cancel</a>
+        </div>
     </div>
 </form>
+</div>
 {% endblock content%}

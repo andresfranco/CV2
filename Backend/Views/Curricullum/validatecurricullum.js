@@ -27,20 +27,80 @@ $(function() {
                 required:true
                
             },
-            maintext:{
-                required:true
-               
-            },
+            maintext:
+             {
+                required: 
+               {
+                 depends:function()
+                {
+                 var divtext =$('#maintext').Editor("getText");
+                 $('#maintext').text(divtext);
+                 if ($('#maintext').text()=="")
+                  {    
+                   return true;
+                  }
+                  else
+                  {
+                  return false;   
+                  }
+                }
+               }
+             },
             aboutme:{
-                required:true
+                  required: 
+               {
+                 depends:function()
+                {
+                 var divtext =$('#aboutme').Editor("getText");
+                 $('#aboutme').text(divtext);
+                 if ($('#aboutme').text()=="")
+                  {    
+                   return true;
+                  }
+                  else
+                  {
+                  return false;   
+                  }
+                }
+               }
 
             },
             contactdetails:{
-                required:true
+                  required: 
+               {
+                 depends:function()
+                {
+                 var divtext =$('#contactdetails').Editor("getText");
+                 $('#contactdetails').text(divtext);
+                 if ($('#contactdetails').text()=="")
+                  {    
+                   return true;
+                  }
+                  else
+                  {
+                  return false;   
+                  }
+                }
+               }
 
             },
             mainskills:{
-                required:true
+                  required: 
+               {
+                 depends:function()
+                {
+                 var divtext =$('#mainskills').Editor("getText");
+                 $('#mainskills').text(divtext);
+                 if ($('#mainskills').text()=="")
+                  {    
+                   return true;
+                  }
+                  else
+                  {
+                  return false;   
+                  }
+                }
+               }
 
             }
            

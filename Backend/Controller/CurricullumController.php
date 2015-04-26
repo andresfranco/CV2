@@ -164,7 +164,7 @@ function renderdeleteview($id,$renderpath)
         $errormessage="";
         if($count>0)
         {
-            $errormessage= '<div class="alert alert-error">The curricullum with name : "'.$name. '" already exist</div>';
+            $errormessage= '<div class="alert alert-danger col-sms-4 errordiv" role="alert">The curricullum with name : "'.$name. '" already exist</div>';
 
         }
         return $errormessage;
