@@ -55,11 +55,11 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
           <i class="fa fa-user"></i>
-          {{'admin'}} <span class="caret">
+          {{ session.username}} <span class="caret">
               
           </span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#">{{'Log Off'}}</a></li>
+            <li><a href="{{basepath~'/logout'}}">{{'Logout'}}</a></li>
           </ul>
         </li>
       </ul>
@@ -71,8 +71,8 @@
  {% block content %}
      {% block breadcrumb %}
      <ol class="breadcrumb">
-     <li><a href="{{basepath~link}}">{{'OPTION'}}</a></li>
-     <li><span class="route">{{'ROUTE'}}</span></li>
+     <li><a href="{{basepath~link}}">{{option|raw}}</a></li>
+     <li><span class="route">{{route|raw}}</span></li>
      </ol>
  {% endblock breadcrumb%}
 <script src="{{templatepath~'/Views/Curricullum/validatecurricullum.js'}}"></script>
@@ -135,16 +135,10 @@
 
   </div>
 {% block footer %}
-<footer class="footer">
-      <div class="container" >
-        <p>
- <center>
-  <span>
-      &copy; 2015 CV Maker
-</span>
-</center>     
-</p>
-      </div>
+<footer id="footer">
+ <div class="copyright" >
+&copy; 2015 CV Maker   
+</div>
 </footer>
 {% endblock footer %}     
 {% endblock body %} 

@@ -1,49 +1,63 @@
-{% extends "Templates/Masterpage/masterbackend.html.twig" %}
-{% block breadcrumb %}
-<ul class="breadcrumb">
-<li><h3>{{'Home'}}</h3></li>
-</ul>
-{% endblock breadcrumb%}
+{% extends "Templates/Masterpage/masteradmin.html.twig" %}
 
 {% block content %}
-<h1>{{'Welcome to CV Maker'}}</h1>
-<br><br>
+{% block breadcrumb %}
+{{parent()}}
+{% endblock breadcrumb%}
 <div class="row-fluid">	
+ <div class="col-sm-12"> 
+<h1 class ="titlespace">{{'Welcome to CV Maker'}}</h1>
+ </div>
+</div>    
+<div class="row-fluid">	
+<div class="col-sm-3 buttonspace">  
 <a href="{{basepath ~'/languages'}}" class="quick-button metro yellow span2">
 <i class="fa fa-flag"></i>    
 <p>{{'Manage Languages'}}</p>
 </a>
+</div>
+<div class="col-sm-3 buttonspace">
 <a href="{{basepath ~'/curricullumlist'}}" class="quick-button metro red span2">
 <i class="fa fa-file"></i>
 <p>{{'Manage Curricullums'}}</p>
 </a>
+ </div>
+<div class="col-sm-3 buttonspace">  
 <a href="{{basepath ~'/translations'}}" class="quick-button metro blue span2">
 <i class="fa fa-repeat"></i>
 <p>{{'Manage Translations'}}</p>
 </a>
+</div> 
+<div class="col-sm-3 buttonspace">      
 <a href="{{basepath ~'/educationlist'}}" class="quick-button metro green span2">
 <i class="fa fa-book"></i>
 <p>{{'Manage Education'}}</p>
 </a>
+</div>
+<div class="col-sm-3 buttonspace">      
 <a href="{{basepath ~'/worklist'}}" class="quick-button metro pink span2">
 <i class="fa fa-dashboard"></i>
 <p>{{'Manage Work History'}}</p>
 </a>
+</div> 
+<div class="col-sm-3 buttonspace">      
 <a href="{{basepath ~'/skills'}}" class="quick-button metro black span2">
 <i class="fa fa-list-alt"></i>
 <p>{{'Manage Skills'}}</p>
 </a>				
 </div>
-<br><br>
-<div class="row-fluid">	
+<div class="col-sm-3 buttonspace">      
 <a href="{{basepath ~'/projects'}}" class="quick-button metro orangeDark span2">
 <i class="fa fa-edit"></i>
 <p>{{'Manage Projects'}}</p>
 </a>
+</div>
+<div class="col-sm-3 buttonspace" >      
 <a class="quick-button metro blueDark span2">
 <i class="fa fa-cogs"></i>
 <p>{{'System Admin'}}</p>
-</a>    
+</a>
+</div>    
 
 </div>
 {% endblock content %}

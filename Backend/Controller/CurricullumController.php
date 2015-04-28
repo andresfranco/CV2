@@ -74,7 +74,7 @@ Class CurricullumController {
         foreach ($result as $row) 
         {
          echo '<tr>';
-         echo '<td>'. $row['name'] . '</td>';
+         echo '<td class="typename">'. $row['name'] . '</td>';
          echo '<td class="center">
          <a class="btn btn-info" href="'.$editurl.'/'.$row['id'].'">
 	 <i class="fa fa-edit"></i>  
@@ -164,7 +164,7 @@ function renderdeleteview($id,$renderpath)
         $errormessage="";
         if($count>0)
         {
-            $errormessage= '<div class="alert alert-danger col-sms-4 errordiv" role="alert">The curricullum with name : "'.$name. '" already exist</div>';
+            $errormessage= '<div class="alert alert-danger col-sms-4 errordiv" role="alert"><i class="fa fa-warning"></i>The curricullum with name  " ' .$name. ' " already exist</div>';
 
         }
         return $errormessage;

@@ -13,6 +13,9 @@
 <script src="{{templatepath~'/js/enabledatagrid.js'}}"></script>
 {% endblock javascript %}
 {% block content %}
+{% block breadcrumb %}
+{{parent()}}
+{% endblock breadcrumb%}
 
 <div class="newitem"><a href="{{newurl}}"><img src="{{templatepath~'/img/addrow.png'}}"></a></div><br>
 

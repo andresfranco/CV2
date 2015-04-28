@@ -147,7 +147,7 @@ $app->post(
 $app->get(
     '/home',
     function ()use($app) {
-        $app->render('Views/Home/home.html.twig');
+        $app->render('Views/Home/home.html.twig',array('link'=>'/home','option'=>'Home','route'=>''));
     }
 )->name('home');
 
