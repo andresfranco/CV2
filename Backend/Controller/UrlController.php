@@ -32,7 +32,8 @@ class UrlController {
             ,'cvid'=>$cvid
             ,'option'=>$this->mainoption
             ,'route'=>$cvname
-            ,'link'=>$link ));
+            ,'link'=>$link 
+            ,'linkroute'=>'/editcurricullum/'.$cvid));
 
 }
 function buildgrid($cvid,$editurl,$deleteurl)
@@ -69,6 +70,42 @@ function buildgrid($cvid,$editurl,$deleteurl)
             }
             echo'  </tbody></table>';
 }
+function buildresponsivegrid($cvid,$editurl,$deleteurl)
+   {
+     $result=$this->getall($cvid);
+     echo'<div id="grids" width="100%">         
+       <table id="datagrid" class="table table-striped table-hover dt-responsive" cellspacing="0" width="80%">
+        <thead>
+            <tr>
+             <th>Curricullum</th>
+             <th>Name</th>
+             <th>Link</th>
+             <th>Type</th>
+             <th class="nosort">Actions</th>
+            </tr>
+        </thead>
+        <tbody>';
+        foreach ($result as $row) 
+        {
+         echo '<tr>';
+         echo '<td>'. $row['cvname'] . '</td>';
+         echo '<td>'. $row['name'] . '</td>';
+         echo '<td>'. $row['link'] . '</td>';
+         echo '<td>'. $row['type'] . '</td>';
+         echo '<td class="center">
+         <a class="btn btn-info" href="'.$editurl.'/'.$row['id'].'">
+	 <i class="fa fa-edit"></i>  
+	 </a>
+	 <a href ="'.$deleteurl.'/'.$row['id'].'" class="btn btn-danger">
+	 <i class="fa fa-trash-o"></i> 
+	 </a>
+	 </td>';
+         echo '</tr>';
+        } 
+            
+        echo'</tbody></table></div>';
+   }
+
 function rendernewview($curricullumid,$name,$link,$type,$errormessage,$globalobj,$renderpath)
 {  
     $linkurl =$this->mainlink.'/'.$curricullumid;

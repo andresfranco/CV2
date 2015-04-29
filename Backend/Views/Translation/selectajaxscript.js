@@ -1,18 +1,24 @@
 $(document).ready(function(){
+    
+    getparent();
+    getobjectid();
+    getfields();
 $('#objectcode').change(function()
 {
- getfields();
+
  getparent();
  getobjectid();
-   
-
+ getfields(); 
 
 });
 $('#parentid').change(function()
 {
 getobjectid();
 });
-
+$('#objectid').change(function()
+{
+ getfields();
+});
 
 function getfields()
 {

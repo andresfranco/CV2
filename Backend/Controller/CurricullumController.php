@@ -24,7 +24,7 @@ Class CurricullumController {
         array('newurl'=>$this->app->urlFor('newcurricullum')
             ,'editurl'=>$this->editurl
             ,'deleteurl'=>$this->deleteurl
-            ,'curricullumobj'=>$this
+            ,'obj'=>$this
             ,'option'=>$this->mainoption
             ,'route'=>''
             ,'link'=>$this->mainlink));

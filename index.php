@@ -208,9 +208,9 @@ $app->get(
     })->name('viewlanguage');
 
 $app->post(
-    '/deletelanguage',
-    function () use($app,$env) {
-        $env['languagedb']->deleteitem(htmlEntities($app->request()->post('code')));
+    '/deletelanguage/:id',
+    function ($id) use($app,$env) {
+        $env['languagedb']->deleteitem($id);
     })->name('deletelanguage');
 
 //-----------------End Language CRUD----------------------
@@ -291,7 +291,7 @@ $app->get(
 $app->get(
     '/newtranslation',
     function () use($app,$env) {
-        $env['translationdb']->rendernewview('','','','','','','',$env['globalobj'],$env['translationdb'],'Views/Translation/translationnew.html.twig');
+        $env['translationdb']->rendernewview('','','','','','','',$env['globalobj'],'Views/Translation/translationnew.html.twig');
 
     })->name('newtranslation');
 
@@ -304,7 +304,7 @@ $app->post(
             ,htmlEntities($app->request()->post('objectid'))
             ,htmlEntities($app->request()->post('languagecode'))
             ,htmlEntities($app->request()->post('field'))
-            ,htmlEntities($app->request()->post('content'))    
+            ,htmlEntities($app->request()->post('translationcontent'))    
             ,'Views/Translation/translationnew.html.twig') ;
 
     })->name('inserttranslation');
@@ -354,7 +354,7 @@ $app->post(
             ,htmlEntities($app->request()->post('objectid'))
             ,htmlEntities($app->request()->post('languagecode'))
             ,htmlEntities($app->request()->post('field'))
-            ,htmlEntities($app->request()->post('content'))
+            ,htmlEntities($app->request()->post('translationcontent'))
         )
 
            ;

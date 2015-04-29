@@ -11,7 +11,7 @@ $(function() {
              
         switch(element.attr("name"))
           {
-          case "content": $("#contenterror").html( error );break;
+          case "translationcontent": $("#contenterror").html( error );break;
           
           default:error.insertAfter(element);       
           }   
@@ -43,11 +43,24 @@ $(function() {
                 valueNotEquals: "0"
 
             },
-            content:{
-                required:true
-
+            translationcontent:{
+                 required: 
+               {
+                 depends:function()
+                {
+                 var divtext =$('#translationcontent').Editor("getText");
+                 $('#translationcontent').text(divtext);
+                 if ($('#translationcontent').text()=="")
+                  {    
+                   return true;
+                  }
+                  else
+                  {
+                  return false;   
+                  }
+                }
             }
-
+          }
 
 
         },
@@ -78,7 +91,7 @@ $(function() {
                 
 
             },
-            content:{
+            translationcontent:{
                 required:"You must enter a content",
                 
 

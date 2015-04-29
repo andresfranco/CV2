@@ -22,7 +22,7 @@ Class TranslationController
         $this->app->render($renderpath,
             array('newurl'=>$this->app->urlFor('newtranslation')
                 ,'editurl'=>$this->editurl,'deleteurl'=>$this->deleteurl
-                ,'translationobj'=>$this 
+                ,'obj'=>$this 
                 ,'option'=>$this->mainoption
                 ,'route'=>''
                 ,'link'=>$this->mainlink));
@@ -65,7 +65,47 @@ Class TranslationController
        echo'</tbody></table>';
    }
    
-   function rendernewview($objectcode,$parentid,$objectid,$languagecode,$field,$content,$errormessage,$globalobj,$db,$renderpath)
+   function buildresponsivegrid($editurl,$deleteurl)
+   {
+     $result=$this->getall();
+     echo'<div id="grids" width="100%">         
+       <table id="datagrid" class="table table-striped table-hover dt-responsive" cellspacing="0" width="80%">
+        <thead>
+            <tr>
+             <th>Object Code</th>
+             <th>Parent ID</th>
+             <th>Object ID</th>
+             <th>Language</th>
+             <th>Field</th>
+             <th>Content</th>
+             <th class="nosort">Actions</th>
+            </tr>
+        </thead>
+        <tbody>';
+        foreach ($result as $row) 
+        {
+         echo '<tr>';
+         echo '<td>'. $row['objectcode'] . '</td>';
+         echo '<td>'. $row['parent'] . '</td>';
+         echo '<td>'. $row['objectid'] . '</td>';
+         echo '<td>'. $row['language'] . '</td>';
+         echo '<td>'. $row['field'] . '</td>';
+         echo '<td>'. $row['content'] . '</td>';
+         echo '<td class="center">
+         <a class="btn btn-info" href="'.$editurl.'/'.$row['id'].'">
+	 <i class="fa fa-edit"></i>  
+	 </a>
+	 <a href ="'.$deleteurl.'/'.$row['id'].'" class="btn btn-danger">
+	 <i class="fa fa-trash-o"></i> 
+	 </a>
+	 </td>';
+         echo '</tr>';
+        } 
+            
+        echo'</tbody></table></div>';
+   }
+   
+   function rendernewview($objectcode,$parentid,$objectid,$languagecode,$field,$content,$errormessage,$globalobj,$renderpath)
 {
     $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('translations')
             ,'selfurl'=>$this->app->urlFor('newtranslation')
@@ -80,7 +120,7 @@ Class TranslationController
             ,'route'=>'New'
             ,'link'=>$this->mainlink
             ,'globalobj'=>$globalobj
-            ,'db'=>$db));
+            ,'db'=>$this));
 
 }
 
@@ -416,7 +456,7 @@ echo '<select id="parentid" name="parentid">
     
     if ($objectcode=="cv")
     { 
-      $globalobj->getcurricullumselect('', $parentid);
+      $globalobj->getcurricullumselect('class="form-control"', $parentid);
     }
     else
     {    

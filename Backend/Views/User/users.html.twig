@@ -1,18 +1,24 @@
-{% extends "Templates/Masterpage/masterbackend.html.twig" %}
-{% block content %}	
-<div><a href="{{newurl}}"><img src="{{templatepath ~ '/img/addrow.png'}}"></a></div><br>
-<div class="row-fluid sortable">		
-<div class="box span12">
-<div class="box-header" data-original-title>
-<div class="box-icon">
-<a href="#" class="btn-minimize">
-<i class="halflings-icon chevron-up"></i>
-</a>
-</div>
-</div>
-<div class="box-content">
- {{obj.buildgrid(editurl,deleteurl)}}
-</div>
-</div>
-</div>
+{% extends "Templates/Masterpage/masteradmin.html.twig" %}
+{% block css%}
+{{parent()}}
+<link href="{{basepath~'/Backend/css/datatables.bootstrap.css'}}" type="text/css" rel="stylesheet"/>
+<link href="{{basepath~'/Backend/css/dataTables.responsive.css'}}" type="text/css" rel="stylesheet"/>
+<link href="{{basepath~'/Backend/css/grid.css'}}" type="text/css" rel="stylesheet"/>
+{% endblock css %}
+{% block javascript %}
+ {{parent()}}
+<script src="{{templatepath~'/js/jquerydatatables.js'}}"></script>
+<script src="{{templatepath~'/js/datatables.bootstrap.js'}}"></script>
+<script src="{{templatepath~'/js/dataTables.responsive.min.js'}}"></script>
+<script src="{{templatepath~'/js/enabledatagrid.js'}}"></script>
+{% endblock javascript %}
+{% block content %}
+{% block breadcrumb %}
+{{parent()}}
+{% endblock breadcrumb%}
+
+<div class="newitem"><a href="{{newurl}}"><img src="{{templatepath~'/img/addrow.png'}}"></a></div><br>
+
+{{obj.buildresponsivegrid(editurl,deleteurl)}}         
+ 
 {% endblock content%}

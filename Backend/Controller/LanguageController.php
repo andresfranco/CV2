@@ -25,7 +25,7 @@ function rendergridview($renderpath)
         array('newurl'=>$this->app->urlFor('newlanguage')
             ,'editurl'=>$this->editurl
             ,'deleteurl'=>$this->deleteurl
-            ,'languageobj'=>$this
+            ,'obj'=>$this
             ,'option'=>$this->mainoption
             ,'route'=>''
             ,'link'=>$this->mainlink));
@@ -74,12 +74,13 @@ function renderdeleteview($code,$renderpath)
         $language = $data["language"];
         $code =$data["code"];
     }
-    
+    $deleteurl =  str_replace(':id',$code, $this->app->urlFor('deletelanguage'));
     $this->app->render($renderpath,array('code'=>$code
             ,'language'=>$language
-            ,'deleteurl'=>$this->app->urlFor('deletelanguage')
+            ,'deleteurl'=>$deleteurl
             ,'listurl'=>$this->app->urlFor('languages')
-             ,'option'=>$this->mainoption
+            ,'option'=>$this->mainoption
+            ,'id'=>$code
             ,'route'=>'Delete'
             ,'link'=>$this->mainlink));
 
@@ -95,7 +96,7 @@ function validateinsert($code)
     $errormessage="";
     if($count>0)
     {
-        $errormessage= '<div class="alert alert-error">The language of code : "'.$code. '" already exist</div>';
+        $errormessage= '<div class="alert alert-danger col-sms-4 errordiv" role="alert"><i class="fa fa-warning"></i>The language of code : "'.$code. '" already exist</div>';
 
     }
     return $errormessage;
@@ -139,7 +140,7 @@ function addnewitem($username,$code,$language,$renderpath)
     function deleteitem($id)
     {
         $this->deletelanguage($id);
-        $this->app->response->redirect($this->app->urlFor('languages'), array('newurl'=>$this->app->urlFor('newlanguage') ,'editurl'=>$this->editurl,'deleteurl'=>$this->deleteurl));
+        $this->app->response->redirect($this->app->urlFor('languages'));
     }
 
 
@@ -173,6 +174,38 @@ function buildgrid($editurl,$deleteurl)
             }
             echo'  </tbody></table>';
 }
+
+function buildresponsivegrid($editurl,$deleteurl)
+   {
+     $result=$this->getall();
+     echo'<div id="grids" width="100%">         
+       <table id="datagrid" class="table table-striped table-hover dt-responsive" cellspacing="0" width="80%">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Language</th>
+                <th class="nosort">Actions</th>
+            </tr>
+        </thead>
+        <tbody>';
+        foreach ($result as $row) 
+        {
+         echo '<tr>';
+         echo '<td>'. $row['code'] . '</td>';
+         echo '<td>'. $row['language'] . '</td>';
+         echo '<td class="center">
+         <a class="btn btn-info" href="'.$editurl.'/'.$row['code'].'">
+	 <i class="fa fa-edit"></i>  
+	 </a>
+	 <a href ="'.$deleteurl.'/'.$row['code'].'" class="btn btn-danger">
+	 <i class="fa fa-trash-o"></i> 
+	 </a>
+	 </td>';
+         echo '</tr>';
+        } 
+            
+        echo'</tbody></table></div>';
+   }
 
 
 

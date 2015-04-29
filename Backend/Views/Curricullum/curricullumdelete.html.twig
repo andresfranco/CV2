@@ -12,40 +12,28 @@
     </div>
         <div class="form-group">
              <label class="control-label col-sm-2">{{'Main Text'}}</label>
-              <div class="col-sm-8">
-              <textarea id ="maintextdelete" name="maintext" rows="3" class="col-sm-4" disabled>{{maintext}}</textarea>
-              </div>
-              <div class="col-sm-offset-2 col-sm-8">
-              <label id ="maintexterror" name="maintext"></label>
+              <div class="col-sm-4">
+              <textarea id ="maintextdelete" name="maintext" rows="3" class="form-control" disabled>{{maintext|raw}}</textarea>
               </div>
         </div>
          <div class="form-group">
             
             <label class="control-label col-sm-2">{{'About Me'}}</label>
-            <div class="col-sm-8"> 
-            <textarea id="aboutme" name="aboutme"  rows="3"  class="col-sm-4" disabled>{{aboutme}}</textarea>
-            </div>
-            <div class="col-sm-offset-2 col-sm-8">
-            <label id ="aboutmeerror" name="aboutmeerror"></label>
+            <div class="col-sm-4"> 
+            <textarea id="aboutme" name="aboutme"  rows="3"  class="form-control" disabled>{{aboutme|raw}}</textarea>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2">{{'Contact Details'}}</label>
-            <div class="col-sm-8"> 
-            <textarea id ="contactdetails" name="contactdetails" class="col-sm-4"  rows="3" disabled>{{contactdetails}}</textarea>
+            <div class="col-sm-4"> 
+            <textarea id ="contactdetails" name="contactdetails" class="form-control"  rows="3" disabled>{{contactdetails|raw}}</textarea>
             </div>
-             <div class="col-sm-offset-2 col-sm-8">
-            <label id ="contactdetailserror" name="contactdetailserror"></label>
-             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2">{{'Main Skills'}}</label>
-            <div class="col-sm-8"> 
-            <textarea  id ="mainskills" name="mainskills"  class="col-sm-4" rows="3" disabled>{{mainskills}}</textarea>
+            <div class="col-sm-4"> 
+            <textarea  id ="mainskills" name="mainskills"  class="form-control" rows="3" disabled>{{mainskills|raw}}</textarea>
             </div>
-             <div class="col-sm-offset-2 col-sm-8">
-            <label id ="mainskillserror" name="mainskillserror"></label>
-             </div>
         </div>
     <br>
     <div class="form-group">

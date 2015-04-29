@@ -52,7 +52,7 @@ Class GlobalController
 
         $sth = $this->database->pdo->prepare('SELECT id ,name FROM curricullum');
         $sth->execute();
-         echo '<select id ="objectid" name="objectid"'.$attribute.'>';
+         echo '<select id ="objectid" name="objectid" '.$attribute.'>';
          echo'<option value="0">Please select an option</option>';
         $selected="";
         foreach ($sth as $row) {
@@ -111,7 +111,10 @@ Class GlobalController
     }
     function gettablefields($databasename,$tablename,$field)
     {
-        $sth = $this->database->pdo->prepare("SELECT COLUMN_NAME as field FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '".$databasename."' AND TABLE_NAME ='".$tablename."'");
+        $sth = $this->database->pdo->prepare("SELECT COLUMN_NAME as field "
+                . "FROM INFORMATION_SCHEMA.COLUMNS "
+                . " WHERE TABLE_SCHEMA = '".$databasename."' AND TABLE_NAME ='".$tablename."'"
+                . " AND COLUMN_NAME not in ('id','curricullumid','projectid','createdate','createuser','modifydate','modifyuser')");
         $sth->execute();
          echo '<select id="field" name="field">';
          
@@ -249,7 +252,7 @@ Class GlobalController
         
         
         $sth->execute();
-         echo '<select id ="parentid" name="parentid"'.$attribute.'>';
+         echo '<select id ="parentid" name="parentid" '.$attribute.'>';
          echo'<option value="0">Please select a parent</option>';
         $selected="";
         foreach ($sth as $row) {
