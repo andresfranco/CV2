@@ -109,14 +109,14 @@ Class GlobalController
          echo '</select>';
         
     }
-    function gettablefields($databasename,$tablename,$field)
+    function gettablefields($databasename,$tablename,$field,$attribute)
     {
         $sth = $this->database->pdo->prepare("SELECT COLUMN_NAME as field "
                 . "FROM INFORMATION_SCHEMA.COLUMNS "
                 . " WHERE TABLE_SCHEMA = '".$databasename."' AND TABLE_NAME ='".$tablename."'"
                 . " AND COLUMN_NAME not in ('id','curricullumid','projectid','createdate','createuser','modifydate','modifyuser')");
         $sth->execute();
-         echo '<select id="field" name="field">';
+         echo '<select id="field" name="field" '.$attribute.'>';
          
 
         foreach ($sth as $row) {
@@ -269,7 +269,7 @@ Class GlobalController
     }
     
     
-    function getselectoptionsbytable($cvid,$tablename,$fielddesc,$filterfield)
+    function getselectoptionsbytable($cvid,$tablename,$fielddesc,$filterfield,$attribute)
     {
         
         $field =  htmlentities($fielddesc);
@@ -280,7 +280,7 @@ Class GlobalController
             $filterfield => $cvid
         ]);
         
-         echo '<select id ="objectid" name="objectid">';
+         echo '<select id ="objectid" name="objectid" '.$attribute.'>';
          echo'<option value="0">Please select an option</option>';
       
          foreach($datas as $data)

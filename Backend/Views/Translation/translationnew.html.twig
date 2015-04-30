@@ -1,10 +1,10 @@
 {% extends "Templates/Masterpage/masteradmin.html.twig" %}
 {% block javascript%} 
 {{parent()}}
-<script src="{{templatepath~'/Views/Translation/validatetranslation.js'}}"></script>
 <script src="{{templatepath~'/Views/Translation/selectajaxscript.js'}}"></script>
 <script src="{{templatepath~'/js/editor.js'}}"></script>
 <script src="{{templatepath~'/Views/Translation/textareatranslation.js'}}"></script>
+
 {% endblock javascript%} 
 {% block css%}
 {{parent()}}
@@ -14,7 +14,7 @@
 {% block breadcrumb %}
 {{parent()}}
 {% endblock breadcrumb%}
-
+<script src="{{templatepath~'/Views/Translation/validatetranslation.js'}}"></script>
 <label class="col-sm-offset-2 col-sm-8 error">{{errormessage|raw}}</label>
 <div id="formcontentgrid" class="col-sm-12">
 <form id="appform" method="post" action="{{selfurl}}" class="form-horizontal" role="form">
@@ -28,14 +28,14 @@
             <label class="control-label col-sm-2">{{'Object Code'}}</label>
             <div class="col-sm-4">
             {{globalobj.getmultiparambycode('objcode',objectcode,'class="form-control"')}}
-          </div>
+            </div>
     </div>
         <div class="form-group">
             <label class="control-label col-sm-2">{{'Parent'}}</label>
             <div class="col-sm-4">
             {% if(errormessage!="")%}
                       
-                        {{db.getparent(globalobj,objectcode,parentid)}}       
+                        {{db.getparent(globalobj,objectcode,parentid,'')}}       
                       
                       {% else %}  
                         
@@ -53,7 +53,7 @@
             <div class="col-sm-4">
                  {% if(errormessage!="") %}
                           
-                          {{db.getobject(globalobj,objectcode,objectid)}}
+                          {{db.getobject(globalobj,objectcode,objectid,'')}}
                          {% else %} 
                           
                          {{'<select id="objectid" name="objectid" class="form-control">
@@ -69,7 +69,7 @@
             <label class="control-label col-sm-2">{{'Field'}}</label>
             <div class="col-sm-4">
                {% if(errormessage!="") %}
-                          {{db.getfields(globalobj,objectcode,field)}}  
+                          {{db.getfields(globalobj,objectcode,field,'')}}  
                          {% else %} 
                           {{'<select id="field" name="field" class="form-control">
                           <option value="0">Please select a field</option>
@@ -97,10 +97,6 @@
     </div>
 </form>
 </div>
-
-   
-
-
 {% endblock content%}
 
 

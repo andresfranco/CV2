@@ -11,10 +11,14 @@ $(function() {
              
         switch(element.attr("name"))
           {
-          case "translationcontent": $("#contenterror").html( error );break;
-          
-          default:error.insertAfter(element);       
-          }   
+          case "translationcontent": 
+              $("#contenterror").html( error );
+              
+              break;
+          default:error.insertAfter(element);
+                
+          }  
+         
       },  
         
         rules: {
@@ -68,16 +72,16 @@ $(function() {
         // Specify the validation error messages
         messages: {
             objectcode:{
-                required:"You must select a object code",
+                valueNotEquals:"You must select a object code"
                 
             },
             parentid:{
-                required:"You must select a parent",
+                valueNotEquals:"You must select a parent"
                 
 
             },
             objectid:{
-                required:"You must select a objectid",
+                valueNotEquals:"You must select a objectid"
                 
 
             },
@@ -87,7 +91,7 @@ $(function() {
 
             },
              field:{
-                required:"You must select a field",
+                valueNotEquals:"You must select a field"
                 
 
             },

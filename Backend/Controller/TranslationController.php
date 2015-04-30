@@ -12,7 +12,7 @@ Class TranslationController
         $this->app=$app;
         $this->editurl ='edittranslation';
         $this->deleteurl='viewtranslation';
-        $this->mainlink = '/translationlist';
+        $this->mainlink = '/translations';
         $this->mainoption ='Translations';
 
     }
@@ -397,7 +397,7 @@ when 'pt' then (select tagname from project_tag where id =t.objectid)
         return $sth;
         
     }
-    function getparent($globalobj,$objectcode,$parentid)
+    function getparent($globalobj,$objectcode,$parentid,$attribute)
     {
      
     
@@ -413,11 +413,11 @@ when 'pt' then (select tagname from project_tag where id =t.objectid)
 
 if ($objectcode !="cv")
 {
- $globalobj->getparentselect('',$parentid,$objectcode,$tablename);   
+ $globalobj->getparentselect($attribute,$parentid,$objectcode,$tablename);   
     
 }else
 {
-echo '<select id="parentid" name="parentid">
+echo '<select id="parentid" name="parentid" '.$attribute.'>
                           <option value="-1">No parent needed</option>
                           </select>
           '  ;  
@@ -425,7 +425,7 @@ echo '<select id="parentid" name="parentid">
 }   
     }
     
-    function getobject($globalobj,$objectcode,$parentid)
+    function getobject($globalobj,$objectcode,$parentid,$attribute)
     {
    
      $filterffield="curricullumid";
@@ -456,15 +456,15 @@ echo '<select id="parentid" name="parentid">
     
     if ($objectcode=="cv")
     { 
-      $globalobj->getcurricullumselect('class="form-control"', $parentid);
+      $globalobj->getcurricullumselect($attribute, $parentid);
     }
     else
     {    
-    $globalobj->getselectoptionsbytable($parentid,$tablename,$fielddesc,$filterffield);  
+    $globalobj->getselectoptionsbytable($parentid,$tablename,$fielddesc,$filterffield,$attribute);  
     }    
     }
 
-    function getfields($globalobj,$objectcode,$field)
+    function getfields($globalobj,$objectcode,$field,$attribute)
     {
 
         $databasename="curricullum";
@@ -490,7 +490,7 @@ echo '<select id="parentid" name="parentid">
 
                 break;
         }
-        $globalobj->gettablefields($databasename, $tablename,$field);
+        $globalobj->gettablefields($databasename, $tablename,$field,$attribute);
     }
     
     function getfieldsajax($objectcode,$field,$globalobj,$databasename)
@@ -516,7 +516,7 @@ echo '<select id="parentid" name="parentid">
        
         break;
    }
-    return $globalobj->gettablefields($databasename,$tablename,$field);   
+    return $globalobj->gettablefields($databasename,$tablename,$field,'class="form-control"');   
         
     }
     
@@ -577,7 +577,7 @@ echo '<select id="parentid" name="parentid">
        $filterffield="projectid";
         break;
    }
-    $globalobj->getselectoptionsbytable($parentid,$tablename,$fielddesc,$filterffield); 
+    $globalobj->getselectoptionsbytable($parentid,$tablename,$fielddesc,$filterffield,'class="form-control"'); 
    }
     
             
