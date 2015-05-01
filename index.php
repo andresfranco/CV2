@@ -398,10 +398,11 @@ $app->get(
     '/neweducation',
     function () use($app,$env) {
         $env['educationdb']->addnewitem($env['globalobj']->getcurrentuser()
-            ,htmlEntities($app->request()->post('curricullumid'))
-            ,htmlEntities($app->request()->post('institution'))    
-            ,htmlEntities($app->request()->post('degree'))
-            ,htmlEntities($app->request()->post('date'))    
+            ,$app->request()->post('curricullumid')
+            ,$app->request()->post('institution')    
+            ,$app->request()->post('degree')
+            ,$app->request()->post('date')
+            ,$env['globalobj']    
             ,'Views/Education/educationnew.html.twig') ;
 
     })->name('inserteducation');
@@ -414,14 +415,14 @@ $app->get(
     })->name('editeducation');
 
 $app->post(
-    '/updateeducation',
-    function () use($app,$env) {
+    '/updateeducation/:id',
+    function ($id) use($app,$env) {
         $env['educationdb']->updateitem($env['globalobj']->getcurrentuser()
-            ,htmlEntities($app->request()->post('id'))    
-            ,htmlEntities($app->request()->post('curricullumid'))
-            ,htmlEntities($app->request()->post('institution'))    
-            ,htmlEntities($app->request()->post('degree'))
-            ,htmlEntities($app->request()->post('date'))  
+            ,$id    
+            ,$app->request()->post('curricullumid')
+            ,$app->request()->post('institution')    
+            ,$app->request()->post('degree')
+            ,$app->request()->post('date')  
         )
 
            ;
@@ -435,9 +436,9 @@ $app->get(
     })->name('vieweducation');
 
 $app->post(
-    '/deleteeducation',
-    function () use($app,$env) {
-        $env['educationdb']->deleteitem(htmlEntities($app->request()->post('id')));
+    '/deleteeducation/:id',
+    function ($id) use($app,$env) {
+        $env['educationdb']->deleteitem($id);
     })->name('deleteeducation');
   
     

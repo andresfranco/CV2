@@ -7,6 +7,7 @@
 {% block breadcrumb %}
 {{parent()}}
 {% endblock breadcrumb%}
+<div class="col-sm-offset-2 col-sm-8 deletequestion"><h4>{{'Are you sure you want to delete this Translation?'}}</h4></div>
 <div id="formcontentgrid" class="col-sm-12">
 <form id="appform" method="post" action="{{deleteurl}}" class="form-horizontal" role="form">
     <div class="form-group">

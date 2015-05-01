@@ -128,12 +128,13 @@ function rendereditview($id,$globalobj,$renderpath)
         $degree =$data["degree"];
         $date =$data["datechar"];
     }
+    $updateurl =  str_replace(':id', $id,$this->app->urlFor('updateeducation'));
     $this->app->render($renderpath,array('id'=>$id,'curricullumid'=>$curricullumid
             ,'institution'=>$institution
             ,'degree'=>$degree
             ,'date'=>$date
             ,'globalobj'=>$globalobj
-            ,'updateurl'=>$this->app->urlFor('updateeducation')
+            ,'updateurl'=>$updateurl
             ,'listurl'=>$this->app->urlFor('educationlist')
             ,'option'=>$this->mainoption
             ,'route'=>'Edit'
@@ -151,12 +152,13 @@ function renderdeleteview($id,$globalobj,$renderpath)
         $degree =$data["degree"];
         $date =$data["datechar"];
     }
+    $deleteurl =  str_replace(':id', $id,$this->app->urlFor('deleteeducation'));
     $this->app->render($renderpath,array('id'=>$id,'curricullumid'=>$curricullumid
             ,'institution'=>$institution
             ,'degree'=>$degree
             ,'date'=>$date
             ,'globalobj'=>$globalobj
-            ,'deleteurl'=>$this->app->urlFor('deleteeducation')
+            ,'deleteurl'=>$deleteurl
             ,'listurl'=>$this->app->urlFor('educationlist')
             ,'option'=>$this->mainoption
             ,'route'=>'Delete'
@@ -171,14 +173,14 @@ function validateinsert($curricullumid,$institution)
     $errormessage="";
     if($count>0)
     {
-        $errormessage= '<div class="alert alert-error">The institution for this curricullum already exist</div>';
+        $errormessage= '<div class="alert alert-danger col-sms-4 errordiv" role="alert"><i class="fa fa-warning"></i>The institution for this curricullum already exist</div>';
 
     }
     return $errormessage;
 }
 
 
-function addnewitem($username,$curricullumid,$institution,$degree,$date,$renderpath)
+function addnewitem($username,$curricullumid,$institution,$degree,$date,$globalobj,$renderpath)
 {
     $errormessage = $this->validateinsert($curricullumid,$institution);
 
@@ -189,13 +191,15 @@ function addnewitem($username,$curricullumid,$institution,$degree,$date,$renderp
        $this->app->response->redirect($this->app->urlFor('educationlist')
                 , array('newurl'=>$this->app->urlFor('neweducation') 
                 ,'editurl'=>$this->editurl
-                ,'deleteurl'=>$this->deleteurl));
+                ,'deleteurl'=>$this->deleteurl
+              ));
 
     }
     else
     {
         $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('educationlist')
                 ,'selfurl'=>$this->app->urlFor('neweducation')
+                ,'globalobj'=>$globalobj
                 ,'curricullumid'=>$curricullumid
                 ,'institution'=>$institution
                 ,'degree'=>$degree
@@ -311,9 +315,9 @@ function updateeducation($id,$username,$curricullumid,$institution,$degree,$date
 function findeducation($curricullumid,$institution)
 {
     $count =  $this->database->count("education", [
-"curricullumid" => $curricullumid,
-"institution"=>$institution
-]);
+"id"
+],["AND" => [ "curricullumid" => $curricullumid,
+"institution"=>$institution]]);
    return $count;
     
 }

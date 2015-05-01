@@ -7,6 +7,14 @@ $(function() {
      
    }, "");
     $("#appform").validate({
+        errorPlacement: function(error, element) {
+             
+        switch(element.attr("name"))
+          {
+                       case "link": $("#linkerror").html( error );break;
+                       default:error.insertAfter(element);
+          }
+      },ignore: [],  
        rules: {
             curricullumid:{
                 required:true,
@@ -22,7 +30,22 @@ $(function() {
 
             },
             link:{
-                required:true
+                 required: 
+               {
+                 depends:function()
+                {
+                 var divtext =$('#link').Editor("getText");
+                 $('#link').text(divtext);
+                 if ($('#link').text()=="")
+                  {    
+                   return true;
+                  }
+                  else
+                  {
+                  return false;   
+                  }
+                }
+               }
 
             }
             
@@ -33,11 +56,11 @@ $(function() {
         // Specify the validation error messages
         messages: {
             curricullumid:{
-                required:"You must select a curricullum"
+                valueNotEquals:"You must select a curricullum"
                 
             },
             type:{
-                required:"You must select a type"
+                valueNotEquals:"You must select a type"
                
             },
             name:{

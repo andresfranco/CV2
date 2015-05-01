@@ -1,32 +1,57 @@
-{% extends "Templates/Masterpage/masterbackend.html.twig" %}
-{% block content %}
+{% extends "Templates/Masterpage/masteradmin.html.twig" %}
+{% block javascript%} 
+{{parent()}}
+<script src="{{templatepath~'/js/editor.js'}}"></script>
+<script src="{{templatepath~'/Views/Url/textareaurl.js'}}"></script>
 <script src="{{templatepath~'/Views/Url/validateurl.js'}}"></script>
-<label class="error">{{errormessage|raw}}</label><br>
-<form id="appform" method="post" action="{{selfurl}}">
-    <table border="0" cellspacing="1" cellpadding="2">
-        <tr>
-            <td ><label class="control-label">{{'Curricullum'}}</label></td>
-            <td>{{globalobj.getcurricullumlist('',curricullumid)}}</td>
-        </tr>
-        <tr>
-            <td><label class="control-label">{{'Type'}}</label></td>
-            <td>{{globalobj.getmultiparamselect('urltype',type,'','Select a Type','type','type')}}</td>
-        </tr>
-        <tr>
-            <td><label class="control-label">{{'Name'}}</label></td>
-            <td><input id ="name" name="name" type="text" id="language" class="span6 typeahead" value="{{name|raw}}"></td>
-        </tr>
-        <tr>
-            <td><label class="control-label">{{'Link'}}</label></td>
-            
-            <td><textarea id ="link"  name="link"   maxlength="900">{{linkurl}}</textarea></td>
-        </tr>
-       
-    </table>
-    <br>
-    <div class="options btn-group">
-        <input  id ="deletebutton" class="btn btn-primary" type="submit" value="Save" />
-        <input onClick="window.location.href='{{listurl}}'"id ="cancelbutton" class=" btn input-small"  value="Cancel" />
+{% endblock javascript%} 
+{% block css%}
+{{parent()}}
+<link href="{{basepath~'/Backend/css/editor.css'}}" type="text/css" rel="stylesheet"/>
+{% endblock css%}
+
+{% block content %}
+{% block breadcrumb %}
+{{parent()}}
+{% endblock breadcrumb%}
+<label class="col-sm-offset-2 col-sm-8 error">{{errormessage|raw}}</label>
+<div id="formcontentgrid" class="col-sm-12">
+<form id="appform" method="post" action="{{selfurl}}" class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="control-label col-sm-2">{{'Curricullum'}}</label>
+            <div class="col-sm-3">
+            {{globalobj.getcurricullumlist('class="form-control" Disabled',curricullumid)}}
+            </div>
+         </div>
+        <div class="form-group">
+             <label class="control-label col-sm-2">{{'Type'}}</label>
+              <div class="col-sm-3">
+              {{globalobj.getmultiparamselect('urltype',type,'class="form-control"','Select a Type','type','type')}}
+              </div>      
+        </div>
+        <div class="form-group">
+             <label class="control-label col-sm-2">{{'Name'}}</label>
+              <div class="col-sm-3">
+              
+              <input id ="name" name="name" type="text" id="language" class="form-control" value="{{name|raw}}">    
+              </div>      
+        </div> 
+        <div class="form-group">
+             <label class="control-label col-sm-2">{{'Link'}}</label>
+              <div class="col-sm-8">
+              <textarea id ="link"  name="link" maxlength="900">{{linkurl}}</textarea>
+              </div> 
+             <div class="col-sm-offset-2 col-sm-8">
+              <label id ="linkerror" name="linkerror"></label>
+              </div>
+        </div> 
+        <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-8">
+        <input  id="savebutton" class="btn btn-primary" type="submit" value="Save"/>
+        <a href="{{listurl}}" id ="cancelbutton" class="btn btn-primary cancel">Cancel</a>
+        </div>
     </div>
 </form>
+</div>
+
 {% endblock content%}

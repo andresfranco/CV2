@@ -33,7 +33,7 @@ $(function() {
         // Specify the validation error messages
         messages: {
             curricullumid:{
-                required:"You must select a curricullum"
+                valueNotEquals:"You must select a curricullum"
                 
             },
             institution:{
