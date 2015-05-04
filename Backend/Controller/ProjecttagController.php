@@ -23,6 +23,7 @@ function rendergridview($projectid,$renderpath)
     $link =$this->mainlink.'/'.$projectid;
     $projectname =$this->getprojectnamebyid($projectid);
     $newurl =  str_replace(':projectid',$projectid,$this->app->urlFor('newprojecttag'));
+    $linkroute = str_replace(':id',$projectid,$this->app->urlFor('editproject'));
     $this->app->render($renderpath,
         array('newurl'=>$newurl
             ,'editurl'=>$this->editurl
@@ -31,7 +32,8 @@ function rendergridview($projectid,$renderpath)
             ,'projectid'=>$projectid
             ,'option'=>$this->mainoption
             ,'route'=>$projectname
-            ,'link'=>$link));
+            ,'link'=>$link
+            ,'linkroute'=>$linkroute));
 
 }
 
@@ -121,7 +123,7 @@ function validateinsert($projectid,$tagname)
     $errormessage="";
     if($count>0)
     {
-        $errormessage= '<div class="alert alert-error">The tagname for this project already exist</div>';
+        $errormessage= '<div class="alert alert-danger col-sms-4 errordiv" role="alert"><i class="fa fa-warning"></i>The tagname for this project already exist</div>';
 
     }
     return $errormessage;
@@ -217,6 +219,39 @@ function buildgrid($projectid,$editurl,$deleteurl)
             }
             echo'  </tbody></table>';
 }
+
+function buildresponsivegrid($projectid,$editurl,$deleteurl)
+   {
+     $result=$this->getall($projectid);
+     echo'<div id="grids" width="100%">         
+       <table id="datagrid" class="table table-striped table-hover dt-responsive" cellspacing="0" width="80%">
+        <thead>
+            <tr>
+             <th>Project</th>
+             <th>Tag Name</th>
+             <th class="nosort">Actions</th>
+            </tr>
+        </thead>
+        <tbody>';
+        foreach ($result as $row) 
+        {
+         echo '<tr>';
+         echo '<td>'. $row['projectname'] . '</td>';
+         echo '<td>'. $row['tagname'] . '</td>';
+         echo '<td class="center">
+         <a class="btn btn-info" href="'.$editurl.'/'.$row['id'].'">
+	 <i class="fa fa-edit"></i>  
+	 </a>
+	 <a href ="'.$deleteurl.'/'.$row['id'].'" class="btn btn-danger">
+	 <i class="fa fa-trash-o"></i> 
+	 </a>
+	 </td>';
+         echo '</tr>';
+        } 
+            
+        echo'</tbody></table></div>';
+   }
+   
 
 
 

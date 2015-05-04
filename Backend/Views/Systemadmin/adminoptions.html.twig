@@ -1,0 +1,38 @@
+{% extends "Templates/Masterpage/masteradmin.html.twig" %}
+
+{% block content %}
+{% block breadcrumb %}
+{{parent()}}
+{% endblock breadcrumb%}
+<div class="row-fluid">	
+ <div class="col-sm-12"> 
+<h1 class ="titlespace">{{'System Admin'}}</h1>
+ </div>
+</div> 
+<div class="row-fluid">	
+<div class="col-sm-3 buttonspace">  
+<a href="{{basepath ~'/sysparams'}}" class="quick-button metro yellow span2">
+<i class="fa fa-flag"></i>    
+<p>{{'System Parameters'}}</p>
+</a>
+</div>
+<div class="col-sm-3 buttonspace">
+<a href="{{basepath ~'/users'}}" class="quick-button metro red span2">
+<i class="fa fa-file"></i>
+<p>{{'Manage Users'}}</p>
+</a>
+ </div>
+<div class="col-sm-3 buttonspace">  
+<a href="" class="quick-button metro blue span2">
+<i class="fa fa-repeat"></i>
+<p>{{'Manage Roles'}}</p>
+</a>
+</div> 
+<div class="col-sm-3 buttonspace">      
+<a href="" class="quick-button metro green span2">
+<i class="fa fa-book"></i>
+<p>{{'Manage Actions'}}</p>
+</a>
+</div>
+</div>
+{% endblock content %}

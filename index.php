@@ -181,8 +181,8 @@ $app->post(
     function () use($app,$env) {
 
         $env['languagedb']->addnewitem($env['globalobj']->getcurrentuser()
-                ,htmlEntities($app->request()->post('code'))
-                ,htmlEntities($app->request()->post('language'))
+                ,$app->request()->post('code')
+                ,$app->request()->post('language')
                 ,'Views/Language/languagenew.html.twig') ;
         
     })->name('insertlanguage');
@@ -197,7 +197,7 @@ $app->get(
 $app->post(
     '/updatelanguage/:id',
     function ($id) use($app,$env) {
-    $env['languagedb']->updateitem($env['globalobj']->getcurrentuser(),htmlEntities($app->request()->post('code')),$id,htmlEntities($app->request()->post('language'))) ;
+    $env['languagedb']->updateitem($env['globalobj']->getcurrentuser(),$app->request()->post('code'),$id,$app->request()->post('language')) ;
     })->name('updatelanguage');  
 
 $app->get(
@@ -236,11 +236,11 @@ $app->post(
     function () use($app,$env) {
 
         $env['curricullumdb']->addnewitem($env['globalobj']->getcurrentuser()
-                ,htmlEntities($app->request()->post('name'))
-                ,htmlEntities($app->request()->post('maintext'))
-                ,htmlEntities($app->request()->post('aboutme'))
-                ,htmlEntities($app->request()->post('contactdetails'))
-                ,htmlEntities($app->request()->post('mainskills'))
+                ,$app->request()->post('name')
+                ,$app->request()->post('maintext')
+                ,$app->request()->post('aboutme')
+                ,$app->request()->post('contactdetails')
+                ,$app->request()->post('mainskills')
                 ,'Views/Curricullum/curricullumnew.html.twig') ;
         
     })->name('insertcurricullum');
@@ -257,11 +257,11 @@ $app->post(
     function ($id) use($app,$env) {
     $env['curricullumdb']->updateitem($env['globalobj']->getcurrentuser()
                 ,$id
-                ,htmlEntities($app->request()->post('name'))
-                ,htmlEntities($app->request()->post('maintext'))
-                ,htmlEntities($app->request()->post('aboutme'))
-                ,htmlEntities($app->request()->post('contactdetails'))
-                ,htmlEntities($app->request()->post('mainskills')));
+                ,$app->request()->post('name')
+                ,$app->request()->post('maintext')
+                ,$app->request()->post('aboutme')
+                ,$app->request()->post('contactdetails')
+                ,$app->request()->post('mainskills'));
     })->name('updatecurricullum');  
 
 $app->get(
@@ -299,12 +299,12 @@ $app->post(
     '/newtranslation',
     function () use($app,$env) {
         $env['translationdb']->addnewitem($env['globalobj']->getcurrentuser()
-            ,htmlEntities($app->request()->post('objectcode'))
-            ,htmlEntities($app->request()->post('parentid'))    
-            ,htmlEntities($app->request()->post('objectid'))
-            ,htmlEntities($app->request()->post('languagecode'))
-            ,htmlEntities($app->request()->post('field'))
-            ,htmlEntities($app->request()->post('translationcontent'))    
+            ,$app->request()->post('objectcode')
+            ,$app->request()->post('parentid')    
+            ,$app->request()->post('objectid')
+            ,$app->request()->post('languagecode')
+            ,$app->request()->post('field')
+            ,$app->request()->post('translationcontent')    
             ,'Views/Translation/translationnew.html.twig') ;
 
     })->name('inserttranslation');
@@ -349,12 +349,12 @@ $app->post(
     function ($id) use($app,$env) {
         $env['translationdb']->updateitem($env['globalobj']->getcurrentuser()
             ,$id
-            ,htmlEntities($app->request()->post('objectcode'))
-            ,htmlEntities($app->request()->post('parentid'))
-            ,htmlEntities($app->request()->post('objectid'))
-            ,htmlEntities($app->request()->post('languagecode'))
-            ,htmlEntities($app->request()->post('field'))
-            ,htmlEntities($app->request()->post('translationcontent'))
+            ,$app->request()->post('objectcode')
+            ,$app->request()->post('parentid')
+            ,$app->request()->post('objectid')
+            ,$app->request()->post('languagecode')
+            ,$app->request()->post('field')
+            ,$app->request()->post('translationcontent')
         )
 
            ;
@@ -467,11 +467,12 @@ $app->get(
     '/newwork',
     function () use($app,$env) {
         $env['workdb']->addnewitem($env['globalobj']->getcurrentuser()
-            ,htmlEntities($app->request()->post('curricullumid'))
-            ,htmlEntities($app->request()->post('company'))    
-            ,htmlEntities($app->request()->post('position'))
-            ,htmlEntities($app->request()->post('from'))
-            ,htmlEntities($app->request()->post('to'))   
+            ,$app->request()->post('curricullumid')
+            ,$app->request()->post('company')    
+            ,$app->request()->post('position')
+            ,$app->request()->post('from')
+            ,$app->request()->post('to') 
+            ,$env['globalobj']    
             ,'Views/Work/worknew.html.twig') ;
 
     })->name('insertwork');
@@ -484,15 +485,15 @@ $app->get(
     })->name('editwork');
 
 $app->post(
-    '/updatework',
-    function () use($app,$env) {
+    '/updatework/:id',
+    function ($id) use($app,$env) {
         $env['workdb']->updateitem($env['globalobj']->getcurrentuser()
-            ,htmlEntities($app->request()->post('id'))    
-            ,htmlEntities($app->request()->post('curricullumid'))
-             ,htmlEntities($app->request()->post('company'))    
-            ,htmlEntities($app->request()->post('position'))
-            ,htmlEntities($app->request()->post('from'))
-            ,htmlEntities($app->request()->post('to'))   
+            ,$id   
+            ,$app->request()->post('curricullumid')
+            ,$app->request()->post('company')   
+            ,$app->request()->post('position')
+            ,$app->request()->post('from')
+            ,$app->request()->post('to')   
         )
 
            ;
@@ -506,9 +507,9 @@ $app->get(
     })->name('viewwork');
 
 $app->post(
-    '/deletework',
-    function () use($app,$env) {
-        $env['workdb']->deleteitem(htmlEntities($app->request()->post('id')));
+    '/deletework/:id',
+    function ($id) use($app,$env) {
+        $env['workdb']->deleteitem($id);
     })->name('deletework');
   
     
@@ -533,10 +534,10 @@ $app->get(
     '/newskill',
     function () use($app,$env) {
         $env['skilldb']->addnewitem($env['globalobj']->getcurrentuser()
-            ,htmlEntities($app->request()->post('curricullumid'))
-            ,htmlEntities($app->request()->post('type'))    
-            ,htmlEntities($app->request()->post('skill'))
-            ,htmlEntities($app->request()->post('percentage'))
+            ,$app->request()->post('curricullumid')
+            ,$app->request()->post('type')    
+            ,$app->request()->post('skill')
+            ,$app->request()->post('percentage')
             ,$env['globalobj']    
             ,'Views/Skill/skillnew.html.twig') ;
 
@@ -550,14 +551,14 @@ $app->get(
     })->name('editskill');
 
 $app->post(
-    '/updateskill',
-    function () use($app,$env) {
+    '/updateskill/:id',
+    function ($id) use($app,$env) {
         $env['skilldb']->updateitem($env['globalobj']->getcurrentuser()
-            ,htmlEntities($app->request()->post('id'))    
-            ,htmlEntities($app->request()->post('curricullumid'))
-            ,htmlEntities($app->request()->post('type'))    
-            ,htmlEntities($app->request()->post('skill'))
-            ,htmlEntities($app->request()->post('percentage'))  
+            ,$id    
+            ,$app->request()->post('curricullumid')
+            ,$app->request()->post('type')    
+            ,$app->request()->post('skill')
+            ,$app->request()->post('percentage')  
         )
 
            ;
@@ -571,9 +572,9 @@ $app->get(
     })->name('viewskill');
 
 $app->post(
-    '/deleteskill',
-    function () use($app,$env) {
-        $env['skilldb']->deleteitem(htmlEntities($app->request()->post('id')));
+    '/deleteskill/:id',
+    function ($id) use($app,$env) {
+        $env['skilldb']->deleteitem($id);
     })->name('deleteskill');
   
     
@@ -599,11 +600,11 @@ $app->get(
     '/newproject',
     function () use($app,$env) {
         $env['projectdb']->addnewitem($env['globalobj']->getcurrentuser()
-            ,htmlEntities($app->request()->post('curricullumid'))
-            ,htmlEntities($app->request()->post('name'))    
-            ,htmlEntities($app->request()->post('description'))
-            ,htmlEntities($app->request()->post('link'))
-            ,htmlEntities($app->request()->post('imagename'))    
+            ,$app->request()->post('curricullumid')
+            ,$app->request()->post('name')   
+            ,$app->request()->post('description')
+            ,$app->request()->post('link')
+            ,$app->request()->post('imagename')
             ,$env['globalobj']    
             ,'Views/Project/projectnew.html.twig') ;
 
@@ -617,15 +618,15 @@ $app->get(
     })->name('editproject');
 
 $app->post(
-    '/updateproject',
-    function () use($app,$env) {
+    '/updateproject/:id',
+    function ($id) use($app,$env) {
         $env['projectdb']->updateitem($env['globalobj']->getcurrentuser()
-            ,htmlEntities($app->request()->post('id'))    
-            ,htmlEntities($app->request()->post('curricullumid'))
-            ,htmlEntities($app->request()->post('name'))    
-            ,htmlEntities($app->request()->post('description'))
-            ,htmlEntities($app->request()->post('link'))
-            ,htmlEntities($app->request()->post('imagename'))     
+            ,$id  
+            ,$app->request()->post('curricullumid')
+            ,$app->request()->post('name')    
+            ,$app->request()->post('description')
+            ,$app->request()->post('link')
+            ,$app->request()->post('imagename')    
         )
 
            ;
@@ -639,9 +640,9 @@ $app->get(
     })->name('viewproject');
 
 $app->post(
-    '/deleteproject',
-    function () use($app,$env) {
-        $env['projectdb']->deleteitem(htmlEntities($app->request()->post('id')));
+    '/deleteproject/:id',
+    function ($id) use($app,$env) {
+        $env['projectdb']->deleteitem($id);
     })->name('deleteproject');
   
     
@@ -668,8 +669,8 @@ $app->post(
     function () use($app,$env) {
 
         $env['projecttagdb']->addnewitem($env['globalobj']->getcurrentuser()
-                ,htmlEntities($app->request()->post('projectid'))
-                ,htmlEntities($app->request()->post('tagname'))
+                ,$app->request()->post('projectid')
+                ,$app->request()->post('tagname')
                 ,'Views/Projecttag/projecttagnew.html.twig') ;
         
     })->name('insertprojecttag');
@@ -684,7 +685,7 @@ $app->get(
 $app->post(
     '/updateprojecttag/:id',
     function ($id) use($app,$env) {
-    $env['projecttagdb']->updateitem($env['globalobj']->getcurrentuser(),$id,htmlEntities($app->request()->post('projectid')),htmlEntities($app->request()->post('tagname'))) ;
+    $env['projecttagdb']->updateitem($env['globalobj']->getcurrentuser(),$id,$app->request()->post('projectid'),$app->request()->post('tagname')) ;
     })->name('updateprojecttag');  
 
 $app->get(
@@ -736,9 +737,9 @@ $app->post(
     function () use($app,$env) {
 
         $env['translatetagdb']->addnewitem($env['globalobj']->getcurrentuser()
-                ,htmlEntities($app->request()->post('languagecode'))
-                ,htmlEntities($app->request()->post('key'))
-                ,htmlEntities($app->request()->post('translation'))
+                ,$app->request()->post('languagecode')
+                ,$app->request()->post('key')
+                ,$app->request()->post('translation')
                 ,'Views/Translatetag/translatetagnew.html.twig') ;
         
     })->name('inserttranslatetag');
@@ -795,9 +796,9 @@ $app->post(
     function () use($app,$env) {
 
         $env['userdb']->addnewitem($env['globalobj']->getcurrentuser()
-                ,htmlEntities($app->request()->post('username'))
-                ,htmlEntities($app->request()->post('password'))
-                ,htmlEntities($app->request()->post('email'))
+                ,$app->request()->post('username')
+                ,$app->request()->post('password')
+                ,$app->request()->post('email')
                 ,'Views/User/usernew.html.twig') ;
         
     })->name('insertuser');
@@ -810,9 +811,9 @@ $app->get(
     })->name('edituser');
 
 $app->post(
-    '/updateuser',
-    function () use($app,$env) {
-    $env['userdb']->updateitem($env['globalobj']->getcurrentuser(), $app->request()->post('id'),$app->request()->post('username'),$app->request()->post('email')) ;
+    '/updateuser/:id',
+    function ($id) use($app,$env) {
+    $env['userdb']->updateitem($env['globalobj']->getcurrentuser(),$id,$app->request()->post('username'),$app->request()->post('email')) ;
     })->name('updateuser');  
 
 $app->get(
@@ -823,9 +824,9 @@ $app->get(
     })->name('viewuser');
 
 $app->post(
-    '/deleteuser',
-    function () use($app,$env) {
-        $env['userdb']->deleteitem(htmlEntities($app->request()->post('id')));
+    '/deleteuser/:id',
+    function ($id) use($app,$env) {
+        $env['userdb']->deleteitem($id);
     })->name('deleteuser');
 
  $app->get(
@@ -836,9 +837,9 @@ $app->post(
     })->name('passwordchange');   
     
   $app->post(
-    '/changepassword',
-    function () use($app,$env) {
-    $env['userdb']->changepassword($env['globalobj']->getcurrentuser(), $app->request()->post('id'),$app->request()->post('password')) ;
+    '/changepassword/:id',
+    function ($id) use($app,$env) {
+    $env['userdb']->changepassword($env['globalobj']->getcurrentuser(),$id,$app->request()->post('password')) ;
     })->name('changepassword');   
     
 //-----------------End user CRUD----------------------
@@ -863,9 +864,9 @@ $app->post(
     function () use($app,$env) {
 
         $env['sysparamdb']->addnewitem($env['globalobj']->getcurrentuser()
-                ,htmlEntities($app->request()->post('code'))
-                ,htmlEntities($app->request()->post('value'))
-                ,htmlEntities($app->request()->post('description'))
+                ,$app->request()->post('code')
+                ,$app->request()->post('value')
+                ,$app->request()->post('description')
                 ,'Views/Sysparam/sysparamnew.html.twig') ;
         
     })->name('insertsysparam');
@@ -878,10 +879,10 @@ $app->get(
     })->name('editsysparam');
 
 $app->post(
-    '/updatesysparam',
-    function () use($app,$env) {
+    '/updatesysparam/:id',
+    function ($id) use($app,$env) {
     $env['sysparamdb']->updateitem($env['globalobj']->getcurrentuser()
-            ,$app->request()->post('id')
+            ,$id
             ,$app->request()->post('code')
             ,$app->request()->post('value')
             ,$app->request()->post('description')) ;
@@ -895,9 +896,9 @@ $app->get(
     })->name('viewsysparam');
 
 $app->post(
-    '/deletesysparam',
-    function () use($app,$env) {
-        $env['sysparamdb']->deleteitem(htmlEntities($app->request()->post('id')));
+    '/deletesysparam/:id',
+    function ($id) use($app,$env) {
+        $env['sysparamdb']->deleteitem($id);
     })->name('deletesysparam');
 
 //-----------------End sysparam CRUD---------------------- 
@@ -922,9 +923,9 @@ $app->post(
     function () use($app,$env) {
 
         $env['multiparamdb']->addnewitem($env['globalobj']->getcurrentuser()
-                ,htmlEntities($app->request()->post('sysparamid'))
-                ,htmlEntities($app->request()->post('value'))
-                ,htmlEntities($app->request()->post('valuedesc'))
+                ,$app->request()->post('sysparamid')
+                ,$app->request()->post('value')
+                ,$app->request()->post('valuedesc')
                 ,'Views/Multiparam/multiparamnew.html.twig') ;
         
     })->name('insertmultiparam');
@@ -954,12 +955,22 @@ $app->get(
     })->name('viewmultiparam');
 
 $app->post(
-    '/deletemultiparam',
-    function () use($app,$env) {
-        $env['multiparamdb']->deleteitem($app->request()->post('id'),$app->request()->post('sysparamid'));
+    '/deletemultiparam/:id/:sysparamid',
+    function ($id,$sysparamid) use($app,$env) {
+        $env['multiparamdb']->deleteitem($id,$sysparamid);
     })->name('deletemultiparam');
 
 //-----------------End multiparam CRUD----------------------
+
+//-----------------System Admin Options----------------------
+$app->get(
+    '/adminoptions',
+    function () use($app) {
+        $app->render('Views/Systemadmin/adminoptions.html.twig',array('link'=>'/home','option'=>'Home','route'=>''));
+
+    })->name('adminoptions');
+//-----------------------------------------------------------
+//
 //-----------------url CRUD--------------------------
 $app->get(
     '/urllist/:cvid',
@@ -980,10 +991,10 @@ $app->get(
     '/newurl',
     function () use($app,$env) {
         $env['urldb']->addnewitem($env['globalobj']->getcurrentuser()
-            ,htmlEntities($app->request()->post('curricullumid'))
-            ,htmlEntities($app->request()->post('type'))    
-            ,htmlEntities($app->request()->post('name'))
-            ,htmlEntities($app->request()->post('link'))
+            ,$app->request()->post('curricullumid')
+            ,$app->request()->post('type')   
+            ,$app->request()->post('name')
+            ,$app->request()->post('link')
             ,$env['globalobj'] 
             ,'Views/Url/urlnew.html.twig') ;
 
@@ -1001,10 +1012,10 @@ $app->post(
     function ($id) use($app,$env) {
         $env['urldb']->updateitem($env['globalobj']->getcurrentuser()
             ,$id   
-            ,htmlEntities($app->request()->post('curricullumid'))
-            ,htmlEntities($app->request()->post('type'))    
-            ,htmlEntities($app->request()->post('name'))
-            ,htmlEntities($app->request()->post('link'))  
+            ,$app->request()->post('curricullumid')
+            ,$app->request()->post('type')   
+            ,$app->request()->post('name')
+            ,$app->request()->post('link')  
         )
 
            ;

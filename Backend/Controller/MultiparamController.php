@@ -21,16 +21,32 @@ class MultiparamController {
 function rendergridview($sysparamid,$renderpath)
 {
   $newurl = str_replace(':sysparamid', $sysparamid,$this->app->urlFor('newmultiparam'));
-    $this->app->render($renderpath,
+  $route=$this->getparamdescriptionbyid($sysparamid);
+  $linkroute=str_replace(':id', $sysparamid,$this->app->urlFor('editsysparam'));
+  $this->app->render($renderpath,
         array('newurl'=>$newurl
             ,'editurl'=>$this->editurl
             ,'deleteurl'=>$this->deleteurl
             ,'obj'=>$this
             ,'sysparamid'=>$sysparamid
             ,'option'=>$this->mainoption
-            ,'route'=>''
+            ,'route'=>$route
+            ,'linkroute'=>$linkroute
+            ,'route'=>$route
             ,'link'=>$this->mainlink.'/'.$sysparamid));
 
+}
+
+function getparamdescriptionbyid($sysparamid)
+{
+  $sth = $this->database->pdo->prepare("SELECT description from sysparam where id='".$sysparamid."'");
+  $sth->execute();
+  foreach ($sth as $row)
+            {
+                $description =$row['description'];
+                
+            } 
+  return $description;   
 }
 
 function rendernewview($sysparamid,$value,$valuedesc,$errormessage,$renderpath)
@@ -82,17 +98,20 @@ function renderdeleteview($id,$renderpath)
     $datas=$this->getmultiparambyid($id);
     foreach($datas as $data)
     {   
+        $id=$data["id"];
         $sysparamid =$data["sysparamid"];
         $value =$data["value"];
         $valuedesc =$data["valuedesc"];
     }
     $listurl = str_replace(':sysparamid', $sysparamid,$this->app->urlFor('multiparams'));
+    $deleteurl = str_replace(':id', $id,$this->app->urlFor('deletemultiparam'));
+    $deleteurlink = str_replace(':sysparamid', $sysparamid,$deleteurl);
     $this->app->render($renderpath,array('sysparamid'=>$sysparamid
-             ,'value'=>$value
+            ,'value'=>$value
             ,'valuedesc'=>$valuedesc
             ,'id'=>$id
             ,'obj'=>$this
-            ,'deleteurl'=>$this->app->urlFor('deletemultiparam')
+            ,'deleteurl'=>$deleteurlink
             ,'listurl'=>$listurl
             ,'option'=>$this->mainoption
             ,'route'=>'Delete'
@@ -110,7 +129,7 @@ function validateinsert($sysparamid,$value)
     $errormessage="";
     if($count>0)
     {
-        $errormessage= '<div class="alert alert-error">The value for this system parameter already exist</div>';
+        $errormessage= '<div class="alert alert-danger col-sms-4 errordiv" role="alert"><i class="fa fa-warning"></i>The value for this system parameter already exist</div>';
 
     }
     return $errormessage;
@@ -142,6 +161,7 @@ function addnewitem($username,$sysparamid,$value,$valuedesc,$renderpath)
                 ,'errormessage'=>$errormessage
                 ,'option'=>$this->mainoption
                 ,'route'=>'New'
+                ,'obj'=>$this
                 ,'link'=>$this->mainlink.'/'.$sysparamid));
     }
 
@@ -158,7 +178,7 @@ function addnewitem($username,$sysparamid,$value,$valuedesc,$renderpath)
     function deleteitem($id,$sysparamid)
     {
         $this->deletemultiparam($id);
-        $listurl = str_replace(':sysparamid', $sysparamid,$this->app->urlFor('multiparams'));
+        $listurl = str_replace(':sysparamid',$sysparamid,$this->app->urlFor('multiparams'));
         $this->app->response->redirect($listurl);
     }
 
@@ -195,6 +215,40 @@ function buildgrid($sysparamid,$editurl,$deleteurl)
             }
             echo'  </tbody></table>';
 }
+
+function buildresponsivegrid($sysparamid,$editurl,$deleteurl)
+   {
+     $result=$this->getall($sysparamid);
+     echo'<div id="grids" width="100%">         
+       <table id="datagrid" class="table table-striped table-hover dt-responsive" cellspacing="0" width="80%">
+        <thead>
+            <tr>
+              <th>Sysparam</th>
+              <th>Value</th>
+              <th>Description</th>
+              <th class="nosort">Actions</th>
+            </tr>
+        </thead>
+        <tbody>';
+        foreach ($result as $row) 
+        {
+         echo '<tr>';
+         echo '<td>'. $row['sysparam'] . '</td>';
+         echo '<td>'. $row['value'] . '</td>';
+         echo '<td>'. $row['valuedesc'] . '</td>';
+         echo '<td class="center">
+         <a class="btn btn-info" href="'.$editurl.'/'.$row['id'].'">
+	 <i class="fa fa-edit"></i>  
+	 </a>
+	 <a href ="'.$deleteurl.'/'.$row['id'].'" class="btn btn-danger">
+	 <i class="fa fa-trash-o"></i> 
+	 </a>
+	 </td>';
+         echo '</tr>';
+        } 
+            
+        echo'</tbody></table></div>';
+   }
 
 
 
@@ -261,7 +315,7 @@ function findmultiparam($sysparamid,$value)
 {
     $count =  $this->database->count("multiparam", [
 "id"
-],["AND" => ["sysparam"=>$sysparamid,"value"=>$value 
+],["AND" => ["sysparamid"=>$sysparamid,"value"=>$value 
           ]]);
    return $count;
     

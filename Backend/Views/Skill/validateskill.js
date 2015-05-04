@@ -34,11 +34,11 @@ $(function() {
         // Specify the validation error messages
         messages: {
             curricullumid:{
-                required:"You must select a curricullum"
+                valueNotEquals:"You must select a curricullum"
                 
             },
             type:{
-                required:"You must enter a type"
+                valueNotEquals:"You must enter a type"
                
             },
             skill:{

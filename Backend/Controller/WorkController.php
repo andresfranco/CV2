@@ -55,12 +55,14 @@ function rendereditview($id,$globalobj,$renderpath)
     $datas=$this->getworkbyid($id);
     foreach($datas as $data)
     {   
+        $id =$data["id"];
         $curricullumid = $data["curricullumid"];
         $company =$data["company"];
         $position =$data["position"];
         $from =$data["from"];
         $to =$data["to"];
     }
+    $updateurl = str_replace(':id', $id, $this->app->urlFor('updatework'));
     $this->app->render($renderpath,array('id'=>$id 
             ,'curricullumid'=>$curricullumid
             ,'company'=>$company
@@ -68,7 +70,7 @@ function rendereditview($id,$globalobj,$renderpath)
             ,'from'=>$from
             ,'to'=>$to
             ,'globalobj'=>$globalobj
-            ,'updateurl'=>$this->app->urlFor('updatework')
+            ,'updateurl'=>$updateurl
             ,'listurl'=>$this->app->urlFor('worklist')
             ,'option'=>$this->mainoption
             ,'route'=>'Edit'
@@ -87,6 +89,7 @@ function renderdeleteview($id,$globalobj,$renderpath)
         $from =$data["from"];
         $to =$data["to"];
     }
+    $deleteeurl = str_replace(':id', $id, $this->app->urlFor('deletework'));
     $this->app->render($renderpath,array('id'=>$id 
             ,'curricullumid'=>$curricullumid
             ,'company'=>$company
@@ -94,7 +97,7 @@ function renderdeleteview($id,$globalobj,$renderpath)
             ,'from'=>$from
             ,'to'=>$to
             ,'globalobj'=>$globalobj
-            ,'deleteurl'=>$this->app->urlFor('deletework')
+            ,'deleteurl'=>$deleteeurl
             ,'listurl'=>$this->app->urlFor('worklist')
              ,'option'=>$this->mainoption
             ,'route'=>'Delete'
@@ -109,14 +112,14 @@ function validateinsert($curricullumid,$company)
     $errormessage="";
     if($count>0)
     {
-        $errormessage= '<div class="alert alert-error">Already exist a company for this curricullum</div>';
+        $errormessage= '<div class="alert alert-danger col-sms-4 errordiv" role="alert"><i class="fa fa-warning"></i> Already exist a company for this curricullum</div>';
 
     }
     return $errormessage;
 }
 
 
-function addnewitem($username,$curricullumid,$company,$position,$from,$to,$renderpath)
+function addnewitem($username,$curricullumid,$company,$position,$from,$to,$globalobj,$renderpath)
 {
     $errormessage = $this->validateinsert($curricullumid,$company);
 
@@ -134,6 +137,7 @@ function addnewitem($username,$curricullumid,$company,$position,$from,$to,$rende
     {
         $this->app->render($renderpath,array('listurl'=>$this->app->urlFor('worklist')
                 ,'selfurl'=>$this->app->urlFor('newwork')
+                ,'globalobj'=>$globalobj
                 ,'curricullumid'=>$curricullumid
                 ,'company'=>$company
                 ,'position'=>$position
@@ -318,6 +322,7 @@ function getworkbyid($id)
 {
 
 $data = $this->database->select("work", [
+"id",    
 "curricullumid",
 "company",
 "position",

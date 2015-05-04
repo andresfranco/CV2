@@ -52,16 +52,17 @@ function rendereditview($id,$renderpath)
     $datas=$this->getsysparambyid($id);
     foreach($datas as $data)
     {
-       
+        $id =$data["id"];
         $code =$data["code"];
         $value =$data["value"];
         $description =$data["description"];
     }
+    $updateurl =  str_replace(":id", $id, $this->app->urlFor('updatesysparam'));
     $this->app->render($renderpath,array('id'=>$id 
             ,'code'=>$code
             ,'value'=>$value
             ,'description'=>$description
-            ,'updateurl'=>$this->app->urlFor('updatesysparam')
+            ,'updateurl'=>$updateurl
             ,'listurl'=>$this->app->urlFor('sysparams')
             ,'option'=>$this->mainoption
             ,'route'=>'Edit'
@@ -78,11 +79,12 @@ function renderdeleteview($id,$renderpath)
         $value =$data["value"];
         $description =$data["description"];
     }
+    $deleteurl =  str_replace(":id", $id, $this->app->urlFor('deletesysparam'));
     $this->app->render($renderpath,array('code'=>$code
              ,'value'=>$value
             ,'description'=>$description
             ,'id'=>$id
-            ,'deleteurl'=>$this->app->urlFor('deletesysparam')
+            ,'deleteurl'=>$deleteurl
             ,'listurl'=>$this->app->urlFor('sysparams')
             ,'option'=>$this->mainoption
             ,'route'=>'Delete'
@@ -100,7 +102,7 @@ function validateinsert($code)
     $errormessage="";
     if($count>0)
     {
-        $errormessage= '<div class="alert alert-error">The system parameter with code :'.$code. ' already exist</div>';
+        $errormessage= '<div class="alert alert-danger col-sms-4 errordiv" role="alert"><i class="fa fa-warning"></i> The system parameter with code : "'.$code. '" already exist</div>';
 
     }
     return $errormessage;
@@ -289,6 +291,7 @@ function getsysparambyid($id)
 {
 
 $data = $this->database->select("sysparam", [
+"id",    
 "code",
 "value",
 "description"    

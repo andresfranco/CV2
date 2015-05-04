@@ -122,18 +122,19 @@ function rendereditview($id,$globalobj,$renderpath)
     $datas=$this->getskillbyid($id);
     foreach($datas as $data)
     {
-        
+        $id=$data["id"];
         $curricullumid = $data["curricullumid"];
         $type =$data["type"];
         $skill =$data["skill"];
         $percentage =$data["percentage"];
     }
+    $updateurl =  str_replace(':id',$id, $this->app->urlFor('updateskill'));
     $this->app->render($renderpath,array('id'=>$id,'curricullumid'=>$curricullumid
             ,'type'=>$type
             ,'skill'=>$skill
             ,'percentage'=>$percentage
             ,'globalobj'=>$globalobj
-            ,'updateurl'=>$this->app->urlFor('updateskill')
+            ,'updateurl'=>$updateurl
             ,'listurl'=>$this->app->urlFor('skills')
             ,'option'=>$this->mainoption
             ,'route'=>'Edit'
@@ -151,12 +152,13 @@ function renderdeleteview($id,$globalobj,$renderpath)
         $skill =$data["skill"];
         $percentage =$data["percentage"];
     }
+    $deleteurl =  str_replace(':id',$id, $this->app->urlFor('deleteskill'));
     $this->app->render($renderpath,array('id'=>$id,'curricullumid'=>$curricullumid
             ,'type'=>$type
             ,'skill'=>$skill
             ,'percentage'=>$percentage
             ,'globalobj'=>$globalobj
-            ,'deleteurl'=>$this->app->urlFor('deleteskill')
+            ,'deleteurl'=>$deleteurl
             ,'listurl'=>$this->app->urlFor('skills')
             ,'option'=>$this->mainoption
             ,'route'=>'Delete'
@@ -171,7 +173,7 @@ function validateinsert($curricullumid,$type,$skill)
     $errormessage="";
     if($count>0)
     {
-        $errormessage= '<div class="alert alert-error">The skill for this curricullum and this type already exist</div>';
+        $errormessage= '<div class="alert alert-danger col-sms-4 errordiv" role="alert"><i class="fa fa-warning"></i>The skill for this curricullum and this type already exist</div>';
 
     }
     return $errormessage;
@@ -252,6 +254,7 @@ function getskillbyid($id)
 {
 
 $data = $this->database->select("skill", [
+"id",
 "curricullumid",
 "type",
 "skill"  ,

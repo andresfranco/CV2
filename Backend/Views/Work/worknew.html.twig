@@ -1,35 +1,52 @@
-{% extends "Templates/Masterpage/masterbackend.html.twig" %}
-{% block content %}
+{% extends "Templates/Masterpage/masteradmin.html.twig" %}
+{% block javascript%} 
+{{parent()}}
 <script src="{{templatepath~'/Views/Work/validatework.js'}}"></script>
-<label class="error">{{errormessage|raw}}</label><br>
-<form id="appform" method="post" action="{{selfurl}}">
-    <table width="400" border="0" cellspacing="1" cellpadding="2">
-        <tr>
-            <td ><label class="control-label">{{'Curricullum'}}</label></td>
-            <td>{{globalobj.getcurricullumlist('','')}}</td>
-        </tr>
-       <tr>
-            <td><label class="control-label">{{'Company'}}</label></td>
-            <td><input size="60" id ="company" name="company" type="text" id="language" class="span6 typeahead" value="{{company|raw}}"></td>   
-        </tr>
-        <tr>
-            <td><label class="control-label">{{'Position'}}</label></td>
-            <td><input id ="position" name="position" type="text" id="language" class="span6 typeahead" value="{{position|raw}}"></td>
-        </tr>
-        <tr>
-            <td><label class="control-label">{{'From'}}</label></td>
-            <td><input id ="from" name="from" type="text" id="language" class="span6 typeahead" value="{{from|raw}}"></td>
-        </tr>
-        <tr>
-            <td><label class="control-label">{{'To'}}</label></td>
-            <td><input id ="to" name="to" type="text" id="language" class="span6 typeahead" value="{{to|raw}}"></td>
-        </tr>
-       
-    </table>
-    <br>
-    <div class="options btn-group">
-        <input  id ="deletebutton" class="btn btn-primary" type="submit" value="Save" />
-        <input onClick="window.location.href='{{listurl}}'"id ="cancelbutton" class=" btn input-small"  value="Cancel" />
+{% endblock javascript%} 
+{% block content %}
+{% block breadcrumb %}
+{{parent()}}
+{% endblock breadcrumb%}
+<label class="col-sm-offset-2 col-sm-8 error">{{errormessage|raw}}</label>
+<div id="formcontentgrid" class="col-sm-12">
+<form id="appform" method="post" action="{{selfurl}}" class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="control-label col-sm-2">{{'Curricullum'}}</label>
+            <div class="col-sm-3">
+            {{globalobj.getcurricullumlist('class="form-control"',curricullumid)}}
+            </div>
+         </div>
+        <div class="form-group">
+             <label class="control-label col-sm-2">{{'Company'}}</label>
+              <div class="col-sm-3">
+              <input size="60" id ="company" name="company" type="text" id="language" class="form-control" value="{{company|raw}}">
+              </div>      
+        </div>
+        <div class="form-group">
+             <label class="control-label col-sm-2">{{'Position'}}</label>
+              <div class="col-sm-3">
+              <input id ="position" name="position" type="text" id="language" class="form-control" value="{{position|raw}}">   
+              </div>      
+        </div> 
+        <div class="form-group">
+             <label class="control-label col-sm-2">{{'From'}}</label>
+              <div class="col-sm-3">
+              <input id ="from" name="from" type="text" id="language" class="form-control" value="{{from|raw}}">
+              </div> 
+        </div>
+         <div class="form-group">
+             <label class="control-label col-sm-2">{{'To'}}</label>
+              <div class="col-sm-3">
+              <input id ="to" name="to" type="text" id="language" class="form-control" value="{{to|raw}}">
+              </div> 
+        </div> 
+        <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-8">
+        <input  id="savebutton" class="btn btn-primary" type="submit" value="Save"/>
+        <a href="{{listurl}}" id ="cancelbutton" class="btn btn-primary cancel">Cancel</a>
+        </div>
     </div>
 </form>
+</div>
+
 {% endblock content%}

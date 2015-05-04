@@ -131,13 +131,14 @@ function rendereditview($id,$globalobj,$renderpath)
         $link =$data["link"];
         $imagename=$data["imagename"];
     }
+    $updateurl = str_replace(':id',$id,$this->app->urlFor('updateproject'));
     $this->app->render($renderpath,array('id'=>$id,'curricullumid'=>$curricullumid
             ,'name'=>$name
             ,'description'=>$description
             ,'linkproject'=>$link
             ,'imagename'=>$imagename
             ,'globalobj'=>$globalobj
-            ,'updateurl'=>$this->app->urlFor('updateproject')
+            ,'updateurl'=>$updateurl 
             ,'listurl'=>$this->app->urlFor('projects')
             ,'option'=>$this->mainoption
             ,'route'=>'Edit'
@@ -156,13 +157,14 @@ function renderdeleteview($id,$globalobj,$renderpath)
         $link =$data["link"];
         $imagename=$data["imagename"];
     }
+    $deleteurl = str_replace(':id',$id,$this->app->urlFor('deleteproject'));
     $this->app->render($renderpath,array('id'=>$id,'curricullumid'=>$curricullumid
             ,'name'=>$name
             ,'description'=>$description
             ,'linkproject'=>$link
             ,'imagename'=>$imagename
             ,'globalobj'=>$globalobj
-            ,'deleteurl'=>$this->app->urlFor('deleteproject')
+            ,'deleteurl'=>$deleteurl
             ,'listurl'=>$this->app->urlFor('projects')
             ,'option'=>$this->mainoption
             ,'route'=>'Delete'
@@ -177,7 +179,7 @@ function validateinsert($curricullumid,$name,$description)
     $errormessage="";
     if($count>0)
     {
-        $errormessage= '<div class="alert alert-error">The project for this curricullum already exist</div>';
+        $errormessage= '<div class="alert alert-danger col-sms-4 errordiv" role="alert"><i class="fa fa-warning"></i>The project for this curricullum already exist</div>';
 
     }
     return $errormessage;

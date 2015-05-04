@@ -55,16 +55,18 @@ function rendereditview($id,$renderpath)
     $datas=$this->getuserbyid($id);
     foreach($datas as $data)
     {
+        $id=$data["id"];
         $username = $data["username"];
         $email = $data["email"];
        
         
     }
+    $updateurl=  str_replace(":id",$id,$this->app->urlFor('updateuser'));
     $this->app->render($renderpath,array( 
             'id'=>$id
             ,'username'=>$username
             ,'email'=>$email
-            ,'updateurl'=>$this->app->urlFor('updateuser')
+            ,'updateurl'=>$updateurl
             ,'listurl'=>$this->app->urlFor('users')
             ,'option'=>$this->mainoption
             ,'route'=>'Edit'
@@ -77,13 +79,15 @@ function renderdeleteview($id,$renderpath)
     $datas=$this->getuserbyid($id);
     foreach($datas as $data)
     {
+        $id =$data["id"];
         $username = $data["username"];
         $email =$data["email"];
     }
+    $deleteurl=  str_replace(":id",$id,$this->app->urlFor('deleteuser'));
     $this->app->render($renderpath,array('id'=>$id
             ,'username'=>$username
             ,'email'=>$email
-            ,'deleteurl'=>$this->app->urlFor('deleteuser')
+            ,'deleteurl'=>$deleteurl
             ,'listurl'=>$this->app->urlFor('users')
             ,'option'=>$this->mainoption
             ,'route'=>'Delete'
@@ -96,10 +100,11 @@ function renderpasswordchange($id,$renderpath)
     foreach($datas as $data)
     {
         $username = $data["username"];
-    }  
+    }
+    $updateurl = str_replace(":id",$id,$this->app->urlFor('changepassword'));
     $this->app->render($renderpath,array('id'=>$id
             ,'username'=>$username
-            ,'updateurl'=>$this->app->urlFor('changepassword')
+            ,'updateurl'=>$updateurl
             ,'listurl'=>$this->app->urlFor('users')
             ,'option'=>$this->mainoption
             ,'route'=>'Password Change'
@@ -137,7 +142,7 @@ function validateinsert($username)
     $errormessage="";
     if($count>0)
     {
-        $errormessage= '<div class="alert alert-error">The username: '.$username.' already exist</div>';
+        $errormessage= '<div class="alert alert-danger col-sms-4 errordiv" role="alert"><i class="fa fa-warning"></i>The username: "'.$username.'" already exist</div>';
 
     }
     return $errormessage;

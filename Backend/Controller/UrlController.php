@@ -187,7 +187,7 @@ function validateinsert($curricullumid,$type,$name)
     $errormessage="";
     if($count>0)
     {
-        $errormessage= '<div class="alert alert-error">The Url name for this curricullum already exist</div>';
+        $errormessage= '<div class="alert alert-danger col-sms-4 errordiv" role="alert"><i class="fa fa-warning"></i>The Url name for this curricullum already exist</div>';
 
     }
     return $errormessage;
@@ -205,12 +205,12 @@ function addnewitem($username,$curricullumid,$type,$name,$link,$globalobj,$rende
     {
         $this->inserturl($username,$curricullumid,$name,$link,$type);
 
-       $this->app->response->redirect($listurl);
+        $this->app->response->redirect($listurl);
 
     }
     else
     {
-        $this->app->render($renderpath,array('listurl'=>$listurl
+      $this->app->render($renderpath,array('listurl'=>$listurl
                 ,'selfurl'=> $this->app->urlFor('inserturl')
                 ,'curricullumid'=>$curricullumid
                 ,'name'=>$name
@@ -332,7 +332,7 @@ function findurl($curricullumid,$type,$name)
    "id"
 ],["AND"=>["curricullumid"=>$curricullumid,"type"=>$type,"name"=>$name]]);
      
-    return $count;
+   return $count;
 
    
 }

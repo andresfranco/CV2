@@ -21,7 +21,22 @@ $(function() {
                
             },
             value:{
-                required:true
+                 required: 
+               {
+                 depends:function()
+                {
+                 var divtext =$('#value').Editor("getText");
+                 $('#value').text(divtext);
+                 if ($('#value').text()=="")
+                  {    
+                   return true;
+                  }
+                  else
+                  {
+                  return false;   
+                  }
+                }
+               }
                
             },
             description:{
