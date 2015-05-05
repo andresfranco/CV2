@@ -1,7 +1,7 @@
 {% extends "Templates/Masterpage/masteradmin.html.twig" %}
 {% block javascript%} 
 {{parent()}}
-<script src="{{templatepath ~'/Views/user/validateuser.js'}}"></script>
+<script src="{{templatepath ~'/Views/Role/validaterole.js'}}"></script>
 {% endblock javascript%} 
 {% block content %}
 {% block breadcrumb %}
@@ -14,17 +14,10 @@
   <div class="panel-body">
     
       <div class="btn-group button_option" role="group">
-            <a href="{{basepath~'/passwordchange/'~id}}" class="btn btn-primary">
-       <p><i class="fa fa-lock"></i>{{' Change Password'}}</p>
+            <a href="{{basepath~'/roleactions/'~id}}" class="btn btn-primary">
+       <p><i class="fa fa-lock"></i>{{' Role Actions'}}</p>
        </a>
       </div>
-      <div class="btn-group button_option" role="group">
-           <a href="{{basepath~'/userroles/'~id}}" class="btn btn-primary">
-       <p><i class="fa fa-edit"></i>{{' User Roles'}}</p>
-       </a>
-        </div>
-            
-
   </div>
 </div>
 </div>
@@ -32,20 +25,17 @@
 <div id="formcontentgrid" class="col-sm-12">
 <form id="appform" method="post" action="{{updateurl}}" class="form-horizontal" role="form">
         <div class="form-group">
-            <label class="control-label col-sm-2">{{'Username'}}</label>
+            <label class="control-label col-sm-2">{{'Role'}}</label>
             <div class="col-sm-3">
-            <input name="username" type="text" id="username" class="form-control" value="{{username|raw}}">
+            <input name="role" type="text" id="role" class="form-control" value="{{role|raw}}">
             </div>
          </div>
         <div class="form-group">
-             <label class="control-label col-sm-2">{{'E-mail'}}</label>
-              <div class="col-sm-3">
-              <input name="email" type="text" id="email" class="form-control" value="{{email|raw}}">
-              </div> 
-             <div class="col-sm-offset-2 col-sm-8">
-              <label id ="linkerror" name="linkerror"></label>
-              </div>
-        </div> 
+             <label class="control-label col-sm-2">{{'Description'}}</label>
+              <div class="col-sm-4">
+              <input name="description" type="description" id="description" class="form-control" value="{{description|raw}}">
+              </div>      
+        </div>
         <div class="form-group">
         <div class="col-sm-offset-2 col-sm-8">
         <input  id="savebutton" class="btn btn-primary" type="submit" value="Save"/>

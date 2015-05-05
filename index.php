@@ -23,6 +23,8 @@ require_once 'Backend/Controller/UserController.php';
 require_once 'Backend/Controller/SystemParameterController.php';
 require_once 'Backend/Controller/MultiparamController.php';
 require_once 'Backend/Controller/UrlController.php';
+require_once 'Backend/Controller/RoleController.php';
+require_once 'Backend/Controller/ActionController.php';
 
 session_cache_limiter(false);
 session_start();
@@ -65,6 +67,8 @@ $userobj =new UserController($app,$medoo,$securityobj);
 $sysparamobj =new SystemParameterController($app, $medoo);
 $multiparamobj= new MultiparamController($app,$medoo);
 $urlobj = new UrlController($app, $medoo,$curricullumdb);
+$roleobj = new RoleController($app, $medoo);
+$actionobj = new ActionController($app,$medoo);
 //--Set twig globals 
 $twig = $app->view()->getEnvironment();
 $twig->addGlobal("session", $_SESSION);
@@ -89,6 +93,8 @@ $env['userdb']=$userobj;
 $env['sysparamdb']=$sysparamobj;
 $env['multiparamdb']=$multiparamobj;
 $env['urldb']=$urlobj;
+$env['roledb']=$roleobj;
+$env['actiondb']=$actionobj;
 //------------------------------------------------------------
 //-----------------Login-----------------------------------
 $twig->addGlobal("securityobj", $securityobj);
@@ -842,6 +848,42 @@ $app->post(
     $env['userdb']->changepassword($env['globalobj']->getcurrentuser(),$id,$app->request()->post('password')) ;
     })->name('changepassword');   
     
+     //--- User Roles---------------------------------
+    $app->get(
+    '/userroles/:id',
+    function ($id) use($app,$env) {
+        $env['userdb']->render_userroles_grid($id,'Views/User/userroles.html.twig');
+
+    })->name('userroles');
+    
+     $app->get(
+    '/newuserrole/:userid',
+    function ($userid) use($app,$env) {
+        $env['userdb']->render_new_userrole($userid,'Views/User/newuserrole.html.twig');
+
+    })->name('newuserrole');
+    $app->post(
+    '/newuserrole/:userid',
+    function ($userid) use($app,$env) {
+     $env['userdb']->add_new_userrole($env['globalobj']->getcurrentuser(),$userid,$app->request()->post('roleid'),'Views/User/newuserrole.html.twig');
+
+    })->name('insertuserrole');
+    
+    $app->get(
+    '/viewuserrole/:userid/:roleid',
+    function ($userid,$roleid) use($app,$env) {
+        $env['userdb']->render_delete_userrole($userid,$roleid,'Views/User/deleteuserrole.html.twig');
+
+    })->name('viewuserrole');
+
+    $app->post(
+    '/deleteuserrole/:userid/:roleid',
+    function ($userid,$roleid) use($app,$env) {
+        $env['userdb']->delete_userrole_item($userid,$roleid);
+    })->name('deleteuserrole');
+
+    //--------End User Roles------------------------------
+    
 //-----------------End user CRUD----------------------
 //-----------------sysparam CRUD---------------------
 $app->get(
@@ -1041,5 +1083,156 @@ $app->post(
         $app->render('Views/Test/test.html.twig');
 
     })->name('test');  
-//-----------------End url CRUD----------------------        
+//-----------------End url CRUD---------------------- 
+//-----------------Role CRUD---------------------
+$app->get(
+    '/roles',
+    function () use($app,$env) {
+
+        $env['roledb']->rendergridview('Views/Role/roles.html.twig');
+
+    })->name('roles');
+
+$app->get(
+    '/newrole',
+    function () use($app,$env) {
+        $env['roledb']->rendernewview('','','','Views/Role/rolenew.html.twig');
+        
+    })->name('newrole');
+
+$app->post(
+    '/newrole',
+    function () use($app,$env) {
+
+        $env['roledb']->addnewitem($env['globalobj']->getcurrentuser()
+                ,$app->request()->post('role') 
+                ,$app->request()->post('description')
+                ,'Views/Role/rolenew.html.twig') ;
+        
+    })->name('insertrole');
+
+$app->get(
+    '/editrole/:id',
+    function ($id) use($app,$env) {
+        $env['roledb']->rendereditview($id,'Views/Role/roleedit.html.twig');
+
+    })->name('editrole');
+
+$app->post(
+    '/updaterole/:id',
+    function ($id) use($app,$env) {
+    $env['roledb']->updateitem($env['globalobj']->getcurrentuser()
+            ,$id
+            ,$app->request()->post('role')   
+            ,$app->request()->post('description')) ;
+    })->name('updaterole');  
+
+$app->get(
+    '/viewrole/:id',
+    function ($id) use($app,$env) {
+        $env['roledb']->renderdeleteview($id,'Views/Role/roledelete.html.twig');
+
+    })->name('viewrole');
+
+$app->post(
+    '/deleterole/:id',
+    function ($id) use($app,$env) {
+        $env['roledb']->deleteitem($id);
+    })->name('deleterole');
+    
+    //--- Role Actions---------------------------------
+    $app->get(
+    '/roleactions/:id',
+    function ($id) use($app,$env) {
+        $env['roledb']->render_roleactions_grid($id,'Views/Role/roleactions.html.twig');
+
+    })->name('roleactions');
+    
+     $app->get(
+    '/newroleaction/:roleid',
+    function ($roleid) use($app,$env) {
+        $env['roledb']->render_new_roleaction($roleid,'Views/Role/newroleaction.html.twig');
+
+    })->name('newroleaction');
+    $app->post(
+    '/newroleaction/:roleid',
+    function ($roleid) use($app,$env) {
+     $env['roledb']->add_new_roleaction($env['globalobj']->getcurrentuser(),$roleid,$app->request()->post('actionid'),'Views/Role/newroleaction.html.twig');
+
+    })->name('insertroleaction');
+    
+    $app->get(
+    '/viewroleaction/:roleid/:actionid',
+    function ($roleid,$actionid) use($app,$env) {
+        $env['roledb']->render_delete_roleaction($roleid,$actionid,'Views/Role/deleteroleaction.html.twig');
+
+    })->name('viewroleaction');
+
+    $app->post(
+    '/deleteroleaction/:roleid/:actionid',
+    function ($roleid,$actionid) use($app,$env) {
+        $env['roledb']->delete_roleaction_item($roleid,$actionid);
+    })->name('deleteroleaction');
+
+    //--------End Role Actions------------------------------
+
+//-----------------End role CRUD----------------------
+//-----------------Action CRUD---------------------
+$app->get(
+    '/actions',
+    function () use($app,$env) {
+
+        $env['actiondb']->rendergridview('Views/action/actions.html.twig');
+
+    })->name('actions');
+
+$app->get(
+    '/newaction',
+    function () use($app,$env) {
+        $env['actiondb']->rendernewview('','','','Views/action/actionnew.html.twig');
+        
+    })->name('newaction');
+
+$app->post(
+    '/newaction',
+    function () use($app,$env) {
+
+        $env['actiondb']->addnewitem($env['globalobj']->getcurrentuser()
+                ,$app->request()->post('action') 
+                ,$app->request()->post('description')
+                ,'Views/action/actionnew.html.twig') ;
+        
+    })->name('insertaction');
+
+$app->get(
+    '/editaction/:id',
+    function ($id) use($app,$env) {
+        $env['actiondb']->rendereditview($id,'Views/action/actionedit.html.twig');
+
+    })->name('editaction');
+
+$app->post(
+    '/updateaction/:id',
+    function ($id) use($app,$env) {
+    $env['actiondb']->updateitem($env['globalobj']->getcurrentuser()
+            ,$id
+            ,$app->request()->post('action')   
+            ,$app->request()->post('description')) ;
+    })->name('updateaction');  
+
+$app->get(
+    '/viewaction/:id',
+    function ($id) use($app,$env) {
+        $env['actiondb']->renderdeleteview($id,'Views/action/actiondelete.html.twig');
+
+    })->name('viewaction');
+
+$app->post(
+    '/deleteaction/:id',
+    function ($id) use($app,$env) {
+        $env['actiondb']->deleteitem($id);
+    })->name('deleteaction');
+
+//-----------------End Action CRUD----------------------     
+    
 $app->run();

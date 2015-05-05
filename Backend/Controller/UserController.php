@@ -102,13 +102,15 @@ function renderpasswordchange($id,$renderpath)
         $username = $data["username"];
     }
     $updateurl = str_replace(":id",$id,$this->app->urlFor('changepassword'));
+    $linkurl = str_replace(":id",$id,$this->app->urlFor('edituser'));
     $this->app->render($renderpath,array('id'=>$id
             ,'username'=>$username
             ,'updateurl'=>$updateurl
-            ,'listurl'=>$this->app->urlFor('users')
-            ,'option'=>$this->mainoption
-            ,'route'=>'Password Change'
-            ,'link'=>$this->mainlink));
+            ,'listurl'=>$linkurl 
+            ,'option'=>'Password change'
+            ,'route'=>$username
+            ,'linkroute'=>$linkurl
+            ,'link'=>''));
 }
 
 function changepassword($user,$id,$password)
@@ -252,9 +254,6 @@ function buildresponsivegrid($editurl,$deleteurl)
         echo'</tbody></table></div>';
    }
 
-
-
-
 function insertuser($user,$username,$salt,$password,$email)
 {
 $dt = date('Y-m-d H:i:s');
@@ -334,6 +333,261 @@ $data = $this->database->select("systemuser", [
 ]);
    
 return $data;   
-} 
+}
+
+function get_username_byid($id)
+{
+ $username="";   
+ $data = $this->database->select("systemuser", [
+"username"       
+], [
+"id" => $id
+]);
+   
+foreach ($data as $row) 
+{
+ $username = $row["username"];          
+}
+ return $username;
+}
+//----------------USER ROLES----------------------------------------------------
+function build_userroles_grid($userid,$deleteurl)
+{
+   $result=$this->get_userroles($userid);
+     echo'<div id="grids" width="100%">         
+       <table id="datagrid" class="table table-striped table-hover dt-responsive" cellspacing="0" width="80%">
+        <thead>
+            <tr>
+              <th>Role</th>
+              <th class="nosort">Actions</th>
+            </tr>
+        </thead>
+        <tbody>';
+        foreach ($result as $row) 
+        {
+         echo '<tr>';
+         echo '<td>'. $row['role'] . '</td>';
+         echo '<td class="center">
+	 <a href ="'.$deleteurl.'/'.$row['userid'].'/'.$row['roleid'].'" class="btn btn-danger">
+	 <i class="fa fa-trash-o"></i> 
+	 </a>
+	 </td>';
+         echo '</tr>';
+        } 
+            
+        echo'</tbody></table></div>';  
+}
+
+function render_userroles_grid($userid,$renderpath)
+{
+   $username =$this->get_username_byid($userid);
+   $newurl = str_replace(':userid', $userid,$this->app->urlFor('newuserrole'));
+   $linkroute= str_replace(':id', $userid,$this->app->urlFor('edituser'));
+  // $editurl = str_replace(':roleid', $roleid,$editurl_temp);
+   $link =str_replace(':id', $userid,$this->app->urlFor('userroles')); 
+   $this->app->render($renderpath,
+        array('newurl'=>$newurl 
+            ,'userid'=>$userid
+            ,'editurl'=>$this->app->view->getData('basepath').'/edituserrole'
+            ,'deleteurl'=>$this->app->view->getData('basepath').'/viewuserrole'
+            ,'obj'=>$this
+            ,'option'=>'User Roles'
+            ,'route'=>$username
+            ,'link'=>$link
+            ,'linkroute'=>$linkroute));
+   
+}
+
+
+function get_user_select($userid,$attribute)
+{
+  
+  $sth = $this->database->pdo->prepare("SELECT id ,username FROM systemuser where id ='".$userid."'");
+        $sth->execute();
+       
+         echo '<select id ="userid" name="userid"'.$attribute.'>';
+
+        $selected="";
+        foreach ($sth as $row) {
+            if ($userid == $row['id']) {
+                $selected = 'selected';
+            }
+            else
+            {$selected="";
+            }
+            echo '<option value ="'.$row['id'].'" '.$selected.' >'.$row['username'].'</option>';
+
+        }
+   echo '</select>';
+}
+
+function get_role_select($roleid,$attribute)
+{
+   $sth = $this->database->pdo->prepare('SELECT id ,role FROM role');
+        $sth->execute();
+         echo '<select id ="roleid" name="roleid"'.$attribute.'>';
+
+        $selected="";
+        foreach ($sth as $row) {
+            if ($roleid == $row['id']) {
+                $selected = 'selected';
+            }
+            else
+            {$selected="";
+            }
+            echo '<option value ="'.$row['id'].'" '.$selected.' >'.$row['role'].'</option>';
+
+        }
+   echo '</select>';  
+}
+
+function get_userroles($userid)
+{
+    $sth = $this->database->pdo->prepare("select ur.systemuserid as userid,ur.roleid as roleid,u.username,r.role as role from userrole ur
+         inner join systemuser u on (ur.systemuserid=u.id) inner join role r on (ur.roleid =r.id) where ur.systemuserid ='".$userid."'");
+    $sth->execute(); 
+    return $sth;
+}
+
+function render_new_userrole($userid,$renderpath)
+{
+  $listurl = str_replace(":id",$userid,$this->app->urlFor('userroles')); 
+  $selfurl = str_replace(":userid",$userid,$this->app->urlFor('newuserrole')); 
+  $this->app->render($renderpath,array('listurl'=>$listurl
+            ,'selfurl'=>$selfurl
+            ,'roleid'=>''
+            ,'userid'=>$userid
+            ,'obj'=>$this
+            ,'errormessage'=>''
+            ,'option'=>'User Role'
+            ,'route'=>'New'
+            ,'link'=>$listurl));  
+  
+    
+}
+
+
+function render_delete_userrole($userid,$roleid,$renderpath)
+{
+    $datas=$this->get_userrole_byid($userid,$roleid);
+    foreach($datas as $data)
+    {
+        $userid =$data["systemuserid"];
+        $roleid= $data["roleid"];
+    }
+    $deleteurl=$this->app->view->getData('basepath').'/deleteuserrole/'.$userid.'/'.$roleid;
+    $listurl = str_replace(":id",$userid,$this->app->urlFor('userroles')); 
+    $this->app->render($renderpath,array(
+            'userid'=>$userid
+            ,'roleid'=>$roleid
+            ,'deleteurl'=>$deleteurl
+            ,'obj'=>$this
+            ,'listurl'=> $listurl
+            ,'option'=>$this->mainoption
+            ,'route'=>'Delete'
+            ,'link'=>$this->mainlink));
+}
+
+function get_userrole_byid($userid,$roleid)
+{
+ $data = $this->database->select("userrole", [
+"systemuserid",
+"roleid",      
+], ["AND" => [ 
+    "systemuserid" => $userid
+    ,"roleid"=>$roleid
+    ]]); 
+ return $data;
+}
+function validate_insert_userrole($userid,$roleid)
+{
+ //Validate if exist
+    $count =$this->find_userrole($userid,$roleid);
+    $errormessage="";
+    if($count>0)
+    {
+        $errormessage= '<div class="alert alert-danger col-sms-4 errordiv" role="alert"><i class="fa fa-warning"></i>The role for this user already exist</div>';
+
+    }
+    return $errormessage;   
+}
+
+function find_userrole($userid,$roleid)
+{
+    $count =  $this->database->count("userrole", [
+"systemuserid" 
+],["AND" => [ 
+    "systemuserid" => $userid
+    ,"roleid"=>$roleid
+    ]]);
+   return $count;
+    
+}
+
+function add_new_userrole($user,$userid,$roleid,$renderpath)
+{
+    $errormessage = $this->validate_insert_userrole($userid,$roleid);
+    $listurl = str_replace(":id",$userid,$this->app->urlFor('userroles'));
+    $selfurl = str_replace(":userid",$userid,$this->app->urlFor('newuserrole'));
+    if($errormessage=="")
+    {
+       
+        $this->insert_userrole($user,$userid,$roleid);
+        $this->app->response->redirect($listurl);
+
+    }
+    else
+    {
+        $this->app->render($renderpath,array('listurl'=>$listurl
+                ,'selfurl'=>$selfurl 
+                ,'userid'=>$userid
+                ,'roleid'=>$roleid
+                ,'obj'=>$this
+                ,'errormessage'=>$errormessage
+                ,'option'=>'User Role'
+                ,'route'=>'New'
+                ,'link'=>$listurl));
+        
+    }
+
+
+}
+   
+    function insert_userrole($user,$userid,$roleid)
+    {
+        $dt = date('Y-m-d H:i:s');
+        $this->database->insert("userrole", [ 'systemuserid'=>$userid
+        ,'roleid'=>$roleid
+        ,"createuser" => $user
+        ,"createdate" => $dt 
+        ,"modifyuser" => $user
+        ,"modifydate" => $dt ]);
+
+    }
+   
+
+    function delete_userrole_item($userid,$roleid)
+    {
+        $this->delete_userrole($userid,$roleid);
+        $redirecturl =str_replace(":id",$userid,$this->app->urlFor('userroles')); 
+        $this->app->response->redirect($redirecturl);
+    }
+   
+
+function delete_userrole($userid,$roleid)
+{
+
+    $this->database->delete("userrole", [
+        "AND" => [
+            "systemuserid"=>$userid
+           ,"roleid"=>$roleid  
+
+	]
+
+]);
+
+
+}
+// ---------------END USER ROLES----------------------------------------------------
 }
 ?>
