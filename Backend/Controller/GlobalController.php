@@ -318,9 +318,33 @@ Class GlobalController
          echo '</select>';
     } 
     
+   function get_actions_byusername($username)
+   {
+    $sth = $this->database->pdo->prepare("select distinct a.action as action from roleaction ra inner join action a on (a.id =ra.actionid)"
+            . " where ra.roleid in (select ur.roleid from userrole ur  inner join systemuser su  on (ur.systemuserid =su.id) where su.username ='".$username."')"); 
+    $sth->execute();
+    return $sth;
+   }
+   function check_action_byusername($username,$actionname)
+  
+   {
+     $has_permission =0;
+     $sth =$this->get_actions_byusername($username);
+     
+     foreach($sth as $row)
+     {
+      if($actionname ==$row["action"])
+      {
+       $has_permission =1;
+        break;
+      }    
+     }
+     return $has_permission;
+         
+   }
+   
+    
+    
 }
 
-
-
-?>
 

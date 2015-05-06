@@ -18,7 +18,7 @@ class RoleController {
 
     }
     
-    function rendergridview($renderpath)
+    function rendergridview($globalobj,$renderpath)
 {
 
     $this->app->render($renderpath,
@@ -26,6 +26,7 @@ class RoleController {
             ,'editurl'=>$this->editurl
             ,'deleteurl'=>$this->deleteurl
             ,'obj'=>$this
+            ,'globalobj'=>$globalobj
             ,'option'=>$this->mainoption
             ,'route'=>''
             ,'link'=>$this->mainlink));
@@ -142,7 +143,7 @@ function addnewitem($user,$role,$description,$renderpath)
         $this->app->response->redirect($this->app->urlFor('roles'));
     }
     
-    function buildresponsivegrid($editurl,$deleteurl)
+    function buildresponsivegrid($editvar,$deletevar,$editurl,$deleteurl)
    {
      $result=$this->getall();
      echo'<div id="grids" width="100%">         
@@ -160,15 +161,20 @@ function addnewitem($user,$role,$description,$renderpath)
          echo '<tr>';
          echo '<td>'. $row['role'] . '</td>';
          echo '<td>'. $row['description'] . '</td>';
-         echo '<td class="center">
-         <a class="btn btn-info" href="'.$editurl.'/'.$row['id'].'">
+         echo '<td class="center">';
+          if ($editvar==1)
+         {      
+         echo'<a class="btn btn-info" href="'.$editurl.'/'.$row['id'].'">
 	 <i class="fa fa-edit"></i>  
-	 </a>
-	 <a href ="'.$deleteurl.'/'.$row['id'].'" class="btn btn-danger">
+	 </a> ';
+         }
+          if ($deletevar==1)
+         {  
+	 echo '<a href ="'.$deleteurl.'/'.$row['id'].'" class="btn btn-danger">
 	 <i class="fa fa-trash-o"></i> 
-	 </a>
-	 </td>';
-         echo '</tr>';
+	 </a>';
+         }
+	 echo '</td></tr>';
         } 
             
         echo'</tbody></table></div>';
@@ -255,7 +261,7 @@ return $data;
 
 function get_role_select($roleid,$attribute)
 {
-   $sth = $this->database->pdo->prepare('SELECT id ,role FROM role');
+   $sth = $this->database->pdo->prepare("SELECT id ,role FROM role where id ='".$roleid."'");
         $sth->execute();
          echo '<select id ="roleid" name="roleid"'.$attribute.'>';
 
@@ -275,7 +281,7 @@ function get_role_select($roleid,$attribute)
 
 function get_action_select($actionid,$attribute)
 {
-   $sth = $this->database->pdo->prepare('SELECT id ,action FROM role');
+   $sth = $this->database->pdo->prepare('SELECT id ,action FROM action');
         $sth->execute();
          echo '<select id ="actionid" name="actionid"'.$attribute.'>';
 
@@ -308,7 +314,7 @@ function build_roleactions_grid($roleid,$deleteurl)
         foreach ($result as $row) 
         {
          echo '<tr>';
-         echo '<td>'. $row['role'] . '</td>';
+         echo '<td>'. $row['action'] . '</td>';
          echo '<td class="center">
 	 <a href ="'.$deleteurl.'/'.$row['roleid'].'/'.$row['actionid'].'" class="btn btn-danger">
 	 <i class="fa fa-trash-o"></i> 
@@ -322,7 +328,7 @@ function build_roleactions_grid($roleid,$deleteurl)
 
 function render_roleactions_grid($roleid,$renderpath)
 {
-   $username =$this->get_username_byid($roleid);
+   $username =$this->get_role_byid($roleid);
    $newurl = str_replace(':roleid', $roleid,$this->app->urlFor('newroleaction'));
    $linkroute= str_replace(':id', $roleid,$this->app->urlFor('edituser'));
   // $editurl = str_replace(':actionid', $actionid,$editurl_temp);
@@ -333,18 +339,33 @@ function render_roleactions_grid($roleid,$renderpath)
             ,'editurl'=>$this->app->view->getData('basepath').'/editroleaction'
             ,'deleteurl'=>$this->app->view->getData('basepath').'/viewroleaction'
             ,'obj'=>$this
-            ,'option'=>'ROLE ACTIONS'
+            ,'option'=>'Role Actions'
             ,'route'=>$username
             ,'link'=>$link
             ,'linkroute'=>$linkroute));
    
 }
-
+function get_role_byid($roleid)
+{
+$role="";   
+ $data = $this->database->select("role", [
+"role"       
+], [
+"id" => $roleid
+]);
+   
+foreach ($data as $row) 
+{
+ $role = $row["role"];          
+}
+ return $role;    
+    
+}
 
 function get_user_select($roleid,$attribute)
 {
   
-  $sth = $this->database->pdo->prepare("SELECT id ,username FROM systemuser where id ='".$roleid."'");
+  $sth = $this->database->pdo->prepare("SELECT id ,role FROM role where id ='".$roleid."'");
         $sth->execute();
        
          echo '<select id ="roleid" name="roleid"'.$attribute.'>';
@@ -366,8 +387,8 @@ function get_user_select($roleid,$attribute)
 
 function get_roleactions($roleid)
 {
-    $sth = $this->database->pdo->prepare("select ur.systemroleid as roleid,ur.actionid as actionid,u.username,r.role as role from roleaction ur
-         inner join systemuser u on (ur.systemroleid=u.id) inner join role r on (ur.actionid =r.id) where ur.systemroleid ='".$roleid."'");
+    $sth = $this->database->pdo->prepare("select ra.roleid as roleid ,ra.actionid as actionid,a.action as action ,r.role as role from roleaction ra
+         inner join role r on (ra.roleid=r.id) inner join action a on (ra.actionid =a.id) where ra.roleid ='".$roleid."'");
     $sth->execute(); 
     return $sth;
 }
@@ -382,7 +403,7 @@ function render_new_roleaction($roleid,$renderpath)
             ,'roleid'=>$roleid
             ,'obj'=>$this
             ,'errormessage'=>''
-            ,'option'=>'User Role'
+            ,'option'=>'Role Actions'
             ,'route'=>'New'
             ,'link'=>$listurl));  
   
@@ -395,7 +416,7 @@ function render_delete_roleaction($roleid,$actionid,$renderpath)
     $datas=$this->get_roleaction_byid($roleid,$actionid);
     foreach($datas as $data)
     {
-        $roleid =$data["systemroleid"];
+        $roleid =$data["roleid"];
         $actionid= $data["actionid"];
     }
     $deleteurl=$this->app->view->getData('basepath').'/deleteroleaction/'.$roleid.'/'.$actionid;
@@ -414,10 +435,10 @@ function render_delete_roleaction($roleid,$actionid,$renderpath)
 function get_roleaction_byid($roleid,$actionid)
 {
  $data = $this->database->select("roleaction", [
-"systemroleid",
+"roleid",
 "actionid",      
 ], ["AND" => [ 
-    "systemroleid" => $roleid
+    "roleid" => $roleid
     ,"actionid"=>$actionid
     ]]); 
  return $data;
@@ -479,7 +500,7 @@ function add_new_roleaction($user,$roleid,$actionid,$renderpath)
     function insert_roleaction($user,$roleid,$actionid)
     {
         $dt = date('Y-m-d H:i:s');
-        $this->database->insert("roleaction", [ 'systemroleid'=>$roleid
+        $this->database->insert("roleaction", [ 'roleid'=>$roleid
         ,'actionid'=>$actionid
         ,"createuser" => $user
         ,"createdate" => $dt 
@@ -502,7 +523,7 @@ function delete_roleaction($roleid,$actionid)
 
     $this->database->delete("roleaction", [
         "AND" => [
-            "systemroleid"=>$roleid
+            "roleid"=>$roleid
            ,"actionid"=>$actionid  
 
 	]

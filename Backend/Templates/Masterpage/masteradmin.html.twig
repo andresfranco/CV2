@@ -34,11 +34,17 @@
     <ul class="nav navbar-nav navbar-left">
              <li><a href="{{basepath ~'/languages'}}"><i class="fa fa-flag"></i> {{'Language'}}</a></li>
              <li><a href="{{basepath ~'/curricullumlist'}}"><i class="fa fa-file"></i> Curricullum</a></li>
-             <li><a href="{{basepath ~'/translations'}}"><i class="fa fa-repeat"></i> Translation</a></li>
              <li><a href="{{basepath ~'/educationlist'}}"><i class="fa fa-book"></i> Education</a></li>
              <li><a href="{{basepath ~'/worklist'}}"><i class="fa fa-dashboard"></i>Work</a></li>
              <li><a href="{{basepath ~'/skills'}}"><i class="fa fa-list-alt"></i> Skills</a></li>
              <li><a href="{{basepath ~'/projects'}}"><i class="fa fa-edit"></i> Projects</a></li>
+             <li>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-cogs"></i>Translations<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="{{basepath ~'/translations'}}"><i class="fa fa-repeat"></i> Translation Content</a></li>
+            <li><a href="{{basepath ~'/translatetags'}}"><i class="fa fa-repeat"></i> Translate Tags</a></li>
+          </ul>
+             </li>
               <li>
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-cogs"></i>System Admin<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">

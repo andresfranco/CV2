@@ -6,14 +6,12 @@ $(function() {
              
         switch(element.attr("name"))
           {
-            case "translation": 
-             
-              $("#translationerror").html( error );
-              break;
+            case "translation":$("#translationerror").html( error );break;
           
           default:error.insertAfter(element);       
           }   
       },
+      ignore: [],
        rules: {
             languagecode:{
                 required:true,
@@ -25,11 +23,26 @@ $(function() {
        
         },
          translation:{
-                required:true
+                required: 
+               {
+                 depends:function()
+                {
+                 var divtext =$('#translation').Editor("getText");
+                 $('#translation').text(divtext);
+                 
+                 if ($('#translation').text().length==0)
+                  {  
+                   return true;
+                  }
+                  else
+                  {
+                  return false;   
+                  }
+                }
+               }
        
         }
        },
-       ignore: [],
         // Specify the validation error messages
         messages: {
             languagecode:{

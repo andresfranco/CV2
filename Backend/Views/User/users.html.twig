@@ -16,9 +16,9 @@
 {% block breadcrumb %}
 {{parent()}}
 {% endblock breadcrumb%}
-
+  {% if globalobj.check_action_byusername(session.username,'Create User') ==1%}
 <div class="newitem"><a href="{{newurl}}"><img src="{{templatepath~'/img/addrow.png'}}"></a></div><br>
-
-{{obj.buildresponsivegrid(editurl,deleteurl)}}         
- 
+ {% endif %}
+{{obj.buildresponsivegrid( globalobj.check_action_byusername(session.username,'Edit User')
+,globalobj.check_action_byusername(session.username,'Delete User'),editurl,deleteurl)}}
 {% endblock content%}

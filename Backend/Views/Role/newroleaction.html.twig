@@ -4,9 +4,12 @@
 <script src="{{templatepath ~'/Views/user/validateuserrole.js'}}"></script>
 {% endblock javascript%} 
 {% block content %}
-{% block breadcrumb %}
-{{parent()}}
-{% endblock breadcrumb%}
+ {% block breadcrumb %}
+     <ol class="breadcrumb">
+     <li><a href="{{link}}">{{option|raw}}</a></li>
+     <li><a href="{{linkroute}}" class="route">{{route|raw}}</a></li>
+     </ol>
+ {% endblock breadcrumb%}
 <label class="col-sm-offset-2 col-sm-8 error">{{errormessage|raw}}</label>
 <div id="formcontentgrid" class="col-sm-12">
 <form id="appform" method="post" action="{{selfurl}}" class="form-horizontal" role="form">
@@ -17,7 +20,7 @@
             </div>
          </div>
         <div class="form-group">
-             <label class="control-label col-sm-2">{{'Role'}}</label>
+             <label class="control-label col-sm-2">{{'Action'}}</label>
               <div class="col-sm-3">
                {{obj.get_action_select(actionid,'class="form-control"')}}
               </div> 

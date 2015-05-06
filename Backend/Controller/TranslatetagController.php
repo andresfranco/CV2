@@ -58,6 +58,39 @@ class TranslatetagController {
         }
        echo'</tbody></table>';
    }
+    function buildresponsivegrid($editurl,$deleteurl)
+   {
+     $result=$this->getall();
+     echo'<div id="grids" width="100%">         
+       <table id="datagrid" class="table table-striped table-hover dt-responsive" cellspacing="0" width="80%">
+        <thead>
+            <tr>
+            <th>Language</th>
+            <th>Key</th>
+            <th>Translation</th>
+            <th class="nosort">Actions</th>
+            </tr>
+        </thead>
+        <tbody>';
+        foreach ($result as $row) 
+        {
+         echo '<tr>';
+         echo '<td>'. $row['language'] . '</td>';
+         echo '<td>'. $row['key'] . '</td>';
+         echo '<td>'. $row['translation'] . '</td>';
+         echo '<td class="center">
+         <a class="btn btn-info" href="'.$editurl.'/'.$row['languagecode'].'-'.$row['key'].'">
+	 <i class="fa fa-edit"></i>  
+	 </a>
+	 <a href ="'.$deleteurl.'/'.$row['languagecode'].'-'.$row['key'].'" class="btn btn-danger">
+	 <i class="fa fa-trash-o"></i> 
+	 </a>
+	 </td>';
+         echo '</tr>';
+        } 
+            
+        echo'</tbody></table></div>';
+   }
    
    function rendernewview($languagecode,$key,$translation,$errormessage,$globalobj,$renderpath)
 {
@@ -90,11 +123,12 @@ function rendereditview($parameter,$globalobj,$renderpath)
         $translation =$data["translation"];
         
     }
+    $updateurl = str_replace(':parameter', $parameter,$this->app->urlFor('updatetranslatetag'));
     $this->app->render($renderpath,array(
             'languagecode'=>$languagecode
             ,'key'=>$key
             ,'translation'=>$translation
-            ,'updateurl'=>$this->app->urlFor('updatetranslatetag')
+            ,'updateurl'=>$updateurl
             ,'listurl'=>$this->app->urlFor('translatetags')
             ,'db'=>$this
             ,'globalobj'=>$globalobj
@@ -117,11 +151,12 @@ function renderdeleteview($parameter,$globalobj,$renderpath)
         $key =$data["key"];
         $translation =$data["translation"];
     }
+    $deleteurl =str_replace(':parameter', $parameter,$this->app->urlFor('deletetranslatetag'));
     $this->app->render($renderpath,array(
              'languagecode'=>$languagecode
             ,'key'=>$key
             ,'translation'=>$translation
-            ,'deleteurl'=>$this->app->urlFor('deletetranslatetag')
+            ,'deleteurl'=>$deleteurl
             ,'listurl'=>$this->app->urlFor('translatetags')
             ,'globalobj'=>$globalobj
             ,'parameter'=>$parameter

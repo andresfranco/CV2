@@ -21,7 +21,7 @@ class UserController {
     }
 
 
-function rendergridview($renderpath)
+function rendergridview($globalobj,$renderpath)
 {
 
     $this->app->render($renderpath,
@@ -29,6 +29,7 @@ function rendergridview($renderpath)
             ,'editurl'=>$this->editurl
             ,'deleteurl'=>$this->deleteurl
             ,'obj'=>$this
+            ,'globalobj'=>$globalobj
             ,'option'=>$this->mainoption
             ,'route'=>''
             ,'link'=>$this->mainlink));
@@ -224,8 +225,9 @@ function buildgrid($editurl,$deleteurl)
             echo'  </tbody></table>';
 }
 
-function buildresponsivegrid($editurl,$deleteurl)
+function buildresponsivegrid($editvar,$deletevar,$editurl,$deleteurl)
    {
+    
      $result=$this->getall();
      echo'<div id="grids" width="100%">         
        <table id="datagrid" class="table table-striped table-hover dt-responsive" cellspacing="0" width="80%">
@@ -240,15 +242,20 @@ function buildresponsivegrid($editurl,$deleteurl)
         {
          echo '<tr>';
          echo '<td>'. $row['username'] . '</td>';
-         echo '<td class="center">
-         <a class="btn btn-info" href="'.$editurl.'/'.$row['id'].'">
+         echo '<td class="center">';
+         if ($editvar==1)
+         {    
+         echo'<a class="btn btn-info" href="'.$editurl.'/'.$row['id'].'">
 	 <i class="fa fa-edit"></i>  
-	 </a>
-	 <a href ="'.$deleteurl.'/'.$row['id'].'" class="btn btn-danger">
+	 </a> ';
+         }
+         if ($deletevar==1)
+         { 
+	 echo '<a href ="'.$deleteurl.'/'.$row['id'].'" class="btn btn-danger">
 	 <i class="fa fa-trash-o"></i> 
-	 </a>
-	 </td>';
-         echo '</tr>';
+	 </a>';
+         }    
+	 echo'</td></tr>';
         } 
             
         echo'</tbody></table></div>';

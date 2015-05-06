@@ -758,13 +758,14 @@ $app->get(
     })->name('edittranslatetag');
 
 $app->post(
-    '/updatetranslatetag',
-    function () use($app,$env) {
+    '/updatetranslatetag/:parameter',
+    function ($parameter) use($app,$env) {
+    
     $env['translatetagdb']->updateitem($env['globalobj']->getcurrentuser()
             ,$app->request()->post('languagecode')
             ,$app->request()->post('key')
             ,$app->request()->post('translation')
-            ,$app->request()->post('parameter')) ;
+            ,$parameter) ;
     })->name('updatetranslatetag');  
 
 $app->get(
@@ -775,9 +776,9 @@ $app->get(
     })->name('viewtranslatetag');
 
 $app->post(
-    '/deletetranslatetag',
-    function () use($app,$env) {
-        $env['translatetagdb']->deleteitem($app->request()->post('parameter'));
+    '/deletetranslatetag/:parameter',
+    function ($parameter) use($app,$env) {
+        $env['translatetagdb']->deleteitem($parameter);
     })->name('deletetranslatetag');
 
 //-----------------End translatetag CRUD----------------------        
@@ -786,7 +787,7 @@ $app->get(
     '/users',
     function () use($app,$env) {
 
-        $env['userdb']->rendergridview('Views/User/users.html.twig');
+        $env['userdb']->rendergridview($env['globalobj'],'Views/User/users.html.twig');
 
     })->name('users');
 
@@ -1012,7 +1013,15 @@ $app->get(
 
     })->name('adminoptions');
 //-----------------------------------------------------------
-//
+//-----------Translation Options-----------------------------
+$app->get(
+    '/translationoptions',
+    function () use($app) {
+        $app->render('Views/Translation/translationshome.html.twig',array('link'=>'/home','option'=>'Home','route'=>''));
+
+    })->name('translationoptions');
+    
+//-----------------------------------------------------------
 //-----------------url CRUD--------------------------
 $app->get(
     '/urllist/:cvid',
@@ -1089,7 +1098,7 @@ $app->get(
     '/roles',
     function () use($app,$env) {
 
-        $env['roledb']->rendergridview('Views/Role/roles.html.twig');
+        $env['roledb']->rendergridview($env['globalobj'],'Views/Role/roles.html.twig');
 
     })->name('roles');
 
@@ -1182,7 +1191,7 @@ $app->get(
     '/actions',
     function () use($app,$env) {
 
-        $env['actiondb']->rendergridview('Views/action/actions.html.twig');
+        $env['actiondb']->rendergridview($env['globalobj'],'Views/action/actions.html.twig');
 
     })->name('actions');
 

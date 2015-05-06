@@ -16,9 +16,11 @@
 {% block breadcrumb %}
 {{parent()}}
 {% endblock breadcrumb%}
-
+ {% if globalobj.check_action_byusername(session.username,'Create Role') ==1%}
 <div class="newitem"><a href="{{newurl}}"><img src="{{templatepath~'/img/addrow.png'}}"></a></div><br>
+{%endif%}
 
-{{obj.buildresponsivegrid(editurl,deleteurl)}}         
+{{obj.buildresponsivegrid(globalobj.check_action_byusername(session.username,'Edit Role')
+,globalobj.check_action_byusername(session.username,'Delete Role'),editurl,deleteurl)}}         
  
 {% endblock content%}

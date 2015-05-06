@@ -17,7 +17,7 @@ class ActionController {
         
 
     }
-        function rendergridview($renderpath)
+        function rendergridview($globalobj,$renderpath)
 {
 
     $this->app->render($renderpath,
@@ -25,6 +25,7 @@ class ActionController {
             ,'editurl'=>$this->editurl
             ,'deleteurl'=>$this->deleteurl
             ,'obj'=>$this
+            ,'globalobj'=>$globalobj
             ,'option'=>$this->mainoption
             ,'route'=>''
             ,'link'=>$this->mainlink));
@@ -145,7 +146,7 @@ function validateinsert($action)
         $this->app->response->redirect($this->app->urlFor('actions'));
     }
     
-    function buildresponsivegrid($editurl,$deleteurl)
+    function buildresponsivegrid($editvar,$deletevar,$editurl,$deleteurl)
    {
      $result=$this->getall();
      echo'<div id="grids" width="100%">         
@@ -163,15 +164,20 @@ function validateinsert($action)
          echo '<tr>';
          echo '<td>'. $row['action'] . '</td>';
          echo '<td>'. $row['description'] . '</td>';
-         echo '<td class="center">
-         <a class="btn btn-info" href="'.$editurl.'/'.$row['id'].'">
+         echo '<td class="center">';
+          if ($editvar==1)
+         { 
+         echo'<a class="btn btn-info" href="'.$editurl.'/'.$row['id'].'">
 	 <i class="fa fa-edit"></i>  
-	 </a>
-	 <a href ="'.$deleteurl.'/'.$row['id'].'" class="btn btn-danger">
+	 </a> ';
+         }
+          if ($deletevar==1)
+         { 
+	 echo'<a href ="'.$deleteurl.'/'.$row['id'].'" class="btn btn-danger">
 	 <i class="fa fa-trash-o"></i> 
-	 </a>
-	 </td>';
-         echo '</tr>';
+	 </a>';
+         }        
+	 echo'</td></tr>';
         } 
             
         echo'</tbody></table></div>';
