@@ -102,26 +102,31 @@ $twig->addGlobal("securityobj", $securityobj);
 $app->get(
     '/',
     function ()use($app,$env) {
-    $languagecode=$env['globalobj']->getsysparam('lang');  
-    $app->response->redirect('./main'.'/'.$languagecode);
+    $languagecode=$env['globalobj']->getsysparam('lang');
+    $cvid=$env['globalobj']->getcurricullumidbyparam();
+    $app->response->redirect('./main'.'/'.$languagecode.'/'.$cvid);
     }
 )->name('root');
 
 
 
 $app->get(
-    '/main/:lang',
-    function ($lang)use($app,$twigobj,$env) {
+    '/main/:lang/:cvid',
+    function ($lang,$cvid)use($app,$twigobj,$env) {
     $loader = $twigobj->getLoader();
     $loader->setPaths('Views');
-    $maindata =$env['frontend']->getcurricullumdata($lang);
-    //$translations
+    $maindata =$env['frontend']->getcurricullumdata($lang,$cvid);
+    $profilepicture=$env['curricullumdb']->get_profile_picture($cvid);
+    $cvname=$env['curricullumdb']->getcvnamebyid($cvid);
     $app->render('Mainview/frontendtemplate.html.twig',array('aboutme'=>$maindata["aboutme"]
             ,'contactdetails'=>$maindata["contactdetails"]
             ,'name'=>$maindata["name"]
             ,'maintext'=>$maindata["maintext"]
             ,'frontendobj'=>$env['frontend']
+            ,'profilepicture'=>$profilepicture
+            ,'cvname'=>$cvname
             ,'lang'=>$lang
+            ,'cvid'=>$cvid
             ));
     }
 )->name('cv_mainpage');
@@ -240,13 +245,16 @@ $app->get(
 $app->post(
     '/newcurricullum',
     function () use($app,$env) {
-
+     
+        
+       
         $env['curricullumdb']->addnewitem($env['globalobj']->getcurrentuser()
                 ,$app->request()->post('name')
                 ,$app->request()->post('maintext')
                 ,$app->request()->post('aboutme')
                 ,$app->request()->post('contactdetails')
                 ,$app->request()->post('mainskills')
+                ,$_FILES
                 ,'Views/Curricullum/curricullumnew.html.twig') ;
         
     })->name('insertcurricullum');
@@ -267,7 +275,8 @@ $app->post(
                 ,$app->request()->post('maintext')
                 ,$app->request()->post('aboutme')
                 ,$app->request()->post('contactdetails')
-                ,$app->request()->post('mainskills'));
+                ,$app->request()->post('mainskills')
+                ,$_FILES);
     })->name('updatecurricullum');  
 
 $app->get(

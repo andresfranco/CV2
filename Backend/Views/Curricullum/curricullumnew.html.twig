@@ -4,6 +4,7 @@
 <script src="{{templatepath~'/js/editor.js'}}"></script>
 <script src="{{templatepath~'/Views/Curricullum/textareacurricullum.js'}}"></script>
 <script src="{{templatepath~'/Views/Curricullum/validatecurricullum.js'}}"></script>
+<script src="{{templatepath~'/Views/Curricullum/profilepicture.js'}}"></script>  
 {% endblock javascript%} 
 {% block css%}
 {{parent()}}
@@ -16,13 +17,27 @@
 {% endblock breadcrumb%}
 <label class="col-sm-offset-2 col-sm-8 error">{{errormessage|raw}}</label>
 <div id="formcontentgrid" class="col-sm-12">
-<form id="appform" method="post" action="{{selfurl}}" class="form-horizontal" role="form">
+<form id="appform" method="post" enctype="multipart/form-data" action="{{selfurl}}" class="form-horizontal" role="form">
     <div class="form-group">
             <label class="control-label col-sm-2">{{'Name'}}</label>
             <div class="col-sm-4">
             <input id ="name" name="name" type="text" id="language" value="{{name|raw}}" class="form-control">
             </div>
     </div>
+     <div class="form-group">
+            <label class="control-label col-sm-2">{{'Profile Picture'}}</label>
+            <div class="col-sm-6">
+            <div class="input-group">
+            <span class="input-group-btn">    
+            <span class="file-input btn btn-primary btn-file">
+                <i class="fa fa-file"></i>{{' Browse'}}<input id ="profilepicture" name="profilepicture" type="file"/>
+             </span>
+            </span>   
+                <input id="picturename" name="picturename" class="form-control" type="text" readonly value="{{picturename|raw}}"/>
+            </div>
+            </div>
+    </div>
+          
         <div class="form-group">
              <label class="control-label col-sm-2">{{'Main Text'}}</label>
               <div class="col-sm-8">

@@ -175,7 +175,7 @@ Class GlobalController
         $datas = $this->database->select("curricullum", [
             "id",
         ], [
-            "name" => htmlentities($cvname)
+             "name" => $cvname
         ]);
 
         foreach($datas as $data)

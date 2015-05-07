@@ -85,10 +85,11 @@ class FrontendController {
    
    //
    
-   function getcurricullumdata($languagecode)
+   function getcurricullumdata($languagecode,$cvid)
    
    {
-    $cvid=$this->global->getcurricullumidbyparam();
+      
+     //$cvid=$this->global->getcurricullumidbyparam();
      if(empty($languagecode))
       {
          $languagecode =$this->global->getsysparam('lang');  
@@ -135,12 +136,12 @@ class FrontendController {
                 }
     }
     
-    function geteducation($languagecode)
+    function geteducation($languagecode,$cvid)
     {
       
         
       //"select field,content from translation where objectcode='".ed."' and parentid ='".'1'."'";  
-      $cvid=$this->global->getcurricullumidbyparam();
+      //$cvid=$this->global->getcurricullumidbyparam();
       if(empty($languagecode))
       {
          $languagecode =$this->global->getsysparam('lang');  
@@ -186,9 +187,9 @@ where objectcode='ed'
         
     }
     
-    function getwork($languagecode)
+    function getwork($languagecode,$cvid)
     {
-       $cvid=$this->global->getcurricullumidbyparam();
+       //$cvid=$this->global->getcurricullumidbyparam();
       if(empty($languagecode))
       {
          $languagecode =$this->global->getsysparam('lang');  
@@ -227,10 +228,10 @@ where objectcode='ed'
         }
     }
     
-    function getskills($languagecode)
+    function getskills($languagecode,$cvid)
     
     {
-         $cvid=$this->global->getcurricullumidbyparam();
+        // $cvid=$this->global->getcurricullumidbyparam();
       if(empty($languagecode))
       {
          $languagecode =$this->global->getsysparam('lang');  
@@ -266,10 +267,10 @@ where objectcode='ed'
     }
        
    
-    function getprojects($languagecode,$basepath)
+    function getprojects($languagecode,$cvid,$basepath)
     
     {
-         $cvid=$this->global->getcurricullumidbyparam();
+         //$cvid=$this->global->getcurricullumidbyparam();
       if(empty($languagecode))
       {
          $languagecode =$this->global->getsysparam('lang');  
@@ -324,10 +325,10 @@ where objectcode='ed'
       
     }
     
-    function getprojectmodal($languagecode,$basepath)
+    function getprojectmodal($languagecode,$cvid,$basepath)
     
     {
-         $cvid=$this->global->getcurricullumidbyparam();
+         //$cvid=$this->global->getcurricullumidbyparam();
       if(empty($languagecode))
       {
          $languagecode =$this->global->getsysparam('lang');  
