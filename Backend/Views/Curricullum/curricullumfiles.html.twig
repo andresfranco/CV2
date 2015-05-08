@@ -1,0 +1,26 @@
+{% extends "Templates/Masterpage/masteradmin.html.twig" %}
+{% block css%}
+{{parent()}}
+<link href="{{basepath~'/Backend/css/datatables.bootstrap.css'}}" type="text/css" rel="stylesheet"/>
+<link href="{{basepath~'/Backend/css/dataTables.responsive.css'}}" type="text/css" rel="stylesheet"/>
+<link href="{{basepath~'/Backend/css/grid.css'}}" type="text/css" rel="stylesheet"/>
+{% endblock css %}
+{% block javascript %}
+ {{parent()}}
+<script src="{{templatepath~'/js/jquerydatatables.js'}}"></script>
+<script src="{{templatepath~'/js/datatables.bootstrap.js'}}"></script>
+<script src="{{templatepath~'/js/dataTables.responsive.min.js'}}"></script>
+<script src="{{templatepath~'/js/enabledatagrid.js'}}"></script>
+{% endblock javascript %}
+{% block content %}
+  {% block breadcrumb %}
+     <ol class="breadcrumb">
+     <li><a href="{{link}}">{{option|raw}}</a></li>
+     <li><a href="{{linkroute}}" class="route">{{route|raw}}</a></li>
+     </ol>
+ {% endblock breadcrumb%}
+
+<div class="newitem"><a href="{{newurl}}"><img src="{{templatepath~'/img/addrow.png'}}"></a></div><br>
+{{obj.build_files_grid(cvid,editurl,deleteurl)}}         
+ 
+{% endblock content%}

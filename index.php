@@ -117,7 +117,8 @@ $app->get(
     $loader->setPaths('Views');
     $maindata =$env['frontend']->getcurricullumdata($lang,$cvid);
     $profilepicture=$env['curricullumdb']->get_profile_picture($cvid);
-    $cvname=$env['curricullumdb']->getcvnamebyid($cvid);
+    $cvname=$env['curricullumdb']->quit_special_chars($env['curricullumdb']->getcvnamebyid($cvid));
+    
     $app->render('Mainview/frontendtemplate.html.twig',array('aboutme'=>$maindata["aboutme"]
             ,'contactdetails'=>$maindata["contactdetails"]
             ,'name'=>$maindata["name"]
@@ -262,7 +263,7 @@ $app->post(
 $app->get(
     '/editcurricullum/:id',
     function ($id) use($app,$env) {
-        $env['curricullumdb']->rendereditview($id,'Views/Curricullum/curricullumedit.html.twig');
+        $env['curricullumdb']->rendereditview($id,'','Views/Curricullum/curricullumedit.html.twig');
 
     })->name('editcurricullum');
 
@@ -289,8 +290,76 @@ $app->get(
 $app->post(
     '/deletecurricullum/:id',
     function ($id) use($app,$env) {
-        $env['curricullumdb']->deleteitem($id);
+    $cvname=$env['curricullumdb']->getcvnamebyid($id);
+    $dirpath ='images/'.'profilepic_'.$env['curricullumdb']->quit_special_chars($cvname);
+        $env['curricullumdb']->deleteitem($id,$dirpath);
     })->name('deletecurricullum');
+    
+ //----Upload Curricullum file------------------------------
+    $app->get(
+    '/curricullumfiles/:id',
+    function ($id) use($app,$env) {
+        $env['curricullumdb']->render_gridfiles_view($id,'Views/Curricullum/curricullumfiles.html.twig');
+
+    })->name('curricullumfiles');
+    
+    
+    $app->get(
+    '/newcurricullumfile/:id',
+    function ($id) use($app,$env) {
+             
+        $env['curricullumdb']->render_new_curricullumfile($id,$env['globalobj'],'Views/Curricullum/newcurricullumfile.html.twig');
+
+    })->name('newcurricullumfile');
+    
+    $app->post(
+    '/newcurricullumfile/:id',
+    function ($id) use($app,$env) {
+       $env['curricullumdb']->add_new_cvfile($env['globalobj']->getcurrentuser()
+                ,$id
+                ,$_FILES
+                ,$app->request()->post('languagecode')
+                ,$env['globalobj']
+                ,'Views/Curricullum/newcurricullumfile.html.twig');
+
+    })->name('insertcurricullumfile');
+    
+    $app->get(
+    '/editcurricullumfile/:id',
+    function ($id) use($app,$env) {
+        $env['curricullumdb']->render_edit_curricullumfile($id,$env['globalobj'],'Views/Curricullum/editcurricullumfile.html.twig');
+
+    })->name('editcurricullumfile');
+    
+    $app->get(
+    '/viewcurricullumfile/:id',
+    function ($id) use($app,$env) {
+        $env['curricullumdb']->render_delete_curricullumfile($id,$env['globalobj'],'Views/Curricullum/deletecurricullumfile.html.twig');
+
+    })->name('viewcurricullumfile');
+    
+     $app->post(
+    '/updatecurricullumfile/:id',
+    function ($id) use($app,$env) {
+       $env['curricullumdb']->update_cv_file($env['globalobj']->getcurrentuser()
+                ,$id
+                ,$app->request()->post('cvname')
+                ,$_FILES
+                ,$app->request()->post('languagecode')
+                ,$env['globalobj']);
+
+    })->name('updatecurricullumfile');
+    
+    $app->post(
+    '/deletecurricullumfile/:id',
+    function ($id) use($app,$env) {
+        
+    $env['curricullumdb']->delete_cv_file($id);
+    })->name('deletecurricullumfile');
+    
+ 
+//---------------------------------------------------------    
+    
 
 //-----------------End Curricullum CRUD----------------------
 

@@ -580,7 +580,7 @@ div.dataTables_paginate {
 
     .btn-file {
         position: relative;
-        overflow: hidden;
+        //overflow: hidden;
     }
     .btn-file input[type=file] {
         position: absolute;
@@ -597,3 +597,5 @@ div.dataTables_paginate {
         cursor: inherit;
         display: block;
     }
+    
+    

@@ -19,9 +19,19 @@
   <!-- Default panel contents -->
   <div class="panel-heading">{{'Curricullum parameters'}}</div>
   <div class="panel-body">
-   <a href="{{basepath~'/urllist/'~id}}" class="btn btn-primary">
-    <p><i class="fa fa-link"></i>{{' Url'}}</p>
-   </a>
+    
+      <div class="btn-group button_option" role="group">
+            <a href="{{basepath~'/urllist/'~id}}" class="btn btn-primary">
+       <p><i class="fa fa-link"></i>{{' Url'}}</p>
+       </a>
+      </div>
+      <div class="btn-group button_option" role="group">
+           <a href="{{basepath~'/curricullumfiles/'~id}}" class="btn btn-primary">
+       <p><i class="fa fa-file"></i>{{' Files'}}</p>
+       </a>
+        </div>
+            
+
   </div>
 </div>
 </div>
@@ -30,7 +40,7 @@
 </div>
 <label class="error">{{errormessage|raw}}</label><br>
 <div id="formcontentgrid" class="col-sm-12">
-<form id="appform" method="post" action="{{updateurl}}" class="form-horizontal" role="form">
+<form id="appform" method="post"  enctype="multipart/form-data" action="{{updateurl}}" class="form-horizontal" role="form">
     <div class="form-group">
             <label class="control-label col-sm-2">{{'Name'}}</label>
             <div class="col-sm-4">
@@ -40,7 +50,7 @@
     <div class="form-group">
             <label class="control-label col-sm-2"></label>
             <div class="col-sm-6">
-                <img src="{{basepath~'/images/profilepic_'~name~'/'~picturename}}" width="128" height="128"/>
+                <img src="{{basepath~'/images/profilepic_'~obj.quit_special_chars(name)~'/'~picturename}}" width="128" height="128"/>
             </div>
     </div> 
      <div class="form-group">
