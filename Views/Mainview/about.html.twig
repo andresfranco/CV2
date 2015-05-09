@@ -14,11 +14,19 @@
 </p>
  </div>
 <div class="columns download">
+  {% if filename|length > 0 %}
+  
+ 
 <p>
-<a href="{{basepath~'/files/'~lang~'/Curriculum_Andres_Franco_'~lang~'.doc'}}" class="button" download="CV_AndresFranco.doc">
+<a href="{{basepath~'/files/'~cvname~'_'~lang~'/'~filename}}" class="button" download="{{basepath~'/files/'~cvname~'_'~lang~'/'~filename}}">
  <i class="fa fa-download"></i>{{frontendobj.translatetag(lang,'downloadresume.title')}}
 </a>
 </p>
+{% else %}
+    <div><p class ="error">{{'You have to upload a curricullum file for this language'}}</p></div> 
+    
+{% endif %} 
+
 </div>
 </div> <!-- end row -->
 </div> <!-- end .main-col -->

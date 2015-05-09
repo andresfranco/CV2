@@ -356,6 +356,12 @@ ul#nav li.current a { color: #00E8F0; }
   	-webkit-animation: jquery 2s ease;
 }
 
+.error
+{
+ color:red !important  ;
+}
+
+
 @-moz-keyframes photoshop {
   0%   { width: 0px;  }
   100% { width: 60%;  }

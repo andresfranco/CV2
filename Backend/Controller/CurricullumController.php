@@ -268,7 +268,9 @@ function renderdeleteview($id,$renderpath)
      
      //Create the image directory
      try {
-      mkdir($dirpath,0777);
+      mkdir($dirpath,0777,true);
+      chmod($dirpath, 0777);
+      
     } catch(ErrorException $ex) {
      $uploaderror=$ex->getMessage();
     }
@@ -277,7 +279,8 @@ function renderdeleteview($id,$renderpath)
     {
       try 
       {   
-      move_uploaded_file($files['profilepicture']['tmp_name'],$dirpath.'/'.$files["profilepicture"]["name"]); 
+      move_uploaded_file($files['profilepicture']['tmp_name'],$dirpath.'/'.$files["profilepicture"]["name"]);
+      chmod($files["profilepicture"]["name"], 0777);
       }
       catch(ErrorException $ex) 
       {
@@ -623,7 +626,7 @@ function renderdeleteview($id,$renderpath)
           $cvid =$data["curricullumid"];
           $languagecode =$data["languagecode"];
           $filename =$data["filename"];
-          $filepath  = $data["filepath"];
+        
         }        
          
         $cvname = $this->getcvnamebyid($cvid);
@@ -634,7 +637,7 @@ function renderdeleteview($id,$renderpath)
             ,'globalobj'=>$globalobj
             ,'languagecode'=>$languagecode    
             ,'errormessage'=>''
-            ,'filename'=>$filename
+            ,'filename'=>$filename  
             ,'updateurl'=>$updateurl
             ,'listurl'=>$listurl
             ,'option'=>'Curriculum Files'
@@ -705,7 +708,8 @@ function renderdeleteview($id,$renderpath)
      
      //Create the image directory
      try {
-      mkdir($dirpath,0777);
+      mkdir($dirpath,0777,true);
+      chmod($dirpath, 0777);
     } catch(ErrorException $ex) {
      $uploaderror=$ex->getMessage();
     }
@@ -714,7 +718,8 @@ function renderdeleteview($id,$renderpath)
     {
       try 
       {   
-      move_uploaded_file($files['curricullumfile']['tmp_name'],$dirpath.'/'.$files["curricullumfile"]["name"]); 
+      move_uploaded_file($files['curricullumfile']['tmp_name'],$dirpath.'/'.$files["curricullumfile"]["name"]);
+      chmod($dirpath.'/'.$files["curricullumfile"]["name"], 0777); 
       }
       catch(ErrorException $ex) 
       {
@@ -793,21 +798,29 @@ function renderdeleteview($id,$renderpath)
          }
          $filename = $files["curricullumfile"]["name"];
          $filepath ='files/'.$this->quit_special_chars($cvname).'_'.$languagecode;
-         $errormessage = $this->uploadcv($files,$filepath); 
-         if ($errormessage ="")
+         $errormessage = $this->validate_update_cvfile($id,$cvid,$languagecode,$files,$filepath);
+        
+         if ($errormessage =="")
          {
-          $this->update_file($username,$id,$languagecode, $filename, $filepath);   
+             
+          $listurl = str_replace(':id',$cvid,$this->app->urlFor('curricullumfiles'));
+          
+          $this->update_file($username,$id,$languagecode,$filename,$filepath);
+          $this->app->response->redirect($listurl);
+          
          }
+         
+         
          else
          {
         $cvname = $this->getcvnamebyid($cvid);
-        $updateurl =  str_replace(':id',$cvid,$this->app->urlFor('updatecurricullumfile') );
-        $listurl = str_replace(':id',$cvid,$this->app->urlFor('editcurricullum'));
+        $updateurl =  str_replace(':id',$id,$this->app->urlFor('updatecurricullumfile') );
+        $listurl = str_replace(':id',$cvid,$this->app->urlFor('curricullumfiles'));
         $this->app->render('Views/Curricullum/editcurricullumfile.html.twig',array('id'=>$cvid,'cvname'=>$cvname
             
             ,'globalobj'=>$globalobj
             ,'languagecode'=>$languagecode    
-            ,'errormessage'=>$errormessage
+            ,'errormessage'=>$this->format_error($errormessage)
             ,'filename'=>$filename
             ,'updateurl'=>$updateurl
             ,'listurl'=>$listurl
@@ -816,6 +829,21 @@ function renderdeleteview($id,$renderpath)
             ,'link'=>$listurl));  
          }    
          
+    }
+    
+    function validate_update_cvfile($id,$cvid,$languagecode,$files,$filepath)
+    {
+        $errormessage = $this->uploadcv($files,$filepath); 
+        if ($errormessage=="")
+        {
+          $count = $this->find_cvfile_exist($id,$cvid, $languagecode);
+          if ($count >0)
+          {
+            $errormessage ="A file for this curricullum and language arleady exist";  
+          }
+          
+        }    
+         return $errormessage;
     }
     
     function delete_cv_file($id)
@@ -853,7 +881,7 @@ function renderdeleteview($id,$renderpath)
     }
     function update_file($username,$id,$languagecode,$filename,$filepath)
     {
-      $dt = date('Y-m-d H:i:s');
+        $dt = date('Y-m-d H:i:s');
         $this->database->update("cvfile",
             [
              "languagecode"=>$languagecode,   
@@ -865,6 +893,8 @@ function renderdeleteview($id,$renderpath)
             [
             "id[=]" => $id
         ]);  
+        
+        //var_dump($this->database->log());
     }
     
     function delete_file($id)
@@ -889,6 +919,21 @@ function renderdeleteview($id,$renderpath)
 
        
     }
+    
+    
+    function find_cvfile_exist($id,$curricullumid,$languagecode)
+    {
+     
+        $count =  $this->database->count("cvfile", [
+            "id" 
+            
+        ],["AND"=>["curricullumid"=>$curricullumid,"languagecode"=>$languagecode ,"id[!]"=>$id]]);
+        return $count;
+
+       
+    }
+    
+    
    
     function get_cvfile_byid($id)
     {
@@ -906,6 +951,31 @@ function renderdeleteview($id,$renderpath)
 
         return $data;
 
+    }
+    
+    function get_cvfilename_by_lang_cvid($cvid,$languagecode)
+    {
+
+        $datas = $this->database->select("cvfile", [
+            "id",
+            "curricullumid",
+            "languagecode",
+            "filename",
+            "filepath"
+           
+        ], ["AND"=>[
+            "curricullumid" => $cvid,
+            "languagecode"=>$languagecode
+        ]]);
+
+        
+     $filename ="";
+    foreach ($datas as $data)
+    {
+     $filename = $data["filename"];   
+    } 
+      return $filename; 
+        
     }
 }
 ?>

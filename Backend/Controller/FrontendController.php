@@ -127,12 +127,14 @@ class FrontendController {
     return $maindata;
    }
     
-    function getheaderlanguages($languagecode)
+    function getheaderlanguages($cvid,$languagecode,$path)
     {
         $result=$this->language->getall();
         foreach ($result as $row)
                 {
-                  echo '<a href="./'.$row['code'].'">'.$this->gettranslation($languagecode,$row['language']).'</a>|';
+      $cvid =1;
+      
+                  echo '<a href="'.$path.'/'.$row['code'].'/'.$cvid.'">'.$this->gettranslation($languagecode,$row['language']).'</a>|';
                 }
     }
     

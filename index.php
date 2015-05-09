@@ -118,13 +118,19 @@ $app->get(
     $maindata =$env['frontend']->getcurricullumdata($lang,$cvid);
     $profilepicture=$env['curricullumdb']->get_profile_picture($cvid);
     $cvname=$env['curricullumdb']->quit_special_chars($env['curricullumdb']->getcvnamebyid($cvid));
+    $filename =$env['curricullumdb']->get_cvfilename_by_lang_cvid($cvid,$lang);
+    $webname =$env['globalobj']->getsysparam('webname');
     
+    $mainpath =$app->view->getdata('basepath').'/main';
     $app->render('Mainview/frontendtemplate.html.twig',array('aboutme'=>$maindata["aboutme"]
             ,'contactdetails'=>$maindata["contactdetails"]
             ,'name'=>$maindata["name"]
             ,'maintext'=>$maindata["maintext"]
             ,'frontendobj'=>$env['frontend']
             ,'profilepicture'=>$profilepicture
+            ,'mainpath'=>$mainpath
+            ,'webname'=>$webname
+            ,'filename'=>$filename
             ,'cvname'=>$cvname
             ,'lang'=>$lang
             ,'cvid'=>$cvid
@@ -167,8 +173,11 @@ $app->get(
 
 
 //---------Set Base Url for css and scripts----------
-$app->hook('slim.before', function () use ($app) {
-    $app->view()->appendData(array('basepath' => '/CV2','templatepath'=>'/CV2/Backend','backendtitle'=>'CV Maker'));
+$app->hook('slim.before', function () use ($app,$env) {
+    $basepath = $env['globalobj']->getsysparam('basepath');
+    $templatepath=$env['globalobj']->getsysparam('templatepath');
+    $backendtitle=$env['globalobj']->getsysparam('apptitle');
+    $app->view()->appendData(array('basepath' => $basepath,'templatepath'=>$templatepath,'backendtitle'=>$backendtitle));
 });
 //---------------------------------------------------
 
@@ -1269,14 +1278,14 @@ $app->get(
     '/actions',
     function () use($app,$env) {
 
-        $env['actiondb']->rendergridview($env['globalobj'],'Views/action/actions.html.twig');
+        $env['actiondb']->rendergridview($env['globalobj'],'Views/Action/actions.html.twig');
 
     })->name('actions');
 
 $app->get(
     '/newaction',
     function () use($app,$env) {
-        $env['actiondb']->rendernewview('','','','Views/action/actionnew.html.twig');
+        $env['actiondb']->rendernewview('','','','Views/Action/actionnew.html.twig');
         
     })->name('newaction');
 
@@ -1287,14 +1296,14 @@ $app->post(
         $env['actiondb']->addnewitem($env['globalobj']->getcurrentuser()
                 ,$app->request()->post('action') 
                 ,$app->request()->post('description')
-                ,'Views/action/actionnew.html.twig') ;
+                ,'Views/Action/actionnew.html.twig') ;
         
     })->name('insertaction');
 
 $app->get(
     '/editaction/:id',
     function ($id) use($app,$env) {
-        $env['actiondb']->rendereditview($id,'Views/action/actionedit.html.twig');
+        $env['actiondb']->rendereditview($id,'Views/Action/actionedit.html.twig');
 
     })->name('editaction');
 
@@ -1310,7 +1319,7 @@ $app->post(
 $app->get(
     '/viewaction/:id',
     function ($id) use($app,$env) {
-        $env['actiondb']->renderdeleteview($id,'Views/action/actiondelete.html.twig');
+        $env['actiondb']->renderdeleteview($id,'Views/Action/actiondelete.html.twig');
 
     })->name('viewaction');
 
