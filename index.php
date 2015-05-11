@@ -397,7 +397,8 @@ $app->post(
             ,$app->request()->post('objectid')
             ,$app->request()->post('languagecode')
             ,$app->request()->post('field')
-            ,$app->request()->post('translationcontent')    
+            ,$app->request()->post('translationcontent')
+            ,$env['globalobj']    
             ,'Views/Translation/translationnew.html.twig') ;
 
     })->name('inserttranslation');

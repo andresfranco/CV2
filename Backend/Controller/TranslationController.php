@@ -195,14 +195,14 @@ function validateinsert($objectcode, $parentid, $objectid, $languagecode, $field
         $errormessage="";
         if($count>0)
         {
-            $errormessage= '<div class="alert alert-error">The translation already exist</div>';
+            $errormessage= '<div class="alert alert-danger col-sms-4 errordiv" role="alert"><i class="fa fa-warning"></i>The translation already exist</div>';
 
         }
         return $errormessage;
     }
 
 
-    function addnewitem($username,$objectcode, $parentid, $objectid, $languagecode,$field,$content,$renderpath)
+    function addnewitem($username,$objectcode, $parentid, $objectid, $languagecode,$field,$content,$globalobj,$renderpath)
     {
         $errormessage = $this->validateinsert($objectcode, $parentid, $objectid, $languagecode, $field);
 
@@ -223,6 +223,8 @@ function validateinsert($objectcode, $parentid, $objectid, $languagecode, $field
             ,'languagecode'=>$languagecode
             ,'field'=>$field
             ,'content'=>$content
+            ,'globalobj'=>$globalobj
+            ,'db'=>$this        
             ,'errormessage'=>$errormessage));
         }
 
