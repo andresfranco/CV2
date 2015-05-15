@@ -126,15 +126,15 @@ function updatepassword($user,$id,$password)
    $salt =$this->security->createsalt();
    $hashpassword =$this->security->Sethashpassword($salt,$password);
    $dt = date('Y-m-d H:i:s');
-        $this->database->update("systemuser", [
+        $this->database->update("systemuser",array(
             
             "password"=>$hashpassword
            ,"salt"=>$salt            
            ,"modifyuser" => $user
            ,"modifydate"=>$dt
-             ],[
+           ),array(
             "id[=]" => $id
-        ]);   
+        ));   
     
 }        
 
@@ -264,15 +264,14 @@ function buildresponsivegrid($editvar,$deletevar,$editurl,$deleteurl)
 function insertuser($user,$username,$salt,$password,$email)
 {
 $dt = date('Y-m-d H:i:s');
-$this->database->insert("systemuser", [ 'username'=>$username
+$this->database->insert("systemuser",array('username'=>$username
 ,'salt'=>$salt
 ,'password'=>$password
 ,'email'=>$email
 ,"createuser" => $user
 ,"createdate" => $dt 
 ,"modifyuser" => $user
-,"modifydate" => $dt ]);
-
+,"modifydate" => $dt ));
 }
 
 function getall()
@@ -289,14 +288,14 @@ function getall()
     {
         
         $dt = date('Y-m-d H:i:s');
-        $this->database->update("systemuser", [
+        $this->database->update("systemuser",array(
             "username"=>$username
            ,"email"=>$email     
            ,"modifyuser" => $user
            ,"modifydate"=>$dt
-             ],[
+             ),array(
             "id[=]" => $id
-        ]);
+        ));
 
         
     }
@@ -304,40 +303,30 @@ function getall()
 function deleteuser($id)
 {
 
-    $this->database->delete("systemuser", [
-        "AND" => [
-            "id" => $id
-
-	]
-
-]);
-    //var_dump($database->error());
-   //header('Location: '.$redirecturl);
+    $this->database->delete("systemuser",array("AND" =>array("id" => $id)));
+   
 }
 
 function finduser($username)
 {
-    $count =  $this->database->count("systemuser", [
-"id" 
-],["AND" => [ 
-    "username" => $username
-    ]]);
-   return $count;
-    
+    $count =  $this->database->count("systemuser",array("id") 
+    ,array("AND" =>array(
+    "username" => $username)));
+    return $count;   
 }
 
 function getuserbyid($id)
 {
 
-$data = $this->database->select("systemuser", [
-"id",
-"username",    
-"salt",
-"password",
-"email"    
-], [
-"id" => $id
-]);
+$data = $this->database->select("systemuser",array(
+        "id",
+        "username",    
+        "salt",
+        "password",
+        "email"    
+        ),array(
+        "id" => $id
+        ));
    
 return $data;   
 }
@@ -345,12 +334,8 @@ return $data;
 function get_username_byid($id)
 {
  $username="";   
- $data = $this->database->select("systemuser", [
-"username"       
-], [
-"id" => $id
-]);
-   
+ $data = $this->database->select("systemuser",array("username"),array("id" => $id));
+  
 foreach ($data as $row) 
 {
  $username = $row["username"];          
@@ -497,13 +482,8 @@ function render_delete_userrole($userid,$roleid,$renderpath)
 
 function get_userrole_byid($userid,$roleid)
 {
- $data = $this->database->select("userrole", [
-"systemuserid",
-"roleid",      
-], ["AND" => [ 
-    "systemuserid" => $userid
-    ,"roleid"=>$roleid
-    ]]); 
+ $data = $this->database->select("userrole",array("roleid")
+         ,array("AND" =>array( "systemuserid" => $userid,"roleid"=>$roleid))); 
  return $data;
 }
 function validate_insert_userrole($userid,$roleid)
@@ -521,12 +501,11 @@ function validate_insert_userrole($userid,$roleid)
 
 function find_userrole($userid,$roleid)
 {
-    $count =  $this->database->count("userrole", [
-"systemuserid" 
-],["AND" => [ 
+    $count =  $this->database->count("userrole",array("systemuserid")
+    ,array("AND" =>array(
     "systemuserid" => $userid
     ,"roleid"=>$roleid
-    ]]);
+    )));
    return $count;
     
 }
@@ -563,12 +542,12 @@ function add_new_userrole($user,$userid,$roleid,$renderpath)
     function insert_userrole($user,$userid,$roleid)
     {
         $dt = date('Y-m-d H:i:s');
-        $this->database->insert("userrole", [ 'systemuserid'=>$userid
+        $this->database->insert("userrole",array('systemuserid'=>$userid
         ,'roleid'=>$roleid
         ,"createuser" => $user
         ,"createdate" => $dt 
         ,"modifyuser" => $user
-        ,"modifydate" => $dt ]);
+        ,"modifydate" => $dt ));
 
     }
    
@@ -584,14 +563,12 @@ function add_new_userrole($user,$userid,$roleid,$renderpath)
 function delete_userrole($userid,$roleid)
 {
 
-    $this->database->delete("userrole", [
-        "AND" => [
+    $this->database->delete("userrole",array(
+        "AND" =>array(
             "systemuserid"=>$userid
            ,"roleid"=>$roleid  
 
-	]
-
-]);
+	)));
 
 
 }

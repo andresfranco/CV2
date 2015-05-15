@@ -12,10 +12,10 @@ Class ManageEmail
    $emailto ='andres@andresmfranco.info';
    $port =25;
 
-   $emailparams =["smtpserver"=>$smtpserver,
+   $emailparams =array("smtpserver"=>$smtpserver,
        "smtpusername"=>$smtpusername,
        "smtppassword"=>$smtppassword,
-       "emailto"=>$emailto,"port"=>$port ];
+       "emailto"=>$emailto,"port"=>$port);
    return $emailparams;
   }
 
@@ -46,10 +46,20 @@ Class ManageEmail
           $mail->Port = $emailparams["port"];
           $mail->Username = $emailparams["smtpusername"]; // usuario
           $mail->Password = $emailparams["smtppassword"]; // contraseña
+          
+          if(!$mail->Send()) {
+         echo "Mailer Error: " . $mail->ErrorInfo;
+         
+          } 
+          
+          else {
 
-
-          $mail->Send();
           echo 'OK';
+              
+          }
+
+          //$mail->Send();
+         
 
       }
       else {
@@ -67,7 +77,7 @@ Class ManageEmail
 
   function validateemail($name,$email,$contact_message)
   {
-      $error =[];
+      $error =array();
       // Check Name
       if (strlen($name) < 2) {
           $error['name'] = "Please enter your name.";

@@ -242,7 +242,7 @@ function inserttranslatetag($username,$languagecode,$key,$translation)
 
         $dt = date('Y-m-d H:i:s');
         $this->database->insert("translatetag", 
-        [
+        array(
             "languagecode" => $languagecode,
             "key"=>$key,
             "translation" => $translation,
@@ -250,7 +250,7 @@ function inserttranslatetag($username,$languagecode,$key,$translation)
             "createdate" => $dt ,
             "modifyuser" => $username,
             "modifydate" => $dt 
-         ]);
+         ));
         
     }
 
@@ -274,43 +274,34 @@ function inserttranslatetag($username,$languagecode,$key,$translation)
         
         $dt = date('Y-m-d H:i:s');
         $this->database->update("translatetag",
-            [
+           array(
             "languagecode" => $languagecode,
             "key"=>$key,    
             "translation" => $translation,
             "modifyuser" => $username,
             "modifydate" => $dt 
-        ],
-            ["AND"=>[
+        ),
+           array("AND"=>array(
             "languagecode[=]" => $languagecodeold,
             "key[=]" => $keyold,    
-        ]]);
+        )));
          
     }
 
     function deletetranslatetag($languagecode,$key)
     {
 
-        $this->database->delete("translatetag", [
-            "AND" => [
-                 "languagecode" => $languagecode,
-                  "key" => $key,   
-
-            ]
-
-        ]);
-
+        $this->database->delete("translatetag",
+            array("AND" =>array("languagecode" => $languagecode,"key" => $key)));  
     }
 
     function findtranslatetag($languagecode,$key,$translation)
     {
-        $count =  $this->database->count("translatetag", [
-           "languagecode"
-            
-        ],["AND" => [ "languagecode" => $languagecode,
+        $count =  $this->database->count("translatetag",array( "languagecode")
+        ,array("AND" =>array("languagecode" => $languagecode,
             "key"=>$key,
             "translation" => $translation,
-          ]]);
+          )));
         
         return $count;
 
@@ -319,14 +310,14 @@ function inserttranslatetag($username,$languagecode,$key,$translation)
     function gettranslatetagbyid($languagecode,$key)
     {
 
-        $data = $this->database->select("translatetag", [
+        $data = $this->database->select("translatetag",array(
             "languagecode",
             "key",
             "translation" 
            
-        ],["AND"=>[
+        ),array("AND"=>array(
             "languagecode" => $languagecode,
-            "key"=>$key]]);
+            "key"=>$key)));
         
         return $data;
     }

@@ -263,7 +263,7 @@ function inserttranslation($username,$objectcode,$parentid,$objectid,$languageco
 
         $dt = date('Y-m-d H:i:s');
         $this->database->insert("translation", 
-        [
+        array(
             "objectcode" => $objectcode,
             "parentid"=>$parentid,
             "objectid" => $objectid,
@@ -274,7 +274,7 @@ function inserttranslation($username,$objectcode,$parentid,$objectid,$languageco
             "createdate" => $dt ,
             "modifyuser" => $username,
             "modifydate" => $dt 
-         ]);
+         ));
 
     }
 
@@ -307,7 +307,7 @@ when 'pt' then (select tagname from project_tag where id =t.objectid)
 
         $dt = date('Y-m-d H:i:s');
         $this->database->update("translation",
-            [
+            array(
             "objectcode" => $objectcode,
             "parentid"=>$parentid,    
             "objectid" => $objectid,
@@ -318,36 +318,36 @@ when 'pt' then (select tagname from project_tag where id =t.objectid)
             "createdate" => $dt ,
             "modifyuser" => $username,
             "modifydate" => $dt 
-        ],
-            [
+        ),
+           array(
             "id[=]" => $id
-        ]);
+        ));
 
     }
 
     function deletetranslation($id)
     {
 
-        $this->database->delete("translation", [
-            "AND" => [
+        $this->database->delete("translation",array(
+            "AND" =>array(
                 "id" => $id
 
-            ]
+            )
 
-        ]);
+        ));
 
     }
 
     function findtranslation($objectcode,$parentid,$objectid,$languagecode, $field)
     {
-        $count =  $this->database->count("translation", [
+        $count =  $this->database->count("translation",array(
            "id"
             
-        ],["AND" => [ "objectcode" => $objectcode,
+        ),array("AND" =>array( "objectcode" => $objectcode,
             "parentid"=>$parentid,
             "objectid" => $objectid,
             "languagecode" => $languagecode,
-            "field"=>$field]]);
+            "field"=>$field)));
         
         return $count;
 
@@ -356,7 +356,7 @@ when 'pt' then (select tagname from project_tag where id =t.objectid)
     function gettranslationbyid($id)
     {
 
-        $data = $this->database->select("translation", [
+        $data = $this->database->select("translation",array(
             "id",
             "objectcode",
             "parentid",
@@ -364,26 +364,26 @@ when 'pt' then (select tagname from project_tag where id =t.objectid)
             "languagecode",
             "field",
             "content"
-        ], [
+        ), array(
             "id" => $id
-        ]);
+        ));
 
         return $data;
     }
     
     function gettranslatecontent($objectcode,$objectid,$languagecode,$field)
     {
-         $data = $this->database->select("translation", [
+         $data = $this->database->select("translation",array(
             
             "content",
            
-        ], [
+        ),array(
             "objectcode" => $objectcode,
             "objectid" => $objectid,
             "languagecode" => $languagecode,
             "field"=>$field
             
-        ]);
+        ));
          
        return $data; 
     }  
@@ -427,7 +427,7 @@ echo '<select id="parentid" name="parentid" '.$attribute.'>
 }   
     }
     
-    function getobject($globalobj,$objectcode,$parentid,$attribute)
+    function getobject($globalobj,$objectcode,$parentid,$objectid,$attribute)
     {
    
      $filterffield="curricullumid";
@@ -458,13 +458,35 @@ echo '<select id="parentid" name="parentid" '.$attribute.'>
     
     if ($objectcode=="cv")
     { 
-      $globalobj->getcurricullumselect($attribute, $parentid);
+      $globalobj->getcurricullumselect($attribute,$objectid);
     }
     else
     {    
-    $globalobj->getselectoptionsbytable($parentid,$tablename,$fielddesc,$filterffield,$attribute);  
+    $this->getselectoptionsbytable($parentid,$objectid,$tablename,$fielddesc,$filterffield,$attribute);  
     }    
     }
+    
+    function getselectoptionsbytable($parentid,$objectid,$tablename,$fielddesc,$filterfield,$attribute)
+    {
+        
+        $datas = $this->database->select($tablename,array("id",$fielddesc ),array($filterfield => $parentid));
+         echo '<select id ="objectid" name="objectid" '.$attribute.'>';
+         echo'<option value="0">Please select an option</option>';
+      
+         foreach($datas as $data)
+        {
+         if ($objectid == $data["id"]) {
+                $selected = 'selected';
+            }
+            else
+            {
+                $selected="";
+            }    
+            echo '<option value ="'.$data['id'].'" '.$selected.'>'.$data[$fielddesc].'</option>';
+        }
+         echo '</select>';
+    }
+    
 
     function getfields($globalobj,$objectcode,$field,$attribute)
     {
@@ -553,7 +575,7 @@ echo '<select id="parentid" name="parentid" '.$attribute.'>
      $globalobj->getcurricullumselect('','');   
    }
    
-   function getobjects($objectcode,$parentid,$globalobj)
+   function getobjects($objectcode,$parentid,$objectid,$globalobj)
    {
    $filterffield="curricullumid";
     switch ($objectcode) {
@@ -579,7 +601,7 @@ echo '<select id="parentid" name="parentid" '.$attribute.'>
        $filterffield="projectid";
         break;
    }
-    $globalobj->getselectoptionsbytable($parentid,$tablename,$fielddesc,$filterffield,'class="form-control"'); 
+    $this->getselectoptionsbytable($parentid,$objectid,$tablename,$fielddesc,$filterffield,'class="form-control"'); 
    }
     
             

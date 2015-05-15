@@ -253,15 +253,15 @@ function getall()
 function getskillbyid($id)
 {
 
-$data = $this->database->select("skill", [
-"id",
+$data = $this->database->select("skill",array(
+"id",    
 "curricullumid",
 "type",
 "skill"  ,
 "percentage"  ,    
-], [
+),array(
 "id" => $id
-]);
+));
    
 return $data;   
 }
@@ -270,14 +270,14 @@ function insertskill($username,$curricullumid,$type,$skill,$percentage)
 {
   
 $dt = date('Y-m-d H:i:s');
-$this->database->insert("skill", ["curricullumid" => $curricullumid,
+$this->database->insert("skill",array("curricullumid" => $curricullumid,
 "type" => $type,
 "skill"=>$skill,
 "percentage"=>$percentage,    
 "createuser" => $username,
 "createdate" => $dt ,
 "modifyuser" => $username,
-"modifydate" => $dt ]);
+"modifydate" => $dt ));
 
 }
 function updateskill($id,$username,$curricullumid,$type,$skill,$percentage)
@@ -285,17 +285,17 @@ function updateskill($id,$username,$curricullumid,$type,$skill,$percentage)
 
         $dt = date('Y-m-d H:i:s');
         $this->database->update("skill",
-            [
+            array(
              "curricullumid" => $curricullumid,
              "type" => $type,
              "skill"=>$skill,
              "percentage"=>$percentage,    
              "modifyuser"=>$username,
              "modifydate"=>$dt
-        ],
-            [
+        ),
+          array(
             "id[=]" => $id
-        ]);
+        ));
 
 
 
@@ -303,27 +303,16 @@ function updateskill($id,$username,$curricullumid,$type,$skill,$percentage)
 
     function deleteskill($id)
     {
-
-        $this->database->delete("skill", [
-            "AND" => [
-                "id" => $id
-
-            ]
-
-        ]);
-
-
+      $this->database->delete("skill",array("AND" => array("id" => $id)));
     }
 function findskill($curricullumid,$type,$skill)
 {
-    $count =  $this->database->count("skill", [
-    "id"
-],["AND" => [ 
+    $count =  $this->database->count("skill",array("id")
+    ,array("AND" =>array( 
     "curricullumid" => $curricullumid,
     "type"=>$type,
-    "skill"=>$skill]]);
-   return $count;
-    
+    "skill"=>$skill)));
+    return $count;   
 }
 
 

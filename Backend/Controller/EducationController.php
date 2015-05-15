@@ -252,14 +252,14 @@ function getall()
 function geteducationbyid($id)
 {
 
-$data = $this->database->select("education", [
+$data = $this->database->select("education",array(
 "curricullumid",
 "institution",
 "degree"  ,
 "datechar"  ,    
-], [
+),array(
 "id" => $id
-]);
+));
    
 return $data;   
 }
@@ -268,14 +268,14 @@ function inserteducation($username,$curricullumid,$institution,$degree,$date)
 {
   
 $dt = date('Y-m-d H:i:s');
-$this->database->insert("education", ["curricullumid" => $curricullumid,
+$this->database->insert("education",array("curricullumid" => $curricullumid,
 "institution" => $institution,
 "degree"=>$degree,
 "datechar"=>$date,    
 "createuser" => $username,
 "createdate" => $dt ,
 "modifyuser" => $username,
-"modifydate" => $dt ]);
+"modifydate" => $dt ));
 
 }
 function updateeducation($id,$username,$curricullumid,$institution,$degree,$date)
@@ -283,17 +283,17 @@ function updateeducation($id,$username,$curricullumid,$institution,$degree,$date
 
         $dt = date('Y-m-d H:i:s');
         $this->database->update("education",
-            [
+            array(
              "curricullumid" => $curricullumid,
              "institution" => $institution,
              "degree"=>$degree,
              "datechar"=>$date,    
              "modifyuser"=>$username,
              "modifydate"=>$dt
-        ],
-            [
+        ),
+          array(
             "id[=]" => $id
-        ]);
+        ));
 
 
 
@@ -302,22 +302,22 @@ function updateeducation($id,$username,$curricullumid,$institution,$degree,$date
     function deleteeducation($id)
     {
 
-        $this->database->delete("education", [
-            "AND" => [
+        $this->database->delete("education",array(
+            "AND" =>array(
                 "id" => $id
 
-            ]
+            )
 
-        ]);
+        ));
 
 
     }
 function findeducation($curricullumid,$institution)
 {
-    $count =  $this->database->count("education", [
+    $count =  $this->database->count("education",array(
 "id"
-],["AND" => [ "curricullumid" => $curricullumid,
-"institution"=>$institution]]);
+),array("AND" =>array( "curricullumid" => $curricullumid,
+"institution"=>$institution)));
    return $count;
     
 }

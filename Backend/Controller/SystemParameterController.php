@@ -228,13 +228,13 @@ function insertsysparam($username,$code,$value,$description)
 {
   
     $dt = date('Y-m-d H:i:s');
-$this->database->insert("sysparam", ["code" => $code,
+$this->database->insert("sysparam",array("code" => $code,
 "value" => $value,
 "description"=>$description,    
 "createuser" => $username,
 "createdate" => $dt ,
 "modifyuser" => $username,
-"modifydate" => $dt ]);
+"modifydate" => $dt ));
 
 
 }
@@ -253,51 +253,41 @@ function getall()
     {
         
         $dt = date('Y-m-d H:i:s');
-        $this->database->update("sysparam", ["code" => $code,
+        $this->database->update("sysparam",array("code" => $code,
             "value" => $value,
             "description" => $description,
             "modifyuser" => $username,
             "modifydate"=>$dt
-             ],[
+             ),array(
             "id[=]" => $id
-        ]);
+        ));
 
     }
 
 function deletesysparam($id)
 {
 
-    $this->database->delete("sysparam", [
-        "AND" => [
-            "id" => $id
-
-	]
-
-]);
-    var_dump($this->database->log());
-   
+    $this->database->delete("sysparam",array( "AND" =>array("id" => $id)));
+    
 }
 
 function findsysparam($code)
 {
-    $count =  $this->database->count("sysparam", [
-"code" => $code
-]);
-   return $count;
-    
+ $count= $this->database->count("sysparam",array("code" => $code));
+ return $count;    
 }
 
 function getsysparambyid($id)
 {
 
-$data = $this->database->select("sysparam", [
+$data = $this->database->select("sysparam",array(
 "id",    
 "code",
 "value",
 "description"    
-], [
+),array(
 "id" => $id
-]);
+));
    
 return $data;   
 }

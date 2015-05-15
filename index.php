@@ -427,7 +427,7 @@ $app->post(
      $app->post(
     '/getobjectsajax',
     function () use($app,$env) {
-     $env['translationdb']->getobjects($app->request->post('objectcode'),$app->request->post('parentid'),$env['globalobj']);  
+     $env['translationdb']->getobjects($app->request->post('objectcode'),$app->request->post('parentid'),$app->request->post('objectid'),$env['globalobj']);  
        
     })->name('getobjects');
 

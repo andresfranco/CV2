@@ -186,12 +186,12 @@ function addnewitem($user,$role,$description,$renderpath)
 function insertrole($user,$role,$description)
 {
 $dt = date('Y-m-d H:i:s');
-$this->database->insert("role", [ 'role'=>$role
+$this->database->insert("role",array('role'=>$role
 ,'description'=>$description
 ,"createuser" => $user
 ,"createdate" => $dt 
 ,"modifyuser" => $user
-,"modifydate" => $dt ]);
+,"modifydate" => $dt ));
 
 }
 
@@ -209,14 +209,14 @@ function getall()
     {
         
         $dt = date('Y-m-d H:i:s');
-        $this->database->update("role", [
+        $this->database->update("role",array(
             "role"=>$role
            ,"description"=>$description    
            ,"modifyuser" => $user
            ,"modifydate"=>$dt
-             ],[
+            ),array(
             "id[=]" => $id
-        ]);
+        ));
 
         
     }
@@ -224,23 +224,14 @@ function getall()
 function deleterole($id)
 {
 
-    $this->database->delete("role", [
-        "AND" => [
-            "id" => $id
-
-	]
-
-]);
-    
+ $this->database->delete("role",array("AND" =>array( "id" => $id)));
+ 
 }
 
 function findrole($role)
 {
-    $count =  $this->database->count("role", [
-"id" 
-],["AND" => [ 
-    "role" => $role
-    ]]);
+   $count =  $this->database->count("role",array("id")
+   ,array("AND" =>array( "role" => $role)));
    return $count;
     
 }
@@ -248,13 +239,13 @@ function findrole($role)
 function getrolebyid($id)
 {
 
-$data = $this->database->select("role", [
+$data = $this->database->select("role",array(
 "id",
 "role",    
 "description",  
-], [
+),array(
 "id" => $id
-]);
+));
    
 return $data;   
 } 
@@ -348,12 +339,7 @@ function render_roleactions_grid($roleid,$renderpath)
 function get_role_byid($roleid)
 {
 $role="";   
- $data = $this->database->select("role", [
-"role"       
-], [
-"id" => $roleid
-]);
-   
+ $data = $this->database->select("role",array("role"),array("id" => $roleid));
 foreach ($data as $row) 
 {
  $role = $row["role"];          
@@ -434,13 +420,13 @@ function render_delete_roleaction($roleid,$actionid,$renderpath)
 
 function get_roleaction_byid($roleid,$actionid)
 {
- $data = $this->database->select("roleaction", [
+ $data = $this->database->select("roleaction",array(
 "roleid",
 "actionid",      
-], ["AND" => [ 
+),array("AND" =>array( 
     "roleid" => $roleid
     ,"actionid"=>$actionid
-    ]]); 
+    ))); 
  return $data;
 }
 function validate_insert_roleaction($roleid,$actionid)
@@ -458,12 +444,11 @@ function validate_insert_roleaction($roleid,$actionid)
 
 function find_roleaction($roleid,$actionid)
 {
-    $count =  $this->database->count("roleaction", [
-"systemroleid" 
-],["AND" => [ 
+    $count =  $this->database->count("roleaction",array("systemroleid"), 
+    array("AND" =>array( 
     "systemroleid" => $roleid
     ,"actionid"=>$actionid
-    ]]);
+    )));
    return $count;
     
 }
@@ -500,12 +485,12 @@ function add_new_roleaction($user,$roleid,$actionid,$renderpath)
     function insert_roleaction($user,$roleid,$actionid)
     {
         $dt = date('Y-m-d H:i:s');
-        $this->database->insert("roleaction", [ 'roleid'=>$roleid
+        $this->database->insert("roleaction",array('roleid'=>$roleid
         ,'actionid'=>$actionid
         ,"createuser" => $user
         ,"createdate" => $dt 
         ,"modifyuser" => $user
-        ,"modifydate" => $dt ]);
+        ,"modifydate" => $dt ));
 
     }
    
@@ -521,16 +506,8 @@ function add_new_roleaction($user,$roleid,$actionid,$renderpath)
 function delete_roleaction($roleid,$actionid)
 {
 
-    $this->database->delete("roleaction", [
-        "AND" => [
-            "roleid"=>$roleid
-           ,"actionid"=>$actionid  
-
-	]
-
-]);
-
-
+$this->database->delete("roleaction",array("AND" =>array("roleid"=>$roleid,"actionid"=>$actionid )));
+  
 }
 // ---------------END ROLE ACTIONS----------------------------------------------------
     

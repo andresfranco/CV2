@@ -269,7 +269,7 @@ function renderdeleteview($id,$renderpath)
      //Create the image directory
      try {
       mkdir($dirpath,0777,true);
-      chmod($dirpath, 0777);
+      //chmod($dirpath, 0777);
       
     } catch(ErrorException $ex) {
      $uploaderror=$ex->getMessage();
@@ -280,7 +280,7 @@ function renderdeleteview($id,$renderpath)
       try 
       {   
       move_uploaded_file($files['profilepicture']['tmp_name'],$dirpath.'/'.$files["profilepicture"]["name"]);
-      chmod($files["profilepicture"]["name"], 0777);
+      //chmod($files["profilepicture"]["name"], 0777);
       }
       catch(ErrorException $ex) 
       {
@@ -391,7 +391,7 @@ function renderdeleteview($id,$renderpath)
 
         $dt = date('Y-m-d H:i:s');
         $this->database->insert("curricullum", 
-        [
+        array(
             "name" => $name,
             "maintext" => $maintext,
             "aboutme" => $aboutme,
@@ -402,7 +402,7 @@ function renderdeleteview($id,$renderpath)
             "createdate" => $dt ,
             "modifyuser" => $username,
             "modifydate" => $dt 
-         ]);
+         ));
 
 
 
@@ -422,7 +422,7 @@ function renderdeleteview($id,$renderpath)
 
         $dt = date('Y-m-d H:i:s');
         $this->database->update("curricullum",
-            [
+            array(
              "name" => $name,
              "maintext" => $maintext,
              "aboutme" => $aboutme,
@@ -431,10 +431,10 @@ function renderdeleteview($id,$renderpath)
              "mainskills"=>$mainskills,
              "modifyuser"=>$username,
              "modifydate"=>$dt
-        ],
-            [
+        ),
+          array(
             "id[=]" => $id
-        ]);
+        ));
 
 
 
@@ -443,23 +443,23 @@ function renderdeleteview($id,$renderpath)
     function deletecurricullum($id)
     {
 
-        $this->database->delete("curricullum", [
-            "AND" => [
+        $this->database->delete("curricullum",array(
+            "AND" => array(
                 "id" => $id
 
-            ]
+            )
 
-        ]);
+        ));
 
 
     }
 
     function findcurricullum($name)
     {
-        $count =  $this->database->count("curricullum", [
+        $count =  $this->database->count("curricullum",array(
             "name" => $name
-            
-        ]);
+           
+        ));
         return $count;
 
     }
@@ -467,7 +467,7 @@ function renderdeleteview($id,$renderpath)
     function getcurricullumbyid($id)
     {
 
-        $data = $this->database->select("curricullum", [
+        $data = $this->database->select("curricullum",array(
             "id",
             "name",
             "maintext",
@@ -475,9 +475,9 @@ function renderdeleteview($id,$renderpath)
             "contactdetails",
             "mainskills",
             "profilepicture"
-        ], [
+        ),array(
             "id" => $id
-        ]);
+        ));
 
         return $data;
 
@@ -487,11 +487,7 @@ function renderdeleteview($id,$renderpath)
     function getcvnamebyid($id)
     {
         $name="";
-        $datas = $this->database->select("curricullum", [
-            "name",
-        ], [
-            "id" => $id
-        ]);
+        $datas = $this->database->select("curricullum",array("name"),array("id" => $id));
         foreach($datas as $data)
         {
             $name= $data["name"];
@@ -505,11 +501,7 @@ function renderdeleteview($id,$renderpath)
     function get_profile_picture($cvid)
     {
      $profilepicture="";
-        $datas = $this->database->select("curricullum", [
-            "profilepicture",
-        ], [
-            "id" => $cvid
-        ]);
+        $datas = $this->database->select("curricullum",array("profilepicture"),array("id" => $cvid));
         foreach($datas as $data)
         {
             $profilepicture= $data["profilepicture"];
@@ -709,7 +701,7 @@ function renderdeleteview($id,$renderpath)
      //Create the image directory
      try {
       mkdir($dirpath,0777,true);
-      chmod($dirpath, 0777);
+      //chmod($dirpath, 0777);
     } catch(ErrorException $ex) {
      $uploaderror=$ex->getMessage();
     }
@@ -719,7 +711,7 @@ function renderdeleteview($id,$renderpath)
       try 
       {   
       move_uploaded_file($files['curricullumfile']['tmp_name'],$dirpath.'/'.$files["curricullumfile"]["name"]);
-      chmod($dirpath.'/'.$files["curricullumfile"]["name"], 0777); 
+      //chmod($dirpath.'/'.$files["curricullumfile"]["name"], 0777); 
       }
       catch(ErrorException $ex) 
       {
@@ -868,7 +860,7 @@ function renderdeleteview($id,$renderpath)
     {
        $dt = date('Y-m-d H:i:s');
         $this->database->insert("cvfile", 
-        [
+        array(
             "curricullumid" => $curricullumid
             ,"languagecode" =>$languagecode   
             ,"filename" => $filename
@@ -877,60 +869,42 @@ function renderdeleteview($id,$renderpath)
             ,"createdate" => $dt
             ,"modifyuser" => $username
             ,"modifydate" => $dt 
-         ]);  
+         ));  
     }
     function update_file($username,$id,$languagecode,$filename,$filepath)
     {
         $dt = date('Y-m-d H:i:s');
         $this->database->update("cvfile",
-            [
+            array(
              "languagecode"=>$languagecode,   
              "filename" => $filename,
              "filepath" => $filepath,
              "modifyuser"=>$username,
              "modifydate"=>$dt
-        ],
-            [
+        ),array(
             "id[=]" => $id
-        ]);  
+        ));  
         
         //var_dump($this->database->log());
     }
     
     function delete_file($id)
     {
-       $this->database->delete("cvfile", [
-            "AND" => [
-                "id" => $id
-
-            ]
-
-        ]);  
+       $this->database->delete("cvfile",array("AND" =>array("id" => $id)));  
     }
     
     function find_cvfile($curricullumid,$languagecode)
     {
-     
-        $count =  $this->database->count("cvfile", [
-            "id" 
-            
-        ],["AND"=>["curricullumid"=>$curricullumid,"languagecode"=>$languagecode]]);
-        return $count;
-
-       
+     $count =  $this->database->count("cvfile",array( "id" ),array("AND"=>array("curricullumid"=>$curricullumid,"languagecode"=>$languagecode)));
+     return $count; 
     }
     
     
     function find_cvfile_exist($id,$curricullumid,$languagecode)
     {
      
-        $count =  $this->database->count("cvfile", [
-            "id" 
-            
-        ],["AND"=>["curricullumid"=>$curricullumid,"languagecode"=>$languagecode ,"id[!]"=>$id]]);
-        return $count;
-
-       
+        $count =  $this->database->count("cvfile",array("id"),array("AND"=>array("curricullumid"=>$curricullumid,"languagecode"=>$languagecode ,"id[!]"=>$id)));
+        return $count; 
     }
     
     
@@ -938,16 +912,16 @@ function renderdeleteview($id,$renderpath)
     function get_cvfile_byid($id)
     {
 
-        $data = $this->database->select("cvfile", [
-            "id",
+        $data = $this->database->select("cvfile",
+           array("id",
             "curricullumid",
             "languagecode",
             "filename",
             "filepath"
            
-        ], [
+        ),array(
             "id" => $id
-        ]);
+        ));
 
         return $data;
 
@@ -956,17 +930,17 @@ function renderdeleteview($id,$renderpath)
     function get_cvfilename_by_lang_cvid($cvid,$languagecode)
     {
 
-        $datas = $this->database->select("cvfile", [
+        $datas = $this->database->select("cvfile",array(
             "id",
             "curricullumid",
             "languagecode",
             "filename",
             "filepath"
            
-        ], ["AND"=>[
+        ),array("AND"=>array(
             "curricullumid" => $cvid,
             "languagecode"=>$languagecode
-        ]]);
+        )));
 
         
      $filename ="";

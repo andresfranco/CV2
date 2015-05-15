@@ -50,7 +50,7 @@ class FrontendController {
    function testgetcurricullumtranslate()
    {
      $datas =$this->translation->getcurricullumtranslate('cv','1','en');  
-     $maindata=[];
+     $maindata=array();
        foreach($datas as $data)
     {
         switch ($data["field"]) {

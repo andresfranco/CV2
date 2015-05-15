@@ -246,7 +246,7 @@ function insertwork($username,$curricullumid,$company,$position,$from,$to)
 {
   
     $dt = date('Y-m-d H:i:s');
-$this->database->insert("work", [ 'curricullumid'=>$curricullumid
+$this->database->insert("work", array('curricullumid'=>$curricullumid
  ,'company'=>$company
 ,'position'=>$position
 ,'from'=>$from
@@ -254,7 +254,7 @@ $this->database->insert("work", [ 'curricullumid'=>$curricullumid
 ,"createuser" => $username
 ,"createdate" => $dt 
 ,"modifyuser" => $username
-,"modifydate" => $dt ]);
+,"modifydate" => $dt ));
 
 
 
@@ -277,7 +277,7 @@ function getall()
     {
         
         $dt = date('Y-m-d H:i:s');
-        $this->database->update("work", ["id" => $id,
+        $this->database->update("work",array("id" => $id,
             'curricullumid'=>$curricullumid
             ,'company'=>$company
             ,'position'=>$position
@@ -285,9 +285,9 @@ function getall()
             ,'to'=>$to
             ,"modifyuser" => $username
             ,"modifydate"=>$dt
-             ],[
+             ),array(
             "id[=]" => $id
-        ]);
+        ));
 
 
     }
@@ -295,25 +295,20 @@ function getall()
 function deletework($id)
 {
 
-    $this->database->delete("work", [
-        "AND" => [
+    $this->database->delete("work",array(
+        "AND" =>array(
             "id" => $id
 
-	]
-
-]);
-    //var_dump($database->error());
-   //header('Location: '.$redirecturl);
+	)));
+    
 }
 
 function findwork($curricullumid,$company)
 {
-    $count =  $this->database->count("work", [
-"id" 
-      
-],["AND" => [ "curricullumid" => $curricullumid,
+    $count =  $this->database->count("work",array("id")
+            ,array("AND" =>array("curricullumid" => $curricullumid,
             "company"=>$company
-            ]]);
+            )));
    return $count;
     
 }
@@ -321,16 +316,16 @@ function findwork($curricullumid,$company)
 function getworkbyid($id)
 {
 
-$data = $this->database->select("work", [
+$data = $this->database->select("work",array(
 "id",    
 "curricullumid",
 "company",
 "position",
 "from",
 "to"    
-], [
+ ), array(
 "id" => $id
-]);
+));
    
 return $data;   
 }

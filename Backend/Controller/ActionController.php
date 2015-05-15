@@ -189,12 +189,12 @@ function validateinsert($action)
 function insertaction($user,$action,$description)
 {
 $dt = date('Y-m-d H:i:s');
-$this->database->insert("action", [ 'action'=>$action
+$this->database->insert("action",array('action'=>$action
 ,'description'=>$description
 ,"createuser" => $user
 ,"createdate" => $dt 
 ,"modifyuser" => $user
-,"modifydate" => $dt ]);
+,"modifydate" => $dt ));
 
 }
 
@@ -212,14 +212,14 @@ function getall()
     {
         
         $dt = date('Y-m-d H:i:s');
-        $this->database->update("action", [
+        $this->database->update("action",array(
             "action"=>$action
            ,"description"=>$description    
            ,"modifyuser" => $user
-           ,"modifydate"=>$dt
-             ],[
+           ,"modifydate"=>$dt)
+           ,array(
             "id[=]" => $id
-        ]);
+        ));
 
         
     }
@@ -227,39 +227,28 @@ function getall()
 function deleteaction($id)
 {
 
-    $this->database->delete("action", [
-        "AND" => [
-            "id" => $id
-
-	]
-
-]);
+    $this->database->delete("action", array("AND" =>array("id" => $id)));
     
 }
 
 function findaction($action)
 {
-    $count =  $this->database->count("action", [
-"id" 
-],["AND" => [ 
-    "action" => $action
-    ]]);
+    $count =  $this->database->count("action",array("id")
+    ,array("AND" =>array( "action" => $action))); 
    return $count;
     
 }
 
 function getactionbyid($id)
 {
-
-$data = $this->database->select("action", [
-"id",
-"action",    
-"description",  
-], [
-"id" => $id
-]);
-   
-return $data;   
+ $data = $this->database->select("action",array(
+ "id",
+ "action",    
+ "description",  
+ ),array(
+ "id" => $id
+ ));
+ return $data;   
 } 
  
 }

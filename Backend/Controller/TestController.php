@@ -1,16 +1,18 @@
 <?php
-Class GlobalController
+Class TestController
 {
     private $database;
     public function __construct() 
     {
       $this->database =new medoo();
+
     }
    function getlanguageselect($attribute,$languagecode)
     {
         $sth = $this->database->pdo->prepare('SELECT code ,language FROM language');
         $sth->execute();
          echo '<select id ="languagecode" name="languagecode"'.$attribute.'>';
+
         $selected="";
         foreach ($sth as $row) {
             if ($languagecode == $row['code']) {
@@ -20,6 +22,7 @@ Class GlobalController
             {$selected="";
             }
             echo '<option value ="'.$row['code'].'" '.$selected.' >'.$row['language'].'</option>';
+
         }
          echo '</select>';
     } 
@@ -39,12 +42,14 @@ Class GlobalController
             {$selected="";
             }
             echo '<option value ="'.$row['id'].'" '.$selected.' >'.$row['name'].'</option>';
+
         }
          echo '</select>';
     } 
     
       function getcurricullumselect($attribute,$id)
     {
+
         $sth = $this->database->pdo->prepare('SELECT id ,name FROM curricullum');
         $sth->execute();
          echo '<select id ="objectid" name="objectid" '.$attribute.'>';
@@ -58,12 +63,14 @@ Class GlobalController
             {$selected="";
             }
             echo '<option value ="'.$row['id'].'" '.$selected.' >'.$row['name'].'</option>';
+
         }
          echo '</select>';
     } 
     
         function getcurricullumlist($attribute,$id)
     {
+
         $sth = $this->database->pdo->prepare('SELECT id ,name FROM curricullum');
         $sth->execute();
          echo '<select id ="curricullumid" name="curricullumid"'.$attribute.'>';
@@ -77,6 +84,7 @@ Class GlobalController
             {$selected="";
             }
             echo '<option value ="'.$row['id'].'" '.$selected.' >'.$row['name'].'</option>';
+
         }
          echo '</select>';
     }
@@ -84,6 +92,7 @@ Class GlobalController
     function getobjectcodes($setvalue,$attribute)
     {
        $objectcodes= array("cv"=>"Curricullum", "ed"=>"Education", "sk"=>"Skill", "wo"=>"Work","pr"=>"Project","pt"=>"Proyect Tag");
+
         echo '<select id ="objectcode" name="objectcode"' .$attribute.'>';
         echo '<option value="0">Please Select a object code</option>';
         $selected="";
@@ -95,6 +104,7 @@ Class GlobalController
             {$selected="";
             }
             echo '<option value ="'.$key.'" '.$selected.' >'.$value.'</option>';
+
         }
          echo '</select>';
         
@@ -108,6 +118,7 @@ Class GlobalController
         $sth->execute();
          echo '<select id="field" name="field" '.$attribute.'>';
          
+
         foreach ($sth as $row) {
             if ($field == $row['field']) {
                 $selected = 'selected';
@@ -116,6 +127,7 @@ Class GlobalController
             {$selected="";
             }
             echo '<option value ="'.$row['field'].'" '.$selected.' >'.$row['field'].'</option>';
+
         }
          echo '</select>';
         
@@ -126,6 +138,7 @@ Class GlobalController
       $username ="admin";
       return $username ; 
     }
+
     function setlanguage()
     {
         $defaultlang =$this->getsysparam('lang');
@@ -138,28 +151,40 @@ Class GlobalController
         }
         return $_SESSION['lang'];
     }
+
     function getsysparam($code)
     {
         $value="";
-        $datas = $this->database->select("sysparam",array("value"),array("code" => $code));
-        
+        $datas = $this->database->select("sysparam",[
+            "value"
+        ], [
+            "code" => $code
+        ]);
         foreach($datas as $data)
         {
             $value= $data["value"];
         }
         return $value;
+
     }
+
     function getcurricullumidbyparam()
     {
         $cvid="";
         $cvname=$this->getsysparam('cvname');
-        $datas = $this->database->select("curricullum", array("id"),array("name" => $cvname));
+        $datas = $this->database->select("curricullum", [
+            "id",
+        ], [
+             "name" => $cvname
+        ]);
+
         foreach($datas as $data)
         {
             $cvid= $data["id"];
         }
         return $cvid;
     }
+
     function getmultiparambycode($code,$setvalue,$attribute)
     {
         $sth = $this
@@ -181,8 +206,12 @@ Class GlobalController
                 $attribute="";
             }
             echo '<option value ="'.$row['value'].'" '.$attribute.' >'.$row['valuedesc'].'</option>';
+
         }
         echo '</select>';
+
+
+
     }
     
     function getmultiparamselect($code,$setvalue,$attribute,$emptyitemtitle,$selectid,$selectname)
@@ -206,9 +235,14 @@ Class GlobalController
                 $attribute="";
             }
             echo '<option value ="'.$row['value'].'" '.$attribute.' >'.$row['valuedesc'].'</option>';
+
         }
         echo '</select>';
+
+
+
     }
+
   function getparentselect($attribute,$id,$objectcode,$table)
     {
     
@@ -229,6 +263,7 @@ Class GlobalController
             {$selected="";
             }
             echo '<option value ="'.$row['id'].'" '.$selected.' >'.$row['name'].'</option>';
+
         }
          echo '</select>';
     }
@@ -237,8 +272,13 @@ Class GlobalController
     function getselectoptionsbytable($cvid,$tablename,$fielddesc,$filterfield,$attribute)
     {
         
-        //$field =  htmlentities($fielddesc);
-        $datas = $this->database->select($tablename,array("id",$fielddesc),array($filterfield => $cvid));
+        $field =  htmlentities($fielddesc);
+        $datas = $this->database->select($tablename, [
+            "id",
+            $field
+        ], [
+            $filterfield => $cvid
+        ]);
         
          echo '<select id ="objectid" name="objectid" '.$attribute.'>';
          echo'<option value="0">Please select an option</option>';
@@ -273,6 +313,7 @@ Class GlobalController
             {$selected="";
             }
             echo '<option value ="'.$row['id'].'" '.$selected.' >'.$row['institution'].'</option>';
+
         }
          echo '</select>';
     } 
@@ -305,5 +346,3 @@ Class GlobalController
     
     
 }
-
-

@@ -265,15 +265,15 @@ function getcvidbyid($id)
 function geturlbyid($id)
 {
 
-$data = $this->database->select("url", [
+$data = $this->database->select("url",array(
 "id",
 "curricullumid",
 "name",
 "link"  ,
 "type"  ,    
-], [
+),array(
 "id" => $id
-]);
+));
    
 return $data;   
 }
@@ -282,14 +282,14 @@ function inserturl($username,$curricullumid,$name,$link,$type)
 {
   
 $dt = date('Y-m-d H:i:s');
-$this->database->insert("url", ["curricullumid" => $curricullumid,
+$this->database->insert("url",array("curricullumid" => $curricullumid,
 "name" => $name,
 "link"=>$link,
 "type"=>$type,    
 "createuser" => $username,
 "createdate" => $dt ,
 "modifyuser" => $username,
-"modifydate" => $dt ]);
+"modifydate" => $dt ));
 
 }
 function updateurl($id,$username,$curricullumid,$name,$link,$type)
@@ -297,17 +297,17 @@ function updateurl($id,$username,$curricullumid,$name,$link,$type)
 
         $dt = date('Y-m-d H:i:s');
         $this->database->update("url",
-            [
+            array(
              "curricullumid" => $curricullumid,
              "name" => $name,
              "link"=>$link,
              "type"=>$type,    
              "modifyuser"=>$username,
              "modifydate"=>$dt
-        ],
-            [
+        ),
+         array(
             "id[=]" => $id
-        ]);
+        ));
 
 
 
@@ -316,25 +316,16 @@ function updateurl($id,$username,$curricullumid,$name,$link,$type)
     function deleteurl($id)
     {
 
-        $this->database->delete("url", [
-            "AND" => [
-                "id" => $id
-
-            ]
-
-        ]);
-
-
+     $this->database->delete("url",array("AND" =>array("id" => $id)));
+       
     }
 function findurl($curricullumid,$type,$name)
 {
-    $count =  $this->database->count("url", [
-   "id"
-],["AND"=>["curricullumid"=>$curricullumid,"type"=>$type,"name"=>$name]]);
+    $count =  $this->database->count("url",array( "id")
+    ,array("AND"=>array("curricullumid"=>$curricullumid,"type"=>$type,"name"=>$name)));
      
    return $count;
-
-   
+  
 }
 
 

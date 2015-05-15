@@ -53,7 +53,7 @@
             <div class="col-sm-4">
                  {% if(errormessage!="") %}
                           
-                          {{db.getobject(globalobj,objectcode,objectid,'class="form-control"')}}
+                          {{db.getobject(globalobj,objectcode,parentid,objectid,'class="form-control"')}}
                          {% else %} 
                           
                          {{'<select id="objectid" name="objectid" class="form-control">

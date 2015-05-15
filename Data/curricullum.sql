@@ -140,16 +140,16 @@ CREATE TABLE IF NOT EXISTS `multiparam` (
 -- Volcado de datos para la tabla `multiparam`
 --
 
-INSERT INTO `multiparam` (`id`, `sysparamid`, `value`, `valuedesc`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
-(1, 3, 'cv', 'Curricullum', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
-(2, 3, 'ed', 'Education', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
-(3, 3, 'sk', 'Skill', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
-(4, 3, 'wo', 'Work', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
-(5, 3, 'pr', 'Project', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
-(6, 3, 'pt', 'Project Tag', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
-(7, 4, 'personal', 'Personal Skill', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
-(8, 4, 'technical', 'Technical Skill', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
-(14, 3, 'test4', 'test4', 'admin', '2015-04-20 23:31:07', 'admin', '2015-04-20 23:58:49');
+INSERT INTO `multiparam` ( `sysparamid`, `value`, `valuedesc`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
+(3, 'cv', 'Curricullum', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(3, 'ed', 'Education', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(3, 'sk', 'Skill', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(3, 'wo', 'Work', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(3, 'pr', 'Project', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(3, 'pt', 'Project Tag', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(4, 'personal', 'Personal Skill', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(4, 'technical', 'Technical Skill', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(3, 'test4', 'test4', 'admin', '2015-04-20 23:31:07', 'admin', '2015-04-20 23:58:49');
 
 -- --------------------------------------------------------
 

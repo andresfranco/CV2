@@ -259,13 +259,13 @@ function insertmultiparam($username,$sysparamid,$value,$valuedesc)
 {
   
     $dt = date('Y-m-d H:i:s');
-$this->database->insert("multiparam", ["sysparamid" => $sysparamid,
+$this->database->insert("multiparam",array("sysparamid" => $sysparamid,
 "value" => $value,
 "valuedesc"=>$valuedesc,    
 "createuser" => $username,
 "createdate" => $dt ,
 "modifyuser" => $username,
-"modifydate" => $dt ]);
+"modifydate" => $dt ));
 
 
 }
@@ -285,38 +285,29 @@ function getall($sysparamid)
     {
         
         $dt = date('Y-m-d H:i:s');
-        $this->database->update("multiparam", ["sysparamid" => $sysparamid,
+        $this->database->update("multiparam",array("sysparamid" => $sysparamid,
             "value" => $value,
             "valuedesc" => $valuedesc,
             "modifyuser" => $username,
             "modifydate"=>$dt
-             ],[
+             ,array(
             "id[=]" => $id
-        ]);
-        var_dump($this->database->log());
+        )));
+        
 
     }
 
 function deletemultiparam($id)
 {
 
-    $this->database->delete("multiparam", [
-        "AND" => [
-            "id" => $id
-
-	]
-
-]);
-    
+    $this->database->delete("multiparam",array("AND" =>array("id" => $id)));
    
 }
 
 function findmultiparam($sysparamid,$value)
 {
-    $count =  $this->database->count("multiparam", [
-"id"
-],["AND" => ["sysparamid"=>$sysparamid,"value"=>$value 
-          ]]);
+    $count =  $this->database->count("multiparam",array("id"),array("AND" => array("sysparamid"=>$sysparamid,"value"=>$value))); 
+
    return $count;
     
 }
@@ -324,14 +315,14 @@ function findmultiparam($sysparamid,$value)
 function getmultiparambyid($id)
 {
 
-$data = $this->database->select("multiparam", [
+$data = $this->database->select("multiparam",array(
 "id",    
 "sysparamid",
 "value",
 "valuedesc"    
-], [
+),array(
 "id" => $id
-]);
+ ));
    
 return $data;   
 }

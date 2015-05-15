@@ -262,12 +262,12 @@ function insertprojecttag($username,$projectid ,$tagname)
 {
   
     $dt = date('Y-m-d H:i:s');
-$this->database->insert("project_tag", ["projectid" => $projectid,
+$this->database->insert("project_tag",array("projectid" => $projectid,
 "tagname" => $tagname,
 "createuser" => $username,
 "createdate" => $dt ,
 "modifyuser" => $username,
-"modifydate" => $dt ]);
+"modifydate" => $dt ));
 
 
 
@@ -288,13 +288,13 @@ function getall($projectid)
     {
         
         $dt = date('Y-m-d H:i:s');
-        $this->database->update("project_tag", ["projectid" => $projectid,
+        $this->database->update("project_tag",array("projectid" => $projectid,
             "tagname" => $tagname,
             "modifyuser" => $username,
             "modifydate"=>$dt
-             ],[
+             ),array(
             "id[=]" => $id
-        ]);
+        ));
 
 
     }
@@ -302,39 +302,24 @@ function getall($projectid)
 function deleteprojecttag($id)
 {
 
-    $this->database->delete("project_tag", [
-        "AND" => [
-            "id" => $id
-
-	]
-
-]);
-    //var_dump($database->error());
-   //header('Location: '.$redirecturl);
+    $this->database->delete("project_tag",array("AND" =>array("id" => $id)));
+  
 }
 
 function findprojecttag($projectid,$tagname)
 {
-    $count =  $this->database->count("project_tag", [
-"id" 
-],["AND" => [ 
-    "projectid" => $projectid,
-    "tagname"=>$tagname
-    ]]);
-   return $count;
-    
+    $count =  $this->database->count("project_tag",array("id" )
+    ,array("AND" =>array("projectid" => $projectid, "tagname"=>$tagname)));
+    return $count;   
 }
 
 function getprojecttagbyid($id)
 {
-
-$data = $this->database->select("project_tag", [
-"id",
-"projectid",    
-"tagname"
-], [
-"id" => $id
-]);
+ $data = $this->database->select("project_tag",array(
+ "id",
+ "projectid",    
+ "tagname")
+ ,array("id" => $id));
    
 return $data;   
 }
@@ -360,4 +345,3 @@ return $data;
 
 }
 ?>
-

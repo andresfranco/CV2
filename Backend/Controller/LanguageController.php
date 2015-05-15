@@ -215,16 +215,13 @@ function buildresponsivegrid($editurl,$deleteurl)
 function insertlanguage($username,$code ,$language)
 {
   
-    $dt = date('Y-m-d H:i:s');
-$this->database->insert("language", ["code" => $code,
-"language" => $language,
-"createuser" => $username,
-"createdate" => $dt ,
-"modifyuser" => $username,
-"modifydate" => $dt ]);
-
-
-
+ $dt = date('Y-m-d H:i:s');
+ $this->database->insert("language", array("code" => $code,
+ "language" => $language,
+ "createuser" => $username,
+ "createdate" => $dt ,
+ "modifyuser" => $username,
+ "modifydate" => $dt ));
 }
 
 function getall()
@@ -241,13 +238,13 @@ function getall()
     {
         
         $dt = date('Y-m-d H:i:s');
-        $this->database->update("language", ["code" => $code,
+        $this->database->update("language", array("code" => $code,
             "language" => $language,
             "modifyuser" => $username,
             "modifydate"=>$dt
-             ],[
+             ),array(
             "code[=]" => $codeold
-        ]);
+        ));
 
        
     }
@@ -255,22 +252,14 @@ function getall()
 function deletelanguage($code)
 {
 
-    $this->database->delete("language", [
-        "AND" => [
-            "code" => $code
-
-	]
-
-]);
+    $this->database->delete("language",array("AND" =>array("code" => $code)));
     //var_dump($database->error());
    //header('Location: '.$redirecturl);
 }
 
 function findlanguage($code)
 {
-    $count =  $this->database->count("language", [
-"code" => $code
-]);
+    $count =  $this->database->count("language",array("code" => $code));
    return $count;
     
 }
@@ -278,12 +267,7 @@ function findlanguage($code)
 function getlanguagebyid($code)
 {
 
-$data = $this->database->select("language", [
-"code",
-"language"
-], [
-"code" => $code
-]);
+$data = $this->database->select("language",array("code","language"),array("code" => $code));
    
 return $data;   
 }

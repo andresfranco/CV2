@@ -260,15 +260,15 @@ function getall()
 function getprojectbyid($id)
 {
 
-$data = $this->database->select("project", [
+$data = $this->database->select("project",array(
 "curricullumid",
 "name",
 "description"  ,
 "link"  ,
 "imagename"    
-], [
+),array(
 "id" => $id
-]);
+));
    
 return $data;   
 }
@@ -277,7 +277,7 @@ function insertproject($username,$curricullumid,$name,$description,$link,$imagen
 {
   
 $dt = date('Y-m-d H:i:s');
-$this->database->insert("project", ["curricullumid" => $curricullumid,
+$this->database->insert("project",array("curricullumid" => $curricullumid,
 "name" => $name,
 "description"=>$description,
 "link"=>$link, 
@@ -285,7 +285,7 @@ $this->database->insert("project", ["curricullumid" => $curricullumid,
 "createuser" => $username,
 "createdate" => $dt ,
 "modifyuser" => $username,
-"modifydate" => $dt ]);
+"modifydate" => $dt ));
 
 }
 function updateproject($id,$username,$curricullumid,$name,$description,$link,$imagename)
@@ -293,7 +293,7 @@ function updateproject($id,$username,$curricullumid,$name,$description,$link,$im
 
         $dt = date('Y-m-d H:i:s');
         $this->database->update("project",
-            [
+            array(
              "curricullumid" => $curricullumid,
              "name" => $name,
              "description"=>$description,
@@ -301,10 +301,10 @@ function updateproject($id,$username,$curricullumid,$name,$description,$link,$im
              "imagename"=>$imagename,   
              "modifyuser"=>$username,
              "modifydate"=>$dt
-        ],
-            [
+        ),
+          array(
             "id[=]" => $id
-        ]);
+        ));
 
 
 
@@ -313,24 +313,15 @@ function updateproject($id,$username,$curricullumid,$name,$description,$link,$im
     function deleteproject($id)
     {
 
-        $this->database->delete("project", [
-            "AND" => [
-                "id" => $id
-
-            ]
-
-        ]);
-
-
+    $this->database->delete("project",array("AND" =>array("id" => $id)));
     }
 function findproject($curricullumid,$name)
 {
-    $count =  $this->database->count("project", [
-    "id"
-],["AND" => [ 
+    $count =  $this->database->count("project",array("id")
+   ,array("AND" =>array( 
     "curricullumid" => $curricullumid,
     "name"=>$name
-    ]]);
+    )));
    return $count;
     
 }

@@ -9,15 +9,15 @@ class SecurityController {
   
    function getuserbyusername($username)
    {
-    $datas = $this->database->select("systemuser", [
+    $datas = $this->database->select("systemuser",array(
     "username",
     "password",
     "salt"    
-    ], [
+    ),array(
     "username" => $username
-    ]);
+    ));
    
-    $userdata =[];
+    $userdata =array();
      foreach($datas as $data)
     {
         $userdata["username"] = $data["username"];
@@ -30,11 +30,11 @@ class SecurityController {
    
  function existuser($username)
  {
-      $count =  $this->database->count("systemuser", [
-      "id" ]
-      ,["AND" => [ 
+      $count =  $this->database->count("systemuser",array(
+      "id")
+      ,array("AND" =>array( 
             "username" => $username
-            ]]);
+            )));
 
     if ($count>0)
     {
