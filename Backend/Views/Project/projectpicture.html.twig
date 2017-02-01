@@ -1,0 +1,40 @@
+{% extends "Templates/Masterpage/masteradmin.html.twig" %}
+{% block javascript%} 
+{{parent()}}
+<script src="{{templatepath~'/Views/Project/validateprojectpicture.js'}}"></script>
+<script src="{{templatepath~'/Views/Project/projectpicture.js'}}"></script> 
+{% endblock javascript%} 
+{% block content %}
+{% block breadcrumb %}
+{{parent()}}
+{% endblock breadcrumb%}
+<label class="col-sm-offset-2 col-sm-8 error">{{errormessage|raw}}</label>
+<div id="formcontentgrid" class="col-sm-12">
+<form id="appform" method="post" action="{{updateurl}}" class="form-horizontal"  enctype="multipart/form-data" role="form">
+      
+       <div class="form-group">
+            <label class="control-label col-sm-2">{{'Imagename'}}</label>
+            <div class="col-sm-6">
+            <div class="input-group">
+            <span class="input-group-btn">    
+            <span class="file-input btn btn-primary btn-file">
+               <input id ="projectpicture" name="projectpicture" type="file"/>{{' Browse'}}
+             </span>
+                
+            </span>   
+                <input id="imagename" name="imagename" class="form-control" type="text" readonly value="{{imagename|raw}}"/>
+            </div>
+              <div class="col-sm-6">
+              <label id ="imageerror" name="imageerror"></label>
+              </div>   
+            </div>
+        </div> 
+        <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-8">
+        <input  id="savebutton" class="btn btn-primary" type="submit" value="Save"/>
+        <a href="{{listurl}}" id ="cancelbutton" class="btn btn-primary cancel">Cancel</a>
+        </div>
+    </div>
+</form>
+</div>
+{% endblock content%}

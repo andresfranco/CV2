@@ -1,0 +1,27 @@
+{% extends "Templates/Masterpage/masteradmin.html.twig" %}
+{% block css%}
+{{parent()}}
+<link href="{{basepath~'/Backend/css/datatables.bootstrap.css'}}" type="text/css" rel="stylesheet"/>
+<link href="{{basepath~'/Backend/css/dataTables.responsive.css'}}" type="text/css" rel="stylesheet"/>
+<link href="{{basepath~'/Backend/css/grid.css'}}" type="text/css" rel="stylesheet"/>
+{% endblock css %}
+{% block javascript %}
+ {{parent()}}
+<script src="{{templatepath~'/js/jquerydatatables.js'}}"></script>
+<script src="{{templatepath~'/js/datatables.bootstrap.js'}}"></script>
+<script src="{{templatepath~'/js/dataTables.responsive.min.js'}}"></script>
+<script src="{{templatepath~'/js/enabledatagrid.js'}}"></script>
+{% endblock javascript %}
+{% block content %}
+{% block breadcrumb %}
+{{parent()}}
+{% endblock breadcrumb%}
+{% if globalobj.check_action_byusername(session.username,'Create Education') ==1%}
+<div class="newitem"><a href="{{newurl}}"><img src="{{templatepath~'/img/addrow.png'}}"></a></div><br>
+ {% endif %}
+
+{{obj.buildresponsivegrid(globalobj.check_action_byusername(session.username,'Edit Education')
+,globalobj.check_action_byusername(session.username,'Delete Education'),editurl,deleteurl)}}          
+ 
+{% endblock content%}
+

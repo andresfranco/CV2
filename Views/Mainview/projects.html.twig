@@ -1,0 +1,32 @@
+<section id="portfolio">
+
+    <div class="row">
+
+        <div class="twelve columns collapsed">
+            
+          <div class="three columns collapsed">
+            <h1><span class ="projecttitle">{{frontendobj.translatetag(lang,'projects.title')}}</span></h1>
+        
+          </div>
+          
+             <div class="nine columns collapsed">
+            <!-- portfolio-wrapper -->
+            <div id="portfolio-wrapper" class="bgrid-quarters s-bgrid-thirds cf">
+
+                {{frontendobj.getprojects(lang,cvid,basepath)}}
+
+            </div> <!-- portfolio-wrapper end -->
+
+        </div> <!-- twelve columns end -->
+        </div>
+
+
+        <!-- Modal Popup
+         --------------------------------------------------------------- -->
+          {{frontendobj.getprojectmodal(lang,cvid,basepath)}}
+        <!-- modal-01 End -->
+
+
+    </div> <!-- row End -->
+
+</section> <!-- Portfolio Section End-->

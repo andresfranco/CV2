@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="{{basepath~'/Backend/css/bootstrap32.min.css'}}">
+    <link rel="stylesheet" href="{{basepath~'/Backend/css/font-awesome.min.css'}}">
+    <link rel="stylesheet" href="{{basepath~'/Backend/css/login.css'}}">
+    <script src="{{templatepath~'/js/jquery-1.11.2.js'}}"></script>
+    <script src="{{templatepath~'/js/bootstrap.min.js'}}"></script>
+</head>
+<body>
+ <div class="top-content">
+    <div class="inner-bg">
+     <div class="container">
+      <div class="row">
+      <div class="col-sm-8 col-sm-offset-2 text">
+      <h1></h1>
+      <div class="description">
+      </div>
+      </div>
+      </div>
+      <div class="row">
+      <div class="col-sm-6 col-sm-offset-3 form-box">
+      <div class="form-top">
+      <div class="form-top-left">
+      <img src="{{templatepath ~ '/img/cvmaker.png'}}" class="img-responsive" alt=""/>
+      </div>
+      </div>
+     <div class="form-bottom">
+     <div class="form-group">
+      {{errormessage|raw}}
+     </div>    
+     <form form method="post" action="{{loginaction}}" role="login" class="login-form">
+     <div class="form-group">
+     <label class="sr-only" for="form-username">Username</label>
+     <input type="text" id ="username" name="username" placeholder="Username" class="form-username form-control" value="{{username}}">
+     </div>
+     <div class="form-group">
+     <label class="sr-only" for="form-password">Password</label>
+     <input type="password" name="password" placeholder="Password" class="form-password form-control" id="password" value="{{password}}">
+     </div>
+     <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Sign in</button>
+     </form>
+     </div>
+     </div>
+     </div>
+     </div>
+     </div>
+     </div>

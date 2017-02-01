@@ -1,0 +1,19 @@
+body { font-size: 140% }
+ 
+    table.dataTable th,
+    table.dataTable td {
+        white-space: nowrap;
+    }
+ td.center 
+{
+ width:10%;   
+}
+td.nametype
+{
+  width:40%;
+}
+
+.pagination {
+margin: 0px !important;
+
+}

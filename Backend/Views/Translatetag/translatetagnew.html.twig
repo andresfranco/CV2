@@ -1,0 +1,53 @@
+{% extends "Templates/Masterpage/masteradmin.html.twig" %}
+{% block javascript%} 
+{{parent()}}
+<script src="{{templatepath~'/js/editor.js'}}"></script>
+<script src="{{templatepath~'/Views/Translatetag/textareatranslatetag.js'}}"></script>
+<script src="{{templatepath~'/Views/Translatetag/validatetranslatetag.js'}}"></script>
+{% endblock javascript%} 
+{% block css%}
+{{parent()}}
+<link href="{{basepath~'/Backend/css/editor.css'}}" type="text/css" rel="stylesheet"/>
+{% endblock css%}
+
+{% block content %}
+{% block breadcrumb %}
+{{parent()}}
+{% endblock breadcrumb%}
+<label class="col-sm-offset-2 col-sm-8 error">{{errormessage|raw}}</label>
+<div id="formcontentgrid" class="col-sm-12">
+<form id="appform" method="post" action="{{selfurl}}" class="form-horizontal" role="form">
+    <div class="form-group">
+            <label class="control-label col-sm-2">{{'Language'}}</label>
+            <div class="col-sm-3">
+            {{globalobj.getlanguageselect('class="form-control"',languagecode)}}
+            </div>
+    </div>
+        <div class="form-group">
+             <label class="control-label col-sm-2">{{'Key'}}</label>
+              <div id="keydiv" name="keydiv" class="col-sm-3">
+             <input id ="key" name="key" type="text"  class="form-control" value="{{key|raw}}">
+              </div>
+        </div>
+         <div class="form-group">
+            
+            <label class="control-label col-sm-2">{{'Translation'}}</label>
+            <div class="col-sm-8"> 
+            <textarea  id ="translation"  name="translation"  rows="3">{{translation|raw}}</textarea>
+            </div>
+            <div class="col-sm-offset-2 col-sm-8">
+            <label id ="translationerror" name="translationerror"></label>
+            </div>
+        </div>
+        
+   
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-8">
+        <input  id="savebutton" class="btn btn-primary" type="submit" value="Save"/>
+        <a href="{{listurl}}" id ="cancelbutton" class="btn btn-primary cancel">Cancel</a>
+        </div>
+    </div>
+</form>
+</div>
+
+{% endblock content%}

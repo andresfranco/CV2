@@ -1,0 +1,40 @@
+<!-- Header
+   ================================================== -->
+<header id="home">
+
+    <nav id="nav-wrap">
+
+        <a class="mobile-btn" href="#nav-wrap" title="Show navigation">{{'Show navigation'}}</a>
+        <a class="mobile-btn" href="#" title="Hide navigation">{{'Hide navigation'}}</a>
+
+        <ul id="nav" class="nav">
+            <li class="current"><a class="smoothscroll" href="#home">{{frontendobj.translatetag(lang,'HOME')}}</a></li>
+            <li><a class="smoothscroll" href="#about">{{frontendobj.translatetag(lang,'ABOUT')}}</a></li>
+            <li><a class="smoothscroll" href="#resume">{{frontendobj.translatetag(lang,'Resume')}}</a></li>
+            <li><a class="smoothscroll" href="#portfolio">{{frontendobj.translatetag(lang,'Projects')}}</a></li>
+            <li><a class="smoothscroll" href="#contact">{{frontendobj.translatetag(lang,'Contact')}}</a></li>
+
+            <li>
+                
+               {{frontendobj.notfound(cvid)}}
+               {{frontendobj.getheaderlanguages(cvid,lang,mainpath)}}
+
+            </li>
+        </ul> <!-- end #nav -->
+
+    </nav> <!-- end #nav-wrap -->
+
+    <div class="row banner">
+        <div class="banner-text">
+            <h1 class="responsive-headline">{{name|raw}}</h1>
+            <p><h3>{{maintext|raw}}</h3></p>
+            <hr />
+
+        </div>
+    </div>
+
+    <p class="scrolldown">
+        <a class="smoothscroll" href="#about"><i class="icon-down-circle"></i></a>
+    </p>
+
+</header>

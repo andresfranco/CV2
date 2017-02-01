@@ -1,0 +1,47 @@
+body{background: #d3d3d3}
+.hgroup {display:block; width:100%; margin:100px 0; line-height:1.6em; text-align:center;text-transform:uppercase;}
+
+.hgroup h1{margin-bottom:25px; font-size:45px; font-family: freight-sans-pro, sans-serif;
+    font-weight: 900;
+    color: #202c2d;
+    text-shadow:
+    0 1px #808d93,
+    -1px 0 #cdd2d5,
+    -1px 2px #808d93,
+    -2px 1px #cdd2d5,
+    -2px 3px #808d93,
+    -3px 2px #cdd2d5,
+    -3px 4px #808d93,
+    -4px 3px #cdd2d5,
+    -4px 5px #808d93,
+    -5px 4px #cdd2d5,
+    -5px 6px #808d93,
+    -6px 5px #cdd2d5,
+    -6px 7px #808d93,
+    -7px 6px #cdd2d5,
+    -7px 8px #808d93,
+    -8px 7px #cdd2d5;}
+.hgroup h1 span{display:inline-block; margin-left:5px; padding:2px; border:1px solid #CCCCCC; overflow:hidden;}
+.hgroup h1 span strong{display:inline-block; padding:0 20px 20px; border:1px solid #CCCCCC; font-weight:normal;}
+.hgroup h2{font-size:60px;}
+.hgroup h2 span{display:block; font-size:30px;}
+.hgroup p{margin:25px 0 0 0; padding:0;
+    font-family: Gill Sans, Verdana;
+    font-size: 16px;
+    line-height: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;}
+.hgroup p:first-child{margin-top:0;}
+.hgroup p:first-child{margin-top:0;}
+.clear
+{
+    margin-left: auto ;
+    margin-right: auto ;
+    border-radius: 25px;
+border: 5px solid gray;
+width: 80%;
+height: 85%;
+background: darkgray;
+
+}

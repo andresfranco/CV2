@@ -1,0 +1,27 @@
+{% extends "Templates/Masterpage/masteradmin.html.twig" %}
+
+{% block content %}
+{% block breadcrumb %}
+{{parent()}}
+{% endblock breadcrumb%}
+<div class="row-fluid">	
+ <div class="col-sm-12"> 
+<h1 class ="titlespace">{{'Translations'}}</h1>
+ </div>
+</div> 
+<div class="row-fluid">	
+<div class="col-sm-3 buttonspace">  
+<a href="{{basepath ~'/translations'}}" class="quick-button metro yellow span2">
+<i class="fa fa-refresh"></i>    
+<p class="homeoption">{{'Translation content'}}</p>
+</a>
+</div>
+<div class="col-sm-3 buttonspace">
+<a href="{{basepath ~'/translatetags'}}" class="quick-button metro red span2">
+<i class="fa fa-refresh"></i>
+<p class="homeoption">{{'Translate tags'}}</p>
+</a>
+ </div>
+</div>
+{% endblock content %}
+

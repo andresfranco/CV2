@@ -1,0 +1,63 @@
+{% extends "Templates/Masterpage/masteradmin.html.twig" %}
+
+{% block content %}
+{% block breadcrumb %}
+{{parent()}}
+{% endblock breadcrumb%}
+<div class="row-fluid">	
+ <div class="col-sm-12"> 
+<h1 class ="titlespace">{{'Welcome to CV Maker'}}</h1>
+ </div>
+</div>    
+<div class="row-fluid">	
+<div class="col-sm-3 buttonspace">  
+<a href="{{basepath ~'/languages'}}" class="quick-button metro yellow span2">
+<i class="fa fa-flag"></i>    
+<p class="homeoption">{{'Manage Languages'}}</p>
+</a>
+</div>
+<div class="col-sm-3 buttonspace">
+<a href="{{basepath ~'/curricullumlist'}}" class="quick-button metro red span2">
+<i class="fa fa-file"></i>
+<p class="homeoption">{{'Manage Curricullums'}}</p>
+</a>
+ </div>
+<div class="col-sm-3 buttonspace">      
+<a href="{{basepath ~'/educationlist'}}" class="quick-button metro green span2">
+<i class="fa fa-book"></i>
+<p class="homeoption">{{'Manage Education'}}</p>
+</a>
+</div>
+<div class="col-sm-3 buttonspace">      
+<a href="{{basepath ~'/worklist'}}" class="quick-button metro pink span2">
+<i class="fa fa-dashboard"></i>
+<p class="homeoption">{{'Manage Work History'}}</p>
+</a>
+</div> 
+<div class="col-sm-3 buttonspace">      
+<a href="{{basepath ~'/skills'}}" class="quick-button metro black span2">
+<i class="fa fa-list-alt"></i>
+<p class="homeoption">{{'Manage Skills'}}</p>
+</a>				
+</div>
+<div class="col-sm-3 buttonspace">      
+<a href="{{basepath ~'/projects'}}" class="quick-button metro orangeDark span2">
+<i class="fa fa-edit"></i>
+<p class="homeoption">{{'Manage Projects'}}</p>
+</a>
+</div>
+<div class="col-sm-3 buttonspace">  
+<a href="{{basepath ~'/translationoptions'}}" class="quick-button metro blue span2">
+<i class="fa fa-repeat"></i>
+<p class="homeoption">{{'Manage Translations'}}</p>
+</a>
+</div> 
+<div class="col-sm-3 buttonspace" >      
+<a href="{{basepath ~'/adminoptions'}}" class="quick-button metro blueDark span2">
+<i class="fa fa-cogs"></i>
+<p class="homeoption">{{'System Admin'}}</p>
+</a>
+</div>    
+
+</div>
+{% endblock content %}

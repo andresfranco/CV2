@@ -1,0 +1,51 @@
+{% extends "Templates/Masterpage/masteradmin.html.twig" %}
+
+                {% block css%}
+                 {{parent()}}
+                   <link href="{{basepath~'/Backend/css/datatables.bootstrap.css'}}" type="text/css" rel="stylesheet"/>
+                   <link href="{{basepath~'/Backend/css/dataTables.responsive.css'}}" type="text/css" rel="stylesheet"/>
+                   <link href="{{basepath~'/Backend/css/grid.css'}}" type="text/css" rel="stylesheet"/>
+                 {% endblock css %}
+		
+		
+                {% block javascript %}
+                   {{parent()}}
+                <script src="{{templatepath~'/js/jquerydatatables.js'}}"></script>
+		<script src="{{templatepath~'/js/datatables.bootstrap.js'}}"></script>
+                <script src="{{templatepath~'/js/dataTables.responsive.min.js'}}"></script>
+	        <script src="{{templatepath~'/js/enabledatagrid.js'}}"></script>
+		{% endblock javascript %}
+		
+{% block content%}
+       <div id="grids" width="100%">         
+       <table id="datagrid" class="table table-striped table-hover dt-responsive" cellspacing="0" width="80%">
+        <thead>
+            <tr>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th class="nosort">Actions</th>
+            </tr>
+        </thead>
+ 
+        <tbody>
+            <tr>
+                <td>Andres</td>
+                <td>Nixon</td>
+                <td>System Architect</td>
+                <td>Edinburgh</td>
+                <td class="center">
+                 <a class="btn btn-info" href="">
+	        <i class="fa fa-edit"></i>  
+	        </a>
+	        <a href ="" class="btn btn-danger">
+	        <i class="fa fa-trash-o"></i> 
+	        </a>
+	         </td>
+            </tr>
+        </tbody>
+     </table>
+     </div>                 
+{% endblock content%}	
+	

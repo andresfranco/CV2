@@ -1,0 +1,62 @@
+{% extends "Templates/Masterpage/masteradmin.html.twig" %}
+{% block javascript%} 
+{{parent()}}
+<script src="{{templatepath~'/js/editor.js'}}"></script>
+<script src="{{templatepath~'/Views/Sysparam/textareasysparam.js'}}"></script>
+<script src="{{templatepath ~'/Views/Sysparam/validatesysparam.js'}}"></script>
+{% endblock javascript%} 
+{% block css%}
+{{parent()}}
+<link href="{{basepath~'/Backend/css/editor.css'}}" type="text/css" rel="stylesheet"/>
+{% endblock css%}
+
+{% block content %}
+{% block breadcrumb %}
+{{parent()}}
+{% endblock breadcrumb%}
+<div class="col-sm-offset-2 col-sm-8">
+  <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">{{'System Parameter Options'}}</div>
+  <div class="panel-body">
+   <a href="{{basepath~'/multiparams/'~id}}" class="btn btn-primary">
+    <p><i class="fa fa-tag"></i>{{' Multi Parameter'}}</p>
+   </a>
+  </div>
+</div>
+</div>
+<label class="col-sm-offset-2 col-sm-8 error">{{errormessage|raw}}</label>
+<div id="formcontentgrid" class="col-sm-12">
+<form id="appform" method="post" action="{{updateurl}}" class="form-horizontal" role="form">
+    <div class="form-group">
+            <label class="control-label col-sm-2">{{'Code'}}</label>
+            <div class="col-sm-3">
+            <input name="code" type="text" id="code"  maxlength="45" class="form-control" value="{{code}}">
+            </div>
+    </div>
+        <div class="form-group">
+             <label class="control-label col-sm-2">{{'Value'}}</label>
+              <div class="col-sm-8">
+              <textarea id ="value"  name="value"  rows="3" maxlength="900">{{value}}</textarea>
+              </div>
+              <div class="col-sm-offset-2 col-sm-8">
+              <label id ="valueerror" name="valueerror"></label>
+              </div>
+        </div>
+         <div class="form-group">
+            
+            <label class="control-label col-sm-2">{{'Description'}}</label>
+            <div class="col-sm-4"> 
+            <input name="description" type="text" id="description" maxlength="100" class="form-control" value="{{description}}">
+            </div>
+        </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-8">
+        <input  id="savebutton" class="btn btn-primary" type="submit" value="Save"/>
+        <a href="{{listurl}}" id ="cancelbutton" class="btn btn-primary cancel">Cancel</a>
+        </div>
+    </div>
+</form>
+</div>
+
+{% endblock content%}

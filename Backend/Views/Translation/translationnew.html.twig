@@ -1,0 +1,102 @@
+{% extends "Templates/Masterpage/masteradmin.html.twig" %}
+{% block javascript%} 
+{{parent()}}
+<script src="{{templatepath~'/Views/Translation/selectajaxscript.js'}}"></script>
+<script src="{{templatepath~'/js/editor.js'}}"></script>
+<script src="{{templatepath~'/Views/Translation/textareatranslation.js'}}"></script>
+
+{% endblock javascript%} 
+{% block css%}
+{{parent()}}
+<link href="{{basepath~'/Backend/css/editor.css'}}" type="text/css" rel="stylesheet"/>
+{% endblock css%}
+{% block content %}
+{% block breadcrumb %}
+{{parent()}}
+{% endblock breadcrumb%}
+<script src="{{templatepath~'/Views/Translation/validatetranslation.js'}}"></script>
+<label class="col-sm-offset-2 col-sm-8 error">{{errormessage|raw}}</label>
+<div id="formcontentgrid" class="col-sm-12">
+<form id="appform" method="post" action="{{selfurl}}" class="form-horizontal" role="form">
+    <div class="form-group">
+            <label class="control-label col-sm-2">{{'Language'}}</label>
+            <div class="col-sm-4">
+               {{globalobj.getlanguageselect('class="form-control"',languagecode)}}    
+          </div>
+        </div>
+    <div class="form-group">
+            <label class="control-label col-sm-2">{{'Object Code'}}</label>
+            <div class="col-sm-4">
+            {{globalobj.getmultiparambycode('objcode',objectcode,'class="form-control"')}}
+            </div>
+    </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">{{'Parent'}}</label>
+            <div class="col-sm-4">
+            {% if(errormessage!="")%}
+                      
+                        {{db.getparent(globalobj,objectcode,parentid,'class="form-control"')}}       
+                      
+                      {% else %}  
+                        
+                         {{'<select id="parentid" name="parentid" class="form-control">
+                          <option value="0">Please Select a Parent</option>
+                          <option></option>
+                      </select>'|raw}}
+                      
+                      {% endif %}    
+            
+          </div>
+        </div>
+       <div class="form-group">
+            <label class="control-label col-sm-2">{{'Object ID'}}</label>
+            <div class="col-sm-4">
+                 {% if(errormessage!="") %}
+                          
+                          {{db.getobject(globalobj,objectcode,parentid,objectid,'class="form-control"')}}
+                         {% else %} 
+                          
+                         {{'<select id="objectid" name="objectid" class="form-control">
+                          <option value="0">Please select an Object</option>
+                          <option></option>
+                          </select>'|raw}}
+                         {% endif %}     
+            
+          </div>
+        </div>
+    
+       <div class="form-group">
+            <label class="control-label col-sm-2">{{'Field'}}</label>
+            <div class="col-sm-4">
+               {% if(errormessage!="") %}
+                          {{db.getfields(globalobj,objectcode,field,'class="form-control"')}}  
+                         {% else %} 
+                          {{'<select id="field" name="field" class="form-control">
+                          <option value="0">Please select a field</option>
+                          <option></option>
+                          </select>'|raw}}
+                          {% endif %}   
+          </div>
+        </div>
+       <div class="form-group">
+            <label class="control-label col-sm-2">{{'Content'}}</label>
+            <div class="col-sm-8">
+               <textarea id ="translationcontent" name="translationcontent"  rows="3" required>{{content|raw}}</textarea> 
+          </div>
+            <div class="col-sm-offset-2 col-sm-8">    
+            <label id ="contenterror" name="contenterror"></label>    
+            </div>
+        </div>
+       
+   
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-8">
+        <input  id="savebutton" class="btn btn-primary" type="submit" value="Save"/>
+        <a href="{{listurl}}" id ="cancelbutton" class="btn btn-primary cancel">Cancel</a>
+        </div>
+    </div>
+</form>
+</div>
+{% endblock content%}
+
+

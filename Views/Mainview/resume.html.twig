@@ -1,0 +1,58 @@
+<section id="resume">
+
+    <!-- Education
+    ----------------------------------------------- -->
+    <div class="row education">
+
+        <div class="three columns header-col">
+            <h1><span>{{frontendobj.translatetag(lang,'education.title')}}</span></h1>
+        </div>
+
+        <div class="nine columns main-col">
+
+           {{frontendobj.geteducation(lang,cvid)}} 
+
+        </div> <!-- main-col end -->
+
+    </div> <!-- End Education -->
+
+
+    <!-- Work
+    ----------------------------------------------- -->
+    <div class="row work">
+
+        <div class="three columns header-col">
+            <h1><span>{{frontendobj.translatetag(lang,'work.title')}}</span></h1>
+        </div>
+
+        <div class="nine columns main-col">
+
+            {{frontendobj.getwork(lang,cvid)}} 
+
+        </div> <!-- main-col end -->
+
+    </div> <!-- End Work -->
+
+
+    <!-- Skills
+    
+    ----------------------------------------------- -->
+    <div class="row skill">
+
+        <div class="three columns header-col">
+            <h1><span>{{frontendobj.translatetag(lang,'skills.title')}}</span></h1>
+        </div>
+
+        <div class="nine columns main-col">
+
+            {{mainskills}}
+
+              {{frontendobj.getskills(lang,cvid)}} 
+            
+
+        </div> <!-- main-col end -->
+
+    </div> <!-- End skills -->
+
+</section> <!-- Resume Section End-->
+
