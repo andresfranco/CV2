@@ -43,27 +43,26 @@ CREATE TABLE IF NOT EXISTS `action` (
 -- Estructura de tabla para la tabla `curricullum`
 --
 
-CREATE TABLE IF NOT EXISTS `curricullum` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `curricullum` (
+  `id` int(11) NOT NULL,
   `name` varchar(60) DEFAULT NULL,
   `maintext` tinytext,
   `aboutme` text,
   `contactdetails` tinytext,
   `mainskills` tinytext,
+  `profilepicture` varchar(500) DEFAULT NULL,
   `createuser` varchar(45) NOT NULL,
   `createdate` datetime NOT NULL,
   `modifyuser` varchar(45) NOT NULL,
-  `modifydate` datetime NOT NULL,
-  `filename` varchar(80) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  `modifydate` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `curricullum`
+-- Dumping data for table `curricullum`
 --
 
-INSERT INTO `curricullum` (`id`, `name`, `maintext`, `aboutme`, `contactdetails`, `mainskills`, `createuser`, `createdate`, `modifyuser`, `modifydate`, `filename`) VALUES
-(1, 'Andr&eacute;s Franco', 'Maintext&lt;br&gt;', 'Aboutme text&lt;br&gt;', 'Contact Details Text&lt;br&gt;', 'Main Skills Text&lt;br&gt;', 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:13:56', NULL);
+INSERT INTO `curricullum` (`id`, `name`, `maintext`, `aboutme`, `contactdetails`, `mainskills`, `profilepicture`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
+(1, 'Andrés Franco', 'test', 'test', 'test', 'test', 'profilepic.jpg', 'admin', '2015-05-12 12:33:37', 'admin', '2015-05-20 17:25:21');
 
 -- --------------------------------------------------------
 
@@ -281,27 +280,31 @@ INSERT INTO `skill` (`id`, `curricullumid`, `type`, `skill`, `percentage`, `crea
 -- Estructura de tabla para la tabla `sysparam`
 --
 
-CREATE TABLE IF NOT EXISTS `sysparam` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `sysparam` (
+  `id` int(11) NOT NULL,
   `code` varchar(45) DEFAULT NULL,
   `value` varchar(900) DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
   `createuser` varchar(45) NOT NULL,
   `createdate` datetime NOT NULL,
   `modifyuser` varchar(45) NOT NULL,
-  `modifydate` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+  `modifydate` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `sysparam`
+-- Dumping data for table `sysparam`
 --
 
 INSERT INTO `sysparam` (`id`, `code`, `value`, `description`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
 (1, 'lang', 'en', 'Default Language', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
 (2, 'cvname', 'Andrés Franco', 'Default Curricullum Name', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
 (3, 'objcode', 'objcode', 'Translation object codes', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
-(4, 'skilltype', 'skilltype', 'Skills Types', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05');
+(4, 'skilltype', 'skilltype', 'Skills Types', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(5, 'urltype', 'urltype', 'Url types for Url module', 'admin', '2015-04-21 17:31:16', 'admin', '2015-04-21 17:31:16'),
+(6, 'basepath', '', 'Web app basepath', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(7, 'templatepath', '/Backend', 'Web app basepath', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(8, 'apptitle', 'CV Maker', 'Web app basepath', 'admin', '2015-04-20 20:20:05', 'admin', '2015-04-20 20:20:05'),
+(9, 'email', 'email', 'Send Email parameters', 'admin', '2015-05-15 13:27:35', 'admin', '2015-05-15 13:27:35');
 
 -- --------------------------------------------------------
 
@@ -529,6 +532,29 @@ CREATE TABLE IF NOT EXISTS `work` (
 INSERT INTO `work` (`id`, `curricullumid`, `company`, `position`, `from`, `to`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
 (1, 1, 'Arango Software International', 'Genexus Developer', '2008', '2009', 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07'),
 (2, 1, 'ADR Technologies', 'System Consultant', '2010', 'Present', 'admin', '2015-03-17 16:10:07', 'admin', '2015-03-17 16:10:07');
+
+
+--Estructura de la tabla cvfile
+CREATE TABLE `cvfile` (
+  `id` int(11) NOT NULL,
+  `languagecode` varchar(10) NOT NULL,
+  `curricullumid` int(11) NOT NULL,
+  `filename` varchar(60) DEFAULT NULL,
+  `filepath` varchar(500) DEFAULT NULL,
+  `createuser` varchar(45) NOT NULL,
+  `createdate` datetime NOT NULL,
+  `modifyuser` varchar(45) NOT NULL,
+  `modifydate` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cvfile`
+--
+
+INSERT INTO `cvfile` (`id`, `languagecode`, `curricullumid`, `filename`, `filepath`, `createuser`, `createdate`, `modifyuser`, `modifydate`) VALUES
+(3, 'es', 1, 'Curriculum Andres Franco esp.pdf', 'files/AndresFranco_es', 'admin', '2015-10-28 15:17:53', 'admin', '2016-06-08 16:19:32'),
+(4, 'en', 1, 'Curriculum Andres Franco 2016.pdf', 'files/AndresFranco_en', 'admin', '2015-10-28 15:18:09', 'admin', '2016-06-08 16:19:17');
+
 
 --
 -- Restricciones para tablas volcadas

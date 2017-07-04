@@ -1,3 +1,4 @@
+--user:admin , password:password
 INSERT INTO `curricullum`.`systemuser`
 (
 `username`,
