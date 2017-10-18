@@ -140,34 +140,26 @@ class FrontendController {
     
     function geteducation($languagecode,$cvid)
     {
-      
-        
-      //"select field,content from translation where objectcode='".ed."' and parentid ='".'1'."'";  
-      //$cvid=$this->global->getcurricullumidbyparam();
-      if(empty($languagecode))
-      {
-         $languagecode =$this->global->getsysparam('lang');  
-      }    
-     
-    
-      // $datas =$this->translation->gettranslatecontent('ed',$cvid,$defaultlang,$field);
+
+      empty($languagecode)?$this->global->getsysparam('lang'):$languagecode;
+         
         $sth = $this->database->pdo->prepare("select distinct t.objectid 
-, (select content from translation 
-where objectcode='ed' and parentid ='".$cvid."' 
-and languagecode ='".$languagecode."' and field ='institution' 
-and objectid =t.objectid) as institution ,
-(select content from translation 
-where objectcode='ed' and parentid ='".$cvid."' 
-and languagecode ='".$languagecode."'  and field ='degree' 
-and objectid =t.objectid) as degree,
-(select content from translation 
-where objectcode='ed' and parentid ='".$cvid."'  
-and languagecode ='".$languagecode."'  and field ='datechar' 
-and objectid =t.objectid) as datechar 
-from
-translation t
-where objectcode='ed'
-");
+        , (select content from translation 
+        where objectcode='ed' and parentid ='".$cvid."' 
+        and languagecode ='".$languagecode."' and field ='institution' 
+        and objectid =t.objectid) as institution ,
+        (select content from translation 
+        where objectcode='ed' and parentid ='".$cvid."' 
+        and languagecode ='".$languagecode."'  and field ='degree' 
+        and objectid =t.objectid) as degree,
+        (select content from translation 
+        where objectcode='ed' and parentid ='".$cvid."'  
+        and languagecode ='".$languagecode."'  and field ='datechar' 
+        and objectid =t.objectid) as datechar 
+        from
+        translation t
+        where objectcode='ed'
+        ");
         $sth->execute();
        
        foreach ($sth as $row)
@@ -233,39 +225,56 @@ where objectcode='ed'
     function getskills($languagecode,$cvid)
     
     {
-        // $cvid=$this->global->getcurricullumidbyparam();
+     
       if(empty($languagecode))
       {
          $languagecode =$this->global->getsysparam('lang');  
       }    
-       $sth = $this->database->pdo->prepare("select distinct t.objectid 
-        , (select content from translation 
-        where objectcode='sk' and parentid ='".$cvid."' 
-         and languagecode ='".$languagecode."' and field ='type' 
-         and objectid =t.objectid) as type ,
-        (select content from translation 
-        where objectcode='sk' and parentid ='".$cvid."' 
-         and languagecode ='".$languagecode."'  and field ='skill' 
-         and objectid =t.objectid) as skill,
-        (select content from translation 
-        where objectcode='sk' and parentid ='".$cvid."'  
-        and languagecode ='".$languagecode."'  and field ='percentage' 
-        and objectid =t.objectid) as percentage
-        from
-        translation t
-        where objectcode='sk'
-        "); 
-        $sth->execute();
-        
-        echo'<div class="bars">'
-        . '<ul class="skills">';
+      
+        $sth = $this->database->pdo->prepare("select * from skill where active = 1 and curricullumid= :cvid order by percentage desc");
+        $sth->execute(array('cvid' => $cvid));
+       
+      echo'<table class="skills-table">'
+           .'<thead>'
+           .'<th>'.$this->translate($languagecode,'skills.table.title').'</th>'
+           .'<th>'.$this->translate($languagecode,'skills.table.title.level').'</th>'
+           .'</thead>';    
+       $modalnumber =0;
+      echo '<tbody>';
+      foreach ($sth as $row)
+        {   
+         $modalnumber = $modalnumber+1;
+         echo '<tr>'
+              .'<td><div class="item-wrap"><a href="#modal-skill'.$modalnumber.'">'.$row['skill'].'</a><div></td>'
+              .'<td>'.$this->translate($languagecode,$row['level']).'</td></tr>';
+          
+        }   
+        echo '</tbody></table>';
+
+    }
+  
+    function getskillmodal($languagecode,$cvid,$basepath){
+       
+        $sth = $this->database->pdo->prepare("select * from skill where active = 1 and curricullumid= :cvid order by percentage desc");
+        $sth->execute(array('cvid' => $cvid));
+         
+       $modalnumber =0;  
+     
         foreach ($sth as $row)
         {   
-        
-         echo '<li><span class="bar-expand barsize" style ="width:'.$row['percentage'].';"></span><em>'.$row['skill'].'</em></li>';
+        $modalnumber =$modalnumber+1;
+          echo '<div id="modal-skill'.$modalnumber.'" class="popup-modal mfp-hide">
+               <div class="description-box">
+               <h2>'.html_entity_decode($row['skill']).'</h2>'
+               .$row['description'].
+               '</div>
+               <div class="link-box">
+               <a class="popup-modal-dismiss">Close</a>
+               </div>
+              </div>';
         }         
                     
-        echo '</ul></div>';
+                    
     }
        
    
@@ -431,6 +440,22 @@ where objectcode='ed'
         echo $translation;
      }
      
+     function translate($languagecode,$key)
+     {
+      $translation ="";
+     $sth = $this->database->pdo->prepare("select t.translation  "
+              . "from translatetag t "
+              . "where t.languagecode ='".$languagecode."' "
+              . "and t.key ='".$key."'"); 
+     $sth->execute();
+
+          foreach ($sth as $row)
+        {
+         $translation= $row['translation'];
+        }
+
+       return $translation;
+     }
      
       function gettranslation($languagecode,$key)
      {

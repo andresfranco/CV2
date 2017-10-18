@@ -292,7 +292,7 @@ Class GlobalController
      
      foreach($sth as $row)
      {
-      if($actionname ==$row["action"])
+      if(trim($actionname) == trim($row["action"]))
       {
        $has_permission =1;
         break;
@@ -301,6 +301,31 @@ Class GlobalController
      return $has_permission;
          
    }
+  
+  function getSkillLevel($percentage){
+     $percentageNumber = trim(str_replace("%","",$percentage));
+     $skillLevel="";
+     switch ($percentageNumber) 
+     {
+      case $percentageNumber<51:
+          $skillLevel="Fundamentals";
+          break;
+       case ($percentageNumber >51 && $percentageNumber <81) :
+          $skillLevel="Intermediate";
+          break;
+       case $percentageNumber >81 :
+          $skillLevel="Expert";
+          break;
+    } 
+    
+    return  $skillLevel;
+     
+  }
+  
+  function validateChecked($active){
+		 $active =="on"?$activeValue=1:$activeValue=0;
+     return $activeValue;
+  }
    
     
     

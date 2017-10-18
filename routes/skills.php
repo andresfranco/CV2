@@ -1,64 +1,51 @@
 <?php
-$app->get(
-    '/skills',
+$skillFields =['curricullumid'=>$curricullumid
+              ,'type'=>$type
+              ,'skill'=>$skill
+              ,'percentage'=>$percentage
+              ,'level'=>$level
+              ,'active'=>$active
+              ,'description'=>$description
+              ,'errormessage'=>$errormessage];
+$app->post(
+    '/skillroutes',
+    function () use($app,$env) { 
+    echo json_encode( $env['skilldb']->getSkillRoutes(),JSON_UNESCAPED_SLASHES);              
+    })->name('skillRoutes');
+
+
+$app->get('/skills',
     function () use($app,$env) {
-
-        $env['skilldb']->rendergridview($env['globalobj'],'Views/Skill/skills.html.twig');
-
+        $env['skilldb']->rendergridview();
     })->name('skills');
 
-$app->get(
-    '/newskill',
-    function () use($app,$env) {
-       $env['skilldb']->rendernewview('','','','','',$env['globalobj'],'Views/Skill/skillnew.html.twig');
+$app->get('/skill(/:id)',
+    function ($id=0) use($app,$env,$skillForm) {
+       $skillForm['id']=$id;
+       $env['skilldb']->renderSkillForm($skillForm);
+    })->name('skillForm');
 
-    })->name('newskill');
     
  $app->post(
-    '/newskill',
-    function () use($app,$env) {
-        $env['skilldb']->addnewitem($env['globalobj']->getcurrentuser()
-            ,$app->request()->post('curricullumid')
-            ,$app->request()->post('type')    
-            ,$app->request()->post('skill')
-            ,$app->request()->post('percentage')
-            ,$env['globalobj']    
-            ,'Views/Skill/skillnew.html.twig') ;
-
+    '/skill',
+    function () use($app,$env) {       
+        $env['skilldb']->addnewitem($app->request->post());
     })->name('insertskill');
     
-  $app->get(
-    '/editskill/:id',
+
+$app->post('/skill/:id',
     function ($id) use($app,$env) {
-        $env['skilldb']->rendereditview($id,$env['globalobj'],'Views/Skill/skilledit.html.twig');
-
-    })->name('editskill');
-
-$app->post(
-    '/updateskill/:id',
-    function ($id) use($app,$env) {
-        $env['skilldb']->updateitem($env['globalobj']->getcurrentuser()
-            ,$id    
-            ,$app->request()->post('curricullumid')
-            ,$app->request()->post('type')    
-            ,$app->request()->post('skill')
-            ,$app->request()->post('percentage')  
-        )
-
-           ;
+        $env['skilldb']->updateitem($id,$app->request()->post()); 
     })->name('updateskill');
 
-$app->get(
-    '/viewskill/:id',
+$app->get('/viewskill/:id',
     function ($id) use($app,$env) {
-        $env['skilldb']->renderdeleteview($id,$env['globalobj'],'Views/Skill/skilldelete.html.twig');
-
+      $env['skilldb']->renderdeleteview($id);
     })->name('viewskill');
 
-$app->post(
-    '/deleteskill/:id',
+$app->post('/skill/delete/:id',
     function ($id) use($app,$env) {
-        $env['skilldb']->deleteitem($id);
+       $env['skilldb']->deleteitem($id); 
     })->name('deleteskill');
   
     

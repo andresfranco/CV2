@@ -1,12 +1,7 @@
 <html>
  <head>
 <meta charset="UTF-8">   
-{% block javascript %}
-<script src="{{templatepath~'/js/jquery2.1.0.js'}}"></script>
-<script src="{{templatepath~'/js/bootstrap.min.js'}}"></script>
-<script src="{{templatepath~'/js/jquery.validate.js'}}"></script>
 
-{% endblock javascript %}
 {% block css%}
 <link href="{{basepath~'/Backend/css/bootstrap.min.css'}}" rel="stylesheet">
 <link href="{{basepath~'/Backend/css/font-awesome.min.css'}}" rel="stylesheet">
@@ -125,5 +120,12 @@
 </footer>
 {% endblock footer %}     
 {% endblock body %} 
+{% block javascript %}
+<script src="{{templatepath~'/js/jquery2.1.0.js'}}"></script>
+<script src="{{templatepath~'/js/bootstrap.min.js'}}"></script>
+<script src="{{templatepath~'/js/parameters.js'}}"></script>
+<script src="{{templatepath~'/js/jquery.validate.js'}}"></script>
+
+{% endblock javascript %}
 </body>
 </html>

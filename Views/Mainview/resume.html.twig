@@ -41,11 +41,10 @@
 
         <div class="three columns header-col">
             <h1><span>{{frontendobj.translatetag(lang,'skills.title')}}</span></h1>
+            
         </div>
 
-        <div class="nine columns main-col">
-
-            {{mainskills}}
+        <div class="nine columns main-col">         
 
               {{frontendobj.getskills(lang,cvid)}} 
             
@@ -53,6 +52,11 @@
         </div> <!-- main-col end -->
 
     </div> <!-- End skills -->
+    
+     <!-- Modal Popup
+         --------------------------------------------------------------- -->
+          {{frontendobj.getskillmodal(lang,cvid,basepath)}}
+        <!-- modal-01 End -->
 
 </section> <!-- Resume Section End-->
 
