@@ -32,16 +32,10 @@ $app->get('/skill(/:id)',
         $env['skilldb']->addnewitem($app->request->post());
     })->name('insertskill');
     
-
 $app->post('/skill/:id',
     function ($id) use($app,$env) {
         $env['skilldb']->updateitem($id,$app->request()->post()); 
     })->name('updateskill');
-
-$app->get('/viewskill/:id',
-    function ($id) use($app,$env) {
-      $env['skilldb']->renderdeleteview($id);
-    })->name('viewskill');
 
 $app->post('/skill/delete/:id',
     function ($id) use($app,$env) {

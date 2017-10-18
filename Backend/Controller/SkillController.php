@@ -28,58 +28,36 @@ class SkillController{
 	
 	function rendergridview(){
 		$this->app->render($this->gridViewPath,
-				array('newurl'=>$this->app->urlFor('skillForm')
-						,'editurl'=>$this->editurl
-						,'deleteurl'=>$this->deleteurl
-						,'obj'=>$this
-						,'globalobj'=>$this->globalobj
-						,'option'=>$this->mainoption
-						,'route'=>''
-						,'gridData'=>$this->getall()
-						,'link'=>$this->mainlink));
+		[  'newurl'=>$this->app->urlFor('skillForm')
+				,'editurl'=>$this->editurl
+				,'deleteurl'=>$this->deleteurl
+				,'obj'=>$this
+				,'globalobj'=>$this->globalobj
+				,'option'=>$this->mainoption
+				,'route'=>''
+				,'gridData'=>$this->getall()
+				,'link'=>$this->mainlink
+		]);
 	}
 	
 	
 	// Render New and Edit Forms 
 	function renderSkillForm($skillForm){
-		if ($skillForm['id'] >0){
-			$skillForm = $this->getskillbyid($skillForm['id'])[0];
-			$formUrl = str_replace(':id',$skillForm['id'], $this->app->urlFor('updateskill'));
-			$route ='Edit';
-
-		}else
-		{ 
-			$route ='New';
-			$formUrl =$this->app->urlFor('skillForm');
-		}	
-
+		
+		$skillForm['id'] >0?($skillForm = $this->getskillbyid($skillForm['id'])[0]  AND $formUrl = str_replace(':id',$skillForm['id'], $this->app->urlFor('updateskill')) AND $route ='Edit')
+			                 :($route ='New' AND $formUrl =$this->app->urlFor('skillForm'));
+    
 		$this->app->render($this->skillFormPath,
-					array('skillForm'=>$skillForm																 
-					,'globalobj'=>$this->globalobj
-					,'formUrl'=>$formUrl
-					,'listurl'=>$this->app->urlFor('skills')
-					,'option'=>$this->mainoption
-				  ,'route'=>$route
-				  ,'link'=>$this->mainlink));
+		[ 'skillForm'=>$skillForm																 
+			,'globalobj'=>$this->globalobj
+			,'formUrl'=>$formUrl
+			,'listurl'=>$this->app->urlFor('skills')
+			,'option'=>$this->mainoption
+			,'route'=>$route
+			,'link'=>$this->mainlink
+		]);
 	}	
 
-  
-	//Render Delete form
-	function renderdeleteview($id){  
-		$skill =$this->getskillbyid($id)[0];
-		$deleteurl =  str_replace(':id',$id, $this->app->urlFor('deleteskill'));
-		$this->app->render($this->deleteViewPath,
-				array(
-				 'skill'=>$skill 
-				,'globalobj'=>$this->globalobj
-				,'deleteurl'=>$deleteurl
-				,'listurl'=>$this->app->urlFor('skills')
-				,'option'=>$this->mainoption
-				,'route'=>'Delete'
-				,'link'=>$this->mainlink));
-
-
-	}
 	
 	//Validate existent skill
 	function validateinsert($curricullumid,$type,$skill){
@@ -102,11 +80,8 @@ class SkillController{
 			$skillFields['modifyuser']=$this->globalobj->getcurrentuser();
 			$skillFields['modifydate']=$this->currentDate;
 			
-		 $this->database->insert($this->tableName,$skillFields);
-			$this->app->response->redirect($this->app->urlFor('skills'), 
-					array('newurl'=>$this->app->urlFor('skillForm') 
-					,'editurl'=>$this->editurl
-					,'deleteurl'=>$this->deleteurl));
+		  $this->database->insert($this->tableName,$skillFields);
+			$this->app->response->redirect($this->app->urlFor('skills'), ['newurl'=>$this->app->urlFor('skillForm') ,'editurl'=>$this->editurl,'deleteurl'=>$this->deleteurl]);
 		}
 		else
 		{
@@ -114,13 +89,14 @@ class SkillController{
 			$skillFields['errormessage'] =$errormessage;
 			$formUrl =$this->app->urlFor('skillForm');
 			$this->app->render($this->skillFormPath,
-					array('skillForm'=>$skillFields																 
+				['skillForm'=>$skillFields																 
 					,'globalobj'=>$this->globalobj
 					,'formUrl'=>$formUrl
 					,'listurl'=>$this->app->urlFor('skills')
 					,'option'=>$this->mainoption
 				  ,'route'=>$route
-				  ,'link'=>$this->mainlink));
+				  ,'link'=>$this->mainlink
+				]);
 		}
 
 
@@ -135,36 +111,24 @@ class SkillController{
 			$skillFields['modifyuser']=$this->globalobj->getcurrentuser();
 			$skillFields['modifydate']=$this->currentDate;
 
-			$this->database->update($this->tableName,$skillFields, array("id[=]" =>$id));
-			$this->app->response->redirect($this->app->urlFor('skills'),
-				 array(
-							'newurl' => $this->app->urlFor('skillForm'),
-							'editurl' => $this->editurl,
-							'deleteurl' => $this->deleteurl
-					));
+			$this->database->update($this->tableName,$skillFields, ["id[=]" =>$id]);
+			$this->app->response->redirect($this->app->urlFor('skills'),['newurl' => $this->app->urlFor('skillForm'),'editurl' => $this->editurl,'deleteurl' => $this->deleteurl]);
     }
 
 	//Delete Skill
 	
 	function deleteitem($id)
 	{
-		$this->database->delete($this->tableName,array("AND" => array("id" => $id)));
-		$this->app->response->redirect($this->app->urlFor('skills'),
-				array(
-					'newurl' => $this->app->urlFor('skillForm'),
-					'editurl' => $this->editurl,
-					'deleteurl' => $this->deleteurl
-				));
+		$this->database->delete($this->tableName,["AND" => ["id" => $id]]);
+		$this->app->response->redirect($this->app->urlFor('skills'),['newurl' => $this->app->urlFor('skillForm'),'editurl' => $this->editurl,'deleteurl' => $this->deleteurl]);
 	}
 	
 	//Get grid Values
 	function getall(){
 		$sth = $this->database->pdo->prepare(
-		'select sk.id 
-		,sk.curricullumid,sk.type
-		,sk.skill,sk.percentage,sk.level,sk.active
-		,c.name as cvname from skill sk 
-		inner join curricullum c on (sk.curricullumid = c.id) ');
+		"select sk.id ,sk.curricullumid,sk.type,sk.skill,sk.percentage,sk.level
+		,(case sk.active  when 1 then 'Yes'  when 0 then 'No' end) as active
+		,c.name as cvname from skill sk inner join curricullum c on (sk.curricullumid = c.id) ");
 		$sth->execute();
 		return $sth;
 
@@ -172,29 +136,14 @@ class SkillController{
 	
 	//Skill by Id
 	function getskillbyid($id){
-		$data = $this->database->select("skill",
-		array("id"    
-		,"curricullumid"
-		,"type"
-		,"skill"
-		,"percentage"
-		,"level"
-		,"active"
-		,"description"	
-		),array("id" => $id));
-
-		return $data;   
+		$data = $this->database->select("skill",["id" ,"curricullumid","type","skill","percentage","level","active","description"	],["id" => $id]);
+    return $data;   
 	}
 
 	//Check if exists a skill with the same type and curricullumid
 	function findskill($curricullumid,$type,$skill){
-		$count =  $this->database->count($this->tableName,array("id")
-		,array("AND" =>array( 
-		"curricullumid" => $curricullumid,
-		"type"=>$type,
-		"skill"=>$skill)));
+		$count =  $this->database->count($this->tableName,["id"],["AND" =>["curricullumid" => $curricullumid,"type"=>$type,"skill"=>$skill]]);
 		return $count;   
 	}
 
 }
-?>

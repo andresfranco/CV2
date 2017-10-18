@@ -2,14 +2,20 @@
 {% block javascript%} 
 {{parent()}}
 <script src="{{templatepath~'/Views/Skill/validateskill.js'}}"></script>
-{% endblock javascript%} 
+<script src="{{templatepath~'/js/editor.js'}}"></script>
+<script src="{{templatepath~'/Views/Skill/skillDescription.js'}}"></script>
+{% endblock javascript%}
+{% block css%}
+{{parent()}}
+<link href="{{basepath~'/Backend/css/editor.css'}}" type="text/css" rel="stylesheet"/>
+{% endblock css%}
 {% block content %}
 {% block breadcrumb %}
 {{parent()}}
 {% endblock breadcrumb%}
 <label class="col-sm-offset-2 col-sm-8 error">{{skillForm.errormessage|raw}}</label>
 <div id="formcontentgrid" class="col-sm-12">
-<form id="appform" method="post" action="{{formUrl}}" class="form-horizontal" role="form">
+<form id="skillform" method="post" action="{{formUrl}}" class="form-horizontal" role="form">
         <div class="form-group">
             <label class="control-label col-sm-2">{{'Curricullum'}}</label>
             <div class="col-sm-3">
@@ -51,6 +57,7 @@
                <textarea id ="description" name="description"  rows="3">{{skillForm.description|raw}}</textarea> 
           </div>
         </div>
+        
         <div class="form-group">
         <div class="col-sm-offset-2 col-sm-8">
         <input  id="savebutton" class="btn btn-primary" type="submit" value="Save"/>
