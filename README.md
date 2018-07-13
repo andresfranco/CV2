@@ -1,3 +1,4 @@
-# CURRICULLUM MAKER VERSION 2 PRODUCTION : https://andresmfranco.info
+# CURRICULLUM MAKER : CMS for develop you own Resume in a single page application.\
+Slim Framework +Medoo Micro orm +MySQL
 
 
